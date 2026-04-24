@@ -3,34 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ntecno | Global Innovation Systems</title>
+    <title>Ntecno | Innovation Flow</title>
     <style>
-        /* --- PROFESSIONAL ARCHITECTURE --- */
         :root {
             --gold: #d4af37;
-            --bg: #000000;
-            --surface: #0a0a0a;
-            --panel: #111111;
-            --text: #ffffff;
-            --text-dim: #b0b0b0;
-            --border: #222222;
+            --black: #0a0a0a;
+            --gray: #1a1a1a;
+            --white: #ffffff;
         }
 
-        [data-theme="light"] {
-            --bg: #ffffff;
-            --surface: #f4f4f4;
-            --panel: #ffffff;
-            --text: #111111;
-            --text-dim: #444444;
-            --border: #dddddd;
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            scroll-behavior: smooth;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
-        body { 
-            background-color: var(--bg); color: var(--text); 
-            font-family: 'Inter', sans-serif; line-height: 1.8; 
-            overflow-x: hidden;
+        /* Navigasyon ve Dil Seçimi */
+        nav {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        /* Navigasiya */
-        nav
+        .brand {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--gold);
+            letter-spacing: 3px;
+        }
+
+        .lang-switcher select {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid var(--gold);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Ana Bölüm */
+        .hero {
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1c1c1c 0%, #0a0a0a 100%);
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .founder {
+            font-size: 18px;
+            color: var(--gold);
+            margin-top: 10px;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        /* Projeler Bölümü */
+        .projects {
+            padding: 100px 5%;
+            background: var(--black);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            color: var(--gold);
+            margin-bottom: 50px;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: var(--gray);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid #333;
+            transition: 0.3s;
+        }
+
+        .project-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-10px);
+        }
+
+        .project-card h3 {
+            color: var(--gold);
+            margin-top: 0;
+        }
+
+        .project-card p {
+            color: #bbb;
+            line-height: 1.6;
+        }
+
+        /* YouTube Butonu */
+        .yt-btn {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 15px 40px;
+            background-color: #ff0000;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+
+        .yt-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px;
+            border-top: 1px solid #333;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="brand">NTECNO</div>
+        <div class="lang-switcher">
+            <select id="langSelect" onchange="changeLanguage()">
+                <option value="az">Azərbaycanca</option>
+                <option value="tr">Türkçe</option>
+                <option value="en">English</option>
+                <option value="ru">Русский</option>
+                <option value="de">Deutsch</option>
+            </select>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1 id="mainTitle">NTECNO</h1>
+        <p class="founder" id="founderText">Qurucu: Nicat Rəhimli</p>
+        <a href="https://youtube.com/@rhimlinicat?si=xzeD0tIleysVJyN8" target="_blank" class="yt-btn" id="ytBtn">YouTube Kanalımız</a>
+    </section>
+
+    <section class="projects" id="projects">
+        <h2 class="section-title" id="projTitle">Şirkət Projələri</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <h3 id="p1Title">NovaTerra Ecosystem</h3>
+                <p id="p1Desc">Gələcəyin rəqəmsal dövlət modeli. Virtual iqtisadiyyat və idarəetmə sistemlərinin qurulması.</p>
+            </div>
+            <div class="project-card">
+                <h3 id="p2Title">Minecraft Core Systems</h3>
+                <p id="p2Desc">Command Block və API istifadə edərək avtomatik iqtisadiyyat və resurs paylama mərkəzləri.</p>
+            </div>
+            <div class="project-card">
+                <h3 id="p3Title">Pro-Edit Sport Engine</h3>
+                <p id="p3Desc">VSDC və qabaqcıl montaj texnikaları ilə peşəkar futbol və idman çarxlarının istehsalı.</p>
+            </div>
+            <div class="project-card">
+                <h3 id="p4Title">Eco-AI Research</h3>
+                <p id="p4Desc">Süni intellektin su istehlakı və ətraf mühitə təsirlərini minimuma endirmək üçün araşdırmalar.</p>
+            </div>
+            <div class="project-card">
+                <h3 id="p5Title">Ntecno Mobile UI</h3>
+                <p id="p5Desc">İstifadəçi dostu, minimal və sürətli mobil interfeys dizaynları və tətbiq modelləri.</p>
+            </div>
+            <div class="project-card">
+                <h3 id="p6Title">Global Gaming Network</h3>
+                <p id="p6Desc">Dostlar və böyük kütlələr üçün kooperativ, təhlükəsiz və rəqabətli oyun serverləri.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Ntecno | Innovation Flow. All rights reserved.
+    </footer>
+
+    <script>
+        const translations = {
+            az: {
+                founder: "Qurucu: Nicat Rəhimli",
+                yt: "YouTube Kanalımız",
+                proj: "Şirkət Projələri",
+                p1T: "NovaTerra Ecosystem", p1D: "Gələcəyin rəqəmsal dövlət modeli. Virtual iqtisadiyyat və idarəetmə sistemləri.",
+                p2T: "Minecraft Core", p2D: "Avtomatik iqtisadiyyat və resurs paylama sistemləri."
+            },
+            tr: {
+                founder: "Kurucu: Nicat Rəhimli",
+                yt: "YouTube Kanalımız",
+                proj: "Şirket Projeleri",
+                p1T: "NovaTerra Ekosistemi", p1D: "Geleceğin dijital devlet modeli. Sanal ekonomi sistemleri.",
+                p2T: "Minecraft Çekirdeği", p2D: "Otomatik ekonomi ve kaynak dağıtım sistemleri."
+            },
+            en: {
+                founder: "Founder: Nicat Rahimli",
+                yt: "Our YouTube Channel",
+                proj: "Company Projects",
+                p1T: "NovaTerra Ecosystem", p1D: "Digital state model of the future. Virtual economy systems.",
+                p2T: "Minecraft Core", p2D: "Automatic economy and resource distribution systems."
+            },
+            ru: {
+                founder: "Основатель: Ниджат Рагимли",
+                yt: "Наш YouTube канал",
+                proj: "Проекты компании",
+                p1T: "Экосистема NovaTerra", p1D: "Цифровая модель государства будущего. Виртуальная экономика.",
+                p2T: "Minecraft Core", p2D: "Автоматическая экономика и системы распределения ресурсов."
+            },
+            de: {
+                founder: "Gründer: Nicat Rahimli",
+                yt: "Unser YouTube-Kanal",
+                proj: "Unternehmensprojekte",
+                p1T: "NovaTerra Ökosystem", p1D: "Digitales Staatsmodell der Zukunft. Virtuelle Wirtschaftssysteme.",
+                p2T: "Minecraft Core", p2D: "Automatische Wirtschafts- und Ressourcenverteilungssysteme."
+            }
+        };
+
+        function changeLanguage() {
+            const lang = document.getElementById('langSelect').value;
+            const t = translations[lang];
+            
+            document.getElementById('founderText').innerText = t.founder;
+            document.getElementById('ytBtn').innerText = t.yt;
+            document.getElementById('projTitle').innerText = t.proj;
+            document.getElementById('p1Title').innerText = t.p1T;
+            document.getElementById('p1Desc').innerText = t.p1D;
+            document.getElementById('p2Title').innerText = t.p2T;
+            document.getElementById('p2Desc').innerText = t.p2D;
+            // Diğer projeler için de benzer şekilde eklenebilir
+        }
+    </script>
+</body>
+</html>
