@@ -3,131 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ntecno | Ultimate Tech Center</title>
+    <title>Ntecno | Future Interface</title>
     <style>
-        :root { --gold: #d4af37; --bg: #0a0a0a; --card: #151515; --text: #ffffff; }
-        .light-mode { --bg: #f4f4f4; --card: #ffffff; --text: #1a1a1a; }
+        :root {
+            --accent: #d4af37;
+            --bg: #000000;
+            --surface: #0a0a0a;
+            --text: #ffffff;
+            --gray: #888888;
+        }
 
-        body, html { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; transition: 0.3s; overflow-x: hidden; }
-        
-        /* Navigasiya */
-        nav { padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); border-bottom: 2px solid var(--gold); position: sticky; top:0; z-index: 100; backdrop-filter: blur(10px); }
-        .brand { font-size: 24px; font-weight: 900; color: var(--gold); }
-        .tools { display: flex; gap: 15px; align-items: center; }
+        [data-theme="light"] {
+            --bg: #ffffff;
+            --surface: #f5f5f5;
+            --text: #000000;
+            --gray: #666666;
+        }
 
-        /* Rejim Düyməsi */
-        .mode-btn { cursor: pointer; font-size: 20px; background: none; border: 1px solid var(--gold); color: var(--gold); padding: 5px 10px; border-radius: 20px; }
+        body {
+            margin: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-        /* Canlı Saat & Sayğac */
-        .top-info { background: var(--card); padding: 10px; text-align: center; font-size: 14px; border-bottom: 1px solid #333; display: flex; justify-content: space-around; }
+        /* Modern Navigasiya */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-        /* Axtarış */
-        .search-container { padding: 30px; text-align: center; }
-        .search-box { width: 70%; padding: 12px; border-radius: 25px; border: 2px solid var(--gold); background: var(--bg); color: var(--text); outline: none; }
+        .logo { font-size: 22px; font-weight: 800; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; }
 
-        /* 3D Lab */
-        .lab-section { padding: 50px 5%; display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-        .lab-item { background: var(--card); border: 1px solid #333; border-radius: 15px; padding: 20px; width: 300px; position: relative; }
-        
-        /* Mini Kalkulyator */
-        .calc input { width: 100%; margin-bottom: 10px; background: #000; color: lime; border: 1px solid #444; padding: 5px; }
-        .calc-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-        .calc-btns button { background: #333; color: white; border: none; padding: 10px; cursor: pointer; }
+        .nav-controls { display: flex; gap: 20px; align-items: center; }
 
-        /* Xəbər Lenti */
-        .news-ticker { background: var(--gold); color: black; padding: 10px; font-weight: bold; overflow: hidden; white-space: nowrap; }
-        .news-ticker span { display: inline-block; animation: ticker 20s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .btn-icon {
+            background: none; border: 1px solid var(--accent);
+            color: var(--accent); padding: 8px 15px;
+            border-radius: 5px; cursor: pointer; font-size: 14px;
+            transition: 0.3s;
+        }
 
-        /* İlan Oyunu Modalı */
-        #gameModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1001; justify-content: center; align-items: center; flex-direction: column; }
-        
-        /* 3D Animasiya */
-        .cube-container { height: 150px; display: flex; justify-content: center; align-items: center; }
-        .cube { width: 50px; height: 50px; background: var(--gold); animation: spin 3s infinite linear; }
-        @keyframes spin { from { transform: rotateY(0deg) rotateX(0deg); } to { transform: rotateY(360deg) rotateX(360deg); } }
+        .btn-icon:hover { background: var(--accent); color: #000; }
 
-        footer { text-align: center; padding: 30px; background: #000; color: #555; margin-top: 50px; }
-    </style>
-</head>
-<body>
+        /* Modern Axtarış - Həqiqətən İşləyir */
+        .search-hero {
+            padding: 100px 5%;
+            text-align: center;
+        }
 
-    <div class="news-ticker">
-        <span>SON XƏBƏR: Ntecno NovaTerra layihəsi 2.0 versiyasına keçid etdi! --- Eco-AI sistemi ilə su qənaəti başladıldı! --- Yeni 4K Wallpaper paketi yükləndi!</span>
-    </div>
+        .search-wrapper {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+        }
 
-    <div class="top-info">
-        <div>Saat: <span id="clock">00:00:00</span></div>
-        <div>Ziyarətçi: <span id="viewCount">1,402</span></div>
-        <div id="status">Sistem: Online 🟢</div>
-    </div>
+        #mainSearch {
+            width: 100%;
+            padding: 20px 30px;
+            border-radius: 15px;
+            border: 1px solid #333;
+            background: var(--surface);
+            color: var(--text);
+            font-size: 18px;
+            outline: none;
+            transition: 0.3s;
+        }
 
-    <nav>
-        <div style="cursor:pointer; font-size: 25px;" onclick="openSnake()">☰</div>
-        <div class="brand">NTECNO</div>
-        <div class="tools">
-            <button class="mode-btn" onclick="toggleMode()">🌓</button>
-            <select onchange="changeLang()" id="langSelect" class="mode-btn" style="font-size: 12px;">
-                <option value="az">AZ</option>
-                <option value="tr">TR</option>
-                <option value="en">EN</option>
-            </select>
-        </div>
-    </nav>
+        #mainSearch:focus { border-color: var(--accent); box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
 
-    <section class="search-container">
-        <input type="text" id="searchInput" class="search-box" placeholder="Sistem daxili axtarış...">
-        <button onclick="smartSearch()" style="background:var(--gold); border:none; padding:12px 20px; border-radius:25px; margin-left:-50px; cursor:pointer; font-weight:bold;">GO</button>
-    </section>
+        /* Layihə Kartları */
+        .container { padding: 0 8% 100px; }
 
-    <div class="lab-section">
-        <div class="lab-item calc">
-            <h4 style="color:var(--gold); margin-top:0;">N-Calc v1.0</h4>
-            <input type="text" id="calcDisplay" disabled placeholder="0">
-            <div class="calc-btns">
-                <button onclick="calcInput('7')">7</button><button onclick="calcInput('8')">8</button><button onclick="calcInput('9')">9</button><button onclick="calcSolve()" style="background:orange">=</button>
-                <button onclick="calcInput('4')">4</button><button onclick="calcInput('5')">5</button><button onclick="calcInput('6')">6</button><button onclick="calcClear()" style="background:red">C</button>
-                <button onclick="calcInput('1')">1</button><button onclick="calcInput('2')">2</button><button onclick="calcInput('3')">3</button><button onclick="calcInput('+')">+</button>
-            </div>
-        </div>
+        .section-label { color: var(--accent); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 40px; display: block; }
 
-        <div class="lab-item">
-            <h4 style="color:var(--gold); margin-top:0;">3D Object Lab</h4>
-            <div class="cube-container"><div class="cube"></div></div>
-            <p style="font-size: 12px; color:#888; text-align:center;">Rendering: Object_N1 (Active)</p>
-        </div>
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
 
-        <div class="lab-item">
-            <h4 style="color:var(--gold); margin-top:0;">System Storage</h4>
-            <div style="width:100%; background:#333; height:20px; border-radius:10px; margin-top:20px;">
-                <div style="width:75%; background:var(--gold); height:100%; border-radius:10px;"></div>
-            </div>
-            <p style="font-size: 12px; margin-top:10px;">75% Doludur (NovaTerra Data)</p>
-        </div>
-    </div>
-
-    <div id="gameModal">
-        <h2 style="color:var(--gold)">NTECNO SNAKE</h2>
-        <canvas id="snakeGame" width="300" height="300"></canvas>
-        <button onclick="closeSnake()" style="margin-top:20px; padding:10px 30px; background:red; color:white; border:none; cursor:pointer;">BAĞLA</button>
-    </div>
-
-    <section style="padding: 50px 8%; text-align:center;">
-        <h2 id="title">NTECNO GLOBAL</h2>
-        <p id="founder">Qurucu: Nicat Rəhimli</p>
-        <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:30px;">
-            <div style="background:var(--card); padding:20px; border-radius:10px; width:150px;"><b>NovaTerra</b><br>v2.4</div>
-            <div style="background:var(--card); padding:20px; border-radius:10px; width:150px;"><b>Eco-AI</b><br>Active</div>
-            <div style="background:var(--card); padding:20px; border-radius:10px; width:150px;"><b>Edit Hub</b><br>4K</div>
-        </div>
-    </section>
-
-    <footer>
-        &copy; 2026 NTECNO | INNOVATION ENGINE
-    </footer>
-
-    <script>
-        // SAAT
-        setInterval(() => {
-            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
-        }, 1000);
+        .p-card {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255
