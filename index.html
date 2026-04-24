@@ -3,108 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ntecno | Innovation Flow</title>
+    <title>Ntecno | Global Business</title>
     <style>
-        body, html {
-            margin: 0; padding: 0;
-            background-color: #080808;
-            color: #ffffff;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            scroll-behavior: smooth;
-        }
-        nav {
-            background: #000;
-            padding: 20px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #d4af37;
-        }
-        .brand { font-size: 30px; font-weight: 900; color: #d4af37; letter-spacing: 5px; }
-        .search-section {
-            background: #111;
-            padding: 40px 20px;
-            text-align: center;
-        }
-        #searchInput {
-            width: 80%; max-width: 500px;
-            padding: 15px;
-            border-radius: 30px;
-            border: 2px solid #d4af37;
-            background: #000;
-            color: #fff;
-            outline: none;
-        }
-        .hero {
-            padding: 100px 20px;
-            text-align: center;
-            background: linear-gradient(to bottom, #111, #080808);
-        }
-        .hero h1 { font-size: 80px; margin: 0; }
-        .founder { color: #d4af37; font-size: 20px; font-weight: bold; margin-top: 10px; }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 50px 8%;
-        }
-        .card {
-            background: #1a1a1a;
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid #333;
-            transition: 0.3s;
-        }
-        .card:hover { border-color: #d4af37; transform: translateY(-10px); }
-        .card h3 { color: #d4af37; font-size: 24px; }
-        .card p { color: #ccc; line-height: 1.6; }
-        .yt-area { text-align: center; padding: 80px 20px; }
-        .yt-btn {
-            background: #ff0000;
-            color: #fff;
-            padding: 20px 50px;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 10px;
-            font-size: 20px;
-        }
-        footer { text-align: center; padding: 50px; border-top: 1px solid #222; color: #555; }
+        :root { --gold: #d4af37; --black: #0a0a0a; --gray: #151515; }
+        body, html { margin: 0; padding: 0; background: var(--black); color: white; font-family: 'Inter', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
+        
+        /* Navigasiya */
+        nav { padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: #000; border-bottom: 2px solid var(--gold); position: sticky; top:0; z-index: 100; }
+        .menu-btn { font-size: 30px; cursor: pointer; color: var(--gold); }
+        .brand { font-size: 24px; font-weight: 900; letter-spacing: 3px; color: var(--gold); }
+        .lang-select { background: transparent; color: white; border: 1px solid var(--gold); padding: 5px; border-radius: 5px; }
+
+        /* Axtarış Bölməsi */
+        .search-container { padding: 40px 5%; text-align: center; background: #111; }
+        .search-box { width: 80%; max-width: 600px; padding: 15px; border-radius: 30px; border: 2px solid var(--gold); background: #000; color: white; outline: none; }
+        .search-btn { padding: 15px 25px; border-radius: 30px; border: none; background: var(--gold); color: black; font-weight: bold; cursor: pointer; margin-left: -50px; }
+
+        /* Hero */
+        .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero h1 { font-size: 70px; margin: 0; background: linear-gradient(to bottom, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .founder { color: var(--gold); font-weight: bold; font-size: 20px; }
+
+        /* Oyun İnkişaf Bölməsi (3D Effekt) */
+        .game-dev { padding: 80px 8%; text-align: center; background: var(--gray); }
+        .dev-box { position: relative; width: 100%; max-width: 800px; height: 400px; margin: 0 auto; background: #000; border: 3px solid #333; border-radius: 20px; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        .dev-overlay { position: absolute; color: lime; font-family: monospace; font-size: 14px; text-align: left; left: 10px; top: 10px; }
+        .model-3d { width: 150px; height: 150px; background: var(--gold); animation: rotate3D 5s infinite linear; box-shadow: 0 0 50px var(--gold); }
+        @keyframes rotate3D { 0% { transform: perspective(500px) rotateX(0deg) rotateY(0deg); } 100% { transform: perspective(500px) rotateX(360deg) rotateY(360deg); } }
+
+        /* Layihələr */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 50px 8%; }
+        .card { background: #111; padding: 30px; border-radius: 15px; border-bottom: 4px solid var(--gold); transition: 0.3s; }
+        .card:hover { transform: translateY(-10px); }
+
+        /* Gizli İlan Oyunu Modalı */
+        #gameModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
+        canvas { border: 2px solid var(--gold); background: #000; }
+        .close-game { color: white; margin-top: 20px; cursor: pointer; border: 1px solid white; padding: 10px 20px; }
+
+        footer { text-align: center; padding: 50px; border-top: 1px solid #222; color: #444; }
     </style>
 </head>
 <body>
 
+    <div id="gameModal">
+        <h2 style="color:var(--gold)">Ntecno Snake Game</h2>
+        <canvas id="snakeGame" width="400" height="400"></canvas>
+        <div class="close-game" onclick="closeSnake()">Oyunu Bağla</div>
+    </div>
+
     <nav>
+        <div class="menu-btn" onclick="openSnake()">☰</div>
         <div class="brand">NTECNO</div>
-        <div style="color: #d4af37; font-weight: bold;">2026</div>
+        <select class="lang-select" id="langSelect" onchange="changeLang()">
+            <option value="az">AZ</option>
+            <option value="tr">TR</option>
+            <option value="en">EN</option>
+            <option value="ru">RU</option>
+            <option value="de">DE</option>
+        </select>
     </nav>
 
-    <section class="search-section">
-        <input type="text" id="searchInput" onkeyup="search()" placeholder="Layihə axtar...">
+    <section class="search-container">
+        <input type="text" id="searchInput" class="search-box" placeholder="Saytda və ya Google-da axtar...">
+        <button class="search-btn" onclick="smartSearch()">Axtar</button>
     </section>
 
     <section class="hero">
-        <h1>NTECNO</h1>
-        <div class="founder">Qurucu: Nicat Rəhimli</div>
-        <p style="color: #666; margin-top: 20px; letter-spacing: 3px;">INNOVATION FLOW</p>
+        <h1 id="title">NTECNO</h1>
+        <div class="founder" id="founder">Qurucu: Nicat Rəhimli</div>
     </section>
 
-    <section class="grid" id="projectGrid">
-        <div class="card">
-            <h3>NovaTerra</h3>
-            <p>Rəqəmsal dövlət modeli, virtual iqtisadiyyat və idarəetmə sistemləri.</p>
+    <section class="game-dev">
+        <h2 style="color:var(--gold)" id="gameDevTitle">Oyun İnkişaf Mərkəzi (In Progress)</h2>
+        <div class="dev-box">
+            <div class="dev-overlay">
+                > Initializing 3D Engine...<br>
+                > Loading Assets: Player_Model_v4<br>
+                > Status: Rendering...<br>
+                > FPS: 144
+            </div>
+            <div class="model-3d"></div>
         </div>
-        <div class="card">
-            <h3>Minecraft Core</h3>
-            <p>Avtomatik resurs paylama və mürəkkəb mexanizmlər mərkəzi.</p>
-        </div>
-        <div class="card">
-            <h3>Eco-AI</h3>
-            <p>Süni intellektin su istehlakını azaldan ekoloji araşdırmalar.</p>
-        </div>
-        <div class="card">
-            <h3>Pro-Edit Sport</h3>
-            <p>VSDC ilə hazırlanan peşəkar 4K futbol montajları.</p>
-        </div>
-        <div class="card">
-            <h3>Gamer Design</h3>
-            <p>4K canlı divar ka
+        <p id="gameDevDesc" style="margin-top:20px; color:#888;">Gələcək oyun layihələrimiz üzərində 3D modelləşdirmə işləri davam edir.</p>
+    </section>
+
+    <section class="grid">
+        <div class="card"><h3>NovaTerra</h3><p>Rəqəmsal dövlət və iqtisadiyyat.</p></div>
+        <div class="card"><h3>Minecraft Core</h3><p>Texniki mexanizmlər və sistemlər.</p></div>
+        <div class="card"><h3>Pro-Edit Sport</h3><p>Professional futbol montajları.</p></div>
+    </section>
+
+    <footer>
+        &copy; 2026 NTECNO | INNOVATION FLOW
+    </footer>
+
+    <script>
+        // SMART SEARCH: Saytda yoxdursa Google-da axtarır
+        function smartSearch() {
+            let q = document.getElementById('searchInput').value;
+            if(!q) return;
+            let cards = document.getElementsByClassName('card');
+            let found = false;
+            for(let card of cards) {
+                if(card.innerText.toLowerCase().includes(q.toLowerCase())) {
+                    card.style.border = "2px solid lime";
+                    card.scrollIntoView();
+                    found = true;
+                }
+            }
+            if(!found) {
+                window.open("https://www.google.com/search?q=" + q, "_blank");
+            }
+        }
+
+        // DİL SİSTEMİ
+        const texts = {
+            az: { title: "NTECNO", founder: "Qurucu: Nicat Rəhimli", devT: "Oyun İnkişaf Mərkəzi", devD: "Gələcək oyun layihələrimiz üzərində işlər davam edir." },
+            tr: { title: "NTECNO", founder: "Kurucu: Nicat Rəhimli", devT: "Oyun Geliştirme Merkezi", devD: "Gelecek oyun projelerimiz üzerinde çalışmalar sürüyor." },
+            en: { title: "NTECNO", founder: "Founder: Nicat Rahimli", devT: "Game Dev Center", devD: "Future game projects are under development." }
+        };
+
+        function changeLang() {
+            let l = document.getElementById('langSelect').value;
+            let t = texts[l] || texts['en'];
+            document.getElementById('title').innerText = t.title;
+            document.getElementById('founder').innerText = t.founder;
+            document.getElementById('gameDevTitle').innerText = t.devT;
+            document.getElementById('gameDevDesc').innerText = t.devD;
+        }
+
+        // İLAN OYUNU LOGİKASI
+        let canvas = document.getElementById("snakeGame");
+        let ctx = canvas.getContext("2d");
+        let snake = [{x: 200, y: 200}];
+        let food = {x: 0, y: 0};
+        let dx = 20, dy = 0;
+        
+        function openSnake() { document.getElementById('gameModal').style.display = 'flex'; resetGame(); }
+        function closeSnake() { document.getElementById('gameModal').style.display = 'none'; }
+        
+        function resetGame() {
+            snake = [{x: 200, y: 200}];
+            genFood();
+            main();
+        }
+
+        function genFood() {
+            food.x = Math.floor(Math.random() * 19) * 20;
+            food.y = Math.floor(Math.random() * 19) * 20;
+        }
+
+        function main() {
+            if(checkEnd()) return;
+            setTimeout(function() {
+                clear(); drawFood(); move(); drawSnake(); main();
+            }, 100);
+        }
+
+        function clear() { ctx.fillStyle = "black"; ctx.fillRect(0,0,400,400); }
+        function drawSnake() { ctx.fillStyle = "gold"; snake.forEach(s => ctx.fillRect(s.x, s.y, 18, 18)); }
+        function drawFood() { ctx.fillStyle = "red"; ctx.fillRect(food.x, food.y, 18, 18); }
+        function move() {
+            let head = {x: snake[0].x + dx, y: snake[0].y + dy};
+            snake.unshift(head);
+            if(head.x === food.x && head.y === food.y) genFood(); else snake.pop();
+        }
+        function checkEnd() {
+            return (snake[0].x < 0 || snake[0].x > 380 || snake[0].y < 0 || snake[0].y > 380);
+        }
+
+        window.addEventListener("keydown", e => {
+            if(e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -20; }
+            if(e.key === "ArrowDown" && dy === 0) { dx = 0; dy = 20; }
+            if(e.key === "ArrowLeft" && dx === 0) { dx = -20; dy = 0; }
+            if(e.key === "ArrowRight" && dx === 0) { dx = 20; dy = 0; }
+        });
+    </script>
+</body>
+</html>
