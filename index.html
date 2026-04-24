@@ -3,182 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ntecno | Global Business</title>
+    <title>Ntecno | Ultimate Tech Center</title>
     <style>
-        :root { --gold: #d4af37; --black: #0a0a0a; --gray: #151515; }
-        body, html { margin: 0; padding: 0; background: var(--black); color: white; font-family: 'Inter', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
+        :root { --gold: #d4af37; --bg: #0a0a0a; --card: #151515; --text: #ffffff; }
+        .light-mode { --bg: #f4f4f4; --card: #ffffff; --text: #1a1a1a; }
+
+        body, html { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; transition: 0.3s; overflow-x: hidden; }
         
         /* Navigasiya */
-        nav { padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: #000; border-bottom: 2px solid var(--gold); position: sticky; top:0; z-index: 100; }
-        .menu-btn { font-size: 30px; cursor: pointer; color: var(--gold); }
-        .brand { font-size: 24px; font-weight: 900; letter-spacing: 3px; color: var(--gold); }
-        .lang-select { background: transparent; color: white; border: 1px solid var(--gold); padding: 5px; border-radius: 5px; }
+        nav { padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); border-bottom: 2px solid var(--gold); position: sticky; top:0; z-index: 100; backdrop-filter: blur(10px); }
+        .brand { font-size: 24px; font-weight: 900; color: var(--gold); }
+        .tools { display: flex; gap: 15px; align-items: center; }
 
-        /* Axtarış Bölməsi */
-        .search-container { padding: 40px 5%; text-align: center; background: #111; }
-        .search-box { width: 80%; max-width: 600px; padding: 15px; border-radius: 30px; border: 2px solid var(--gold); background: #000; color: white; outline: none; }
-        .search-btn { padding: 15px 25px; border-radius: 30px; border: none; background: var(--gold); color: black; font-weight: bold; cursor: pointer; margin-left: -50px; }
+        /* Rejim Düyməsi */
+        .mode-btn { cursor: pointer; font-size: 20px; background: none; border: 1px solid var(--gold); color: var(--gold); padding: 5px 10px; border-radius: 20px; }
 
-        /* Hero */
-        .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .hero h1 { font-size: 70px; margin: 0; background: linear-gradient(to bottom, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .founder { color: var(--gold); font-weight: bold; font-size: 20px; }
+        /* Canlı Saat & Sayğac */
+        .top-info { background: var(--card); padding: 10px; text-align: center; font-size: 14px; border-bottom: 1px solid #333; display: flex; justify-content: space-around; }
 
-        /* Oyun İnkişaf Bölməsi (3D Effekt) */
-        .game-dev { padding: 80px 8%; text-align: center; background: var(--gray); }
-        .dev-box { position: relative; width: 100%; max-width: 800px; height: 400px; margin: 0 auto; background: #000; border: 3px solid #333; border-radius: 20px; overflow: hidden; display: flex; justify-content: center; align-items: center; }
-        .dev-overlay { position: absolute; color: lime; font-family: monospace; font-size: 14px; text-align: left; left: 10px; top: 10px; }
-        .model-3d { width: 150px; height: 150px; background: var(--gold); animation: rotate3D 5s infinite linear; box-shadow: 0 0 50px var(--gold); }
-        @keyframes rotate3D { 0% { transform: perspective(500px) rotateX(0deg) rotateY(0deg); } 100% { transform: perspective(500px) rotateX(360deg) rotateY(360deg); } }
+        /* Axtarış */
+        .search-container { padding: 30px; text-align: center; }
+        .search-box { width: 70%; padding: 12px; border-radius: 25px; border: 2px solid var(--gold); background: var(--bg); color: var(--text); outline: none; }
 
-        /* Layihələr */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 50px 8%; }
-        .card { background: #111; padding: 30px; border-radius: 15px; border-bottom: 4px solid var(--gold); transition: 0.3s; }
-        .card:hover { transform: translateY(-10px); }
+        /* 3D Lab */
+        .lab-section { padding: 50px 5%; display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .lab-item { background: var(--card); border: 1px solid #333; border-radius: 15px; padding: 20px; width: 300px; position: relative; }
+        
+        /* Mini Kalkulyator */
+        .calc input { width: 100%; margin-bottom: 10px; background: #000; color: lime; border: 1px solid #444; padding: 5px; }
+        .calc-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+        .calc-btns button { background: #333; color: white; border: none; padding: 10px; cursor: pointer; }
 
-        /* Gizli İlan Oyunu Modalı */
-        #gameModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; }
-        canvas { border: 2px solid var(--gold); background: #000; }
-        .close-game { color: white; margin-top: 20px; cursor: pointer; border: 1px solid white; padding: 10px 20px; }
+        /* Xəbər Lenti */
+        .news-ticker { background: var(--gold); color: black; padding: 10px; font-weight: bold; overflow: hidden; white-space: nowrap; }
+        .news-ticker span { display: inline-block; animation: ticker 20s linear infinite; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        footer { text-align: center; padding: 50px; border-top: 1px solid #222; color: #444; }
+        /* İlan Oyunu Modalı */
+        #gameModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1001; justify-content: center; align-items: center; flex-direction: column; }
+        
+        /* 3D Animasiya */
+        .cube-container { height: 150px; display: flex; justify-content: center; align-items: center; }
+        .cube { width: 50px; height: 50px; background: var(--gold); animation: spin 3s infinite linear; }
+        @keyframes spin { from { transform: rotateY(0deg) rotateX(0deg); } to { transform: rotateY(360deg) rotateX(360deg); } }
+
+        footer { text-align: center; padding: 30px; background: #000; color: #555; margin-top: 50px; }
     </style>
 </head>
 <body>
 
-    <div id="gameModal">
-        <h2 style="color:var(--gold)">Ntecno Snake Game</h2>
-        <canvas id="snakeGame" width="400" height="400"></canvas>
-        <div class="close-game" onclick="closeSnake()">Oyunu Bağla</div>
+    <div class="news-ticker">
+        <span>SON XƏBƏR: Ntecno NovaTerra layihəsi 2.0 versiyasına keçid etdi! --- Eco-AI sistemi ilə su qənaəti başladıldı! --- Yeni 4K Wallpaper paketi yükləndi!</span>
+    </div>
+
+    <div class="top-info">
+        <div>Saat: <span id="clock">00:00:00</span></div>
+        <div>Ziyarətçi: <span id="viewCount">1,402</span></div>
+        <div id="status">Sistem: Online 🟢</div>
     </div>
 
     <nav>
-        <div class="menu-btn" onclick="openSnake()">☰</div>
+        <div style="cursor:pointer; font-size: 25px;" onclick="openSnake()">☰</div>
         <div class="brand">NTECNO</div>
-        <select class="lang-select" id="langSelect" onchange="changeLang()">
-            <option value="az">AZ</option>
-            <option value="tr">TR</option>
-            <option value="en">EN</option>
-            <option value="ru">RU</option>
-            <option value="de">DE</option>
-        </select>
+        <div class="tools">
+            <button class="mode-btn" onclick="toggleMode()">🌓</button>
+            <select onchange="changeLang()" id="langSelect" class="mode-btn" style="font-size: 12px;">
+                <option value="az">AZ</option>
+                <option value="tr">TR</option>
+                <option value="en">EN</option>
+            </select>
+        </div>
     </nav>
 
     <section class="search-container">
-        <input type="text" id="searchInput" class="search-box" placeholder="Saytda və ya Google-da axtar...">
-        <button class="search-btn" onclick="smartSearch()">Axtar</button>
+        <input type="text" id="searchInput" class="search-box" placeholder="Sistem daxili axtarış...">
+        <button onclick="smartSearch()" style="background:var(--gold); border:none; padding:12px 20px; border-radius:25px; margin-left:-50px; cursor:pointer; font-weight:bold;">GO</button>
     </section>
 
-    <section class="hero">
-        <h1 id="title">NTECNO</h1>
-        <div class="founder" id="founder">Qurucu: Nicat Rəhimli</div>
-    </section>
-
-    <section class="game-dev">
-        <h2 style="color:var(--gold)" id="gameDevTitle">Oyun İnkişaf Mərkəzi (In Progress)</h2>
-        <div class="dev-box">
-            <div class="dev-overlay">
-                > Initializing 3D Engine...<br>
-                > Loading Assets: Player_Model_v4<br>
-                > Status: Rendering...<br>
-                > FPS: 144
+    <div class="lab-section">
+        <div class="lab-item calc">
+            <h4 style="color:var(--gold); margin-top:0;">N-Calc v1.0</h4>
+            <input type="text" id="calcDisplay" disabled placeholder="0">
+            <div class="calc-btns">
+                <button onclick="calcInput('7')">7</button><button onclick="calcInput('8')">8</button><button onclick="calcInput('9')">9</button><button onclick="calcSolve()" style="background:orange">=</button>
+                <button onclick="calcInput('4')">4</button><button onclick="calcInput('5')">5</button><button onclick="calcInput('6')">6</button><button onclick="calcClear()" style="background:red">C</button>
+                <button onclick="calcInput('1')">1</button><button onclick="calcInput('2')">2</button><button onclick="calcInput('3')">3</button><button onclick="calcInput('+')">+</button>
             </div>
-            <div class="model-3d"></div>
         </div>
-        <p id="gameDevDesc" style="margin-top:20px; color:#888;">Gələcək oyun layihələrimiz üzərində 3D modelləşdirmə işləri davam edir.</p>
-    </section>
 
-    <section class="grid">
-        <div class="card"><h3>NovaTerra</h3><p>Rəqəmsal dövlət və iqtisadiyyat.</p></div>
-        <div class="card"><h3>Minecraft Core</h3><p>Texniki mexanizmlər və sistemlər.</p></div>
-        <div class="card"><h3>Pro-Edit Sport</h3><p>Professional futbol montajları.</p></div>
+        <div class="lab-item">
+            <h4 style="color:var(--gold); margin-top:0;">3D Object Lab</h4>
+            <div class="cube-container"><div class="cube"></div></div>
+            <p style="font-size: 12px; color:#888; text-align:center;">Rendering: Object_N1 (Active)</p>
+        </div>
+
+        <div class="lab-item">
+            <h4 style="color:var(--gold); margin-top:0;">System Storage</h4>
+            <div style="width:100%; background:#333; height:20px; border-radius:10px; margin-top:20px;">
+                <div style="width:75%; background:var(--gold); height:100%; border-radius:10px;"></div>
+            </div>
+            <p style="font-size: 12px; margin-top:10px;">75% Doludur (NovaTerra Data)</p>
+        </div>
+    </div>
+
+    <div id="gameModal">
+        <h2 style="color:var(--gold)">NTECNO SNAKE</h2>
+        <canvas id="snakeGame" width="300" height="300"></canvas>
+        <button onclick="closeSnake()" style="margin-top:20px; padding:10px 30px; background:red; color:white; border:none; cursor:pointer;">BAĞLA</button>
+    </div>
+
+    <section style="padding: 50px 8%; text-align:center;">
+        <h2 id="title">NTECNO GLOBAL</h2>
+        <p id="founder">Qurucu: Nicat Rəhimli</p>
+        <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:30px;">
+            <div style="background:var(--card); padding:20px; border-radius:10px; width:150px;"><b>NovaTerra</b><br>v2.4</div>
+            <div style="background:var(--card); padding:20px; border-radius:10px; width:150px;"><b>Eco-AI</b><br>Active</div>
+            <div style="background:var(--card); padding:20px; border-radius:10px; width:150px;"><b>Edit Hub</b><br>4K</div>
+        </div>
     </section>
 
     <footer>
-        &copy; 2026 NTECNO | INNOVATION FLOW
+        &copy; 2026 NTECNO | INNOVATION ENGINE
     </footer>
 
     <script>
-        // SMART SEARCH: Saytda yoxdursa Google-da axtarır
-        function smartSearch() {
-            let q = document.getElementById('searchInput').value;
-            if(!q) return;
-            let cards = document.getElementsByClassName('card');
-            let found = false;
-            for(let card of cards) {
-                if(card.innerText.toLowerCase().includes(q.toLowerCase())) {
-                    card.style.border = "2px solid lime";
-                    card.scrollIntoView();
-                    found = true;
-                }
-            }
-            if(!found) {
-                window.open("https://www.google.com/search?q=" + q, "_blank");
-            }
-        }
-
-        // DİL SİSTEMİ
-        const texts = {
-            az: { title: "NTECNO", founder: "Qurucu: Nicat Rəhimli", devT: "Oyun İnkişaf Mərkəzi", devD: "Gələcək oyun layihələrimiz üzərində işlər davam edir." },
-            tr: { title: "NTECNO", founder: "Kurucu: Nicat Rəhimli", devT: "Oyun Geliştirme Merkezi", devD: "Gelecek oyun projelerimiz üzerinde çalışmalar sürüyor." },
-            en: { title: "NTECNO", founder: "Founder: Nicat Rahimli", devT: "Game Dev Center", devD: "Future game projects are under development." }
-        };
-
-        function changeLang() {
-            let l = document.getElementById('langSelect').value;
-            let t = texts[l] || texts['en'];
-            document.getElementById('title').innerText = t.title;
-            document.getElementById('founder').innerText = t.founder;
-            document.getElementById('gameDevTitle').innerText = t.devT;
-            document.getElementById('gameDevDesc').innerText = t.devD;
-        }
-
-        // İLAN OYUNU LOGİKASI
-        let canvas = document.getElementById("snakeGame");
-        let ctx = canvas.getContext("2d");
-        let snake = [{x: 200, y: 200}];
-        let food = {x: 0, y: 0};
-        let dx = 20, dy = 0;
-        
-        function openSnake() { document.getElementById('gameModal').style.display = 'flex'; resetGame(); }
-        function closeSnake() { document.getElementById('gameModal').style.display = 'none'; }
-        
-        function resetGame() {
-            snake = [{x: 200, y: 200}];
-            genFood();
-            main();
-        }
-
-        function genFood() {
-            food.x = Math.floor(Math.random() * 19) * 20;
-            food.y = Math.floor(Math.random() * 19) * 20;
-        }
-
-        function main() {
-            if(checkEnd()) return;
-            setTimeout(function() {
-                clear(); drawFood(); move(); drawSnake(); main();
-            }, 100);
-        }
-
-        function clear() { ctx.fillStyle = "black"; ctx.fillRect(0,0,400,400); }
-        function drawSnake() { ctx.fillStyle = "gold"; snake.forEach(s => ctx.fillRect(s.x, s.y, 18, 18)); }
-        function drawFood() { ctx.fillStyle = "red"; ctx.fillRect(food.x, food.y, 18, 18); }
-        function move() {
-            let head = {x: snake[0].x + dx, y: snake[0].y + dy};
-            snake.unshift(head);
-            if(head.x === food.x && head.y === food.y) genFood(); else snake.pop();
-        }
-        function checkEnd() {
-            return (snake[0].x < 0 || snake[0].x > 380 || snake[0].y < 0 || snake[0].y > 380);
-        }
-
-        window.addEventListener("keydown", e => {
-            if(e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -20; }
-            if(e.key === "ArrowDown" && dy === 0) { dx = 0; dy = 20; }
-            if(e.key === "ArrowLeft" && dx === 0) { dx = -20; dy = 0; }
-            if(e.key === "ArrowRight" && dx === 0) { dx = 20; dy = 0; }
-        });
-    </script>
-</body>
-</html>
+        // SAAT
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+        }, 1000);
