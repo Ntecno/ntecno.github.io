@@ -3,38 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ntecno | Global Innovation & Research Ecosystem 2026</title>
+    <title>Ntecno | Global Innovation Systems</title>
     <style>
-        /* --- PROFESSIONAL CSS ARCHITECTURE --- */
+        /* --- PROFESSIONAL ARCHITECTURE --- */
         :root {
             --gold: #d4af37;
-            --gold-light: #f1d592;
-            --black-pure: #000000;
-            --black-soft: #0a0a0a;
-            --gray-dark: #151515;
-            --gray-border: #252525;
-            --text-main: #ffffff;
+            --bg: #000000;
+            --surface: #0a0a0a;
+            --panel: #111111;
+            --text: #ffffff;
             --text-dim: #b0b0b0;
-            --neon-glow: 0 0 20px rgba(212, 175, 55, 0.3);
+            --border: #222222;
         }
 
         [data-theme="light"] {
-            --black-pure: #ffffff;
-            --black-soft: #f8f9fa;
-            --gray-dark: #eeeeee;
-            --gray-border: #cccccc;
-            --text-main: #111111;
+            --bg: #ffffff;
+            --surface: #f4f4f4;
+            --panel: #ffffff;
+            --text: #111111;
             --text-dim: #444444;
+            --border: #dddddd;
         }
 
-        * { box-sizing: border-box; scroll-behavior: smooth; }
-        body {
-            margin: 0; background-color: var(--black-pure); color: var(--text-main);
-            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; line-height: 1.8;
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        body { 
+            background-color: var(--bg); color: var(--text); 
+            font-family: 'Inter', sans-serif; line-height: 1.8; 
+            overflow-x: hidden;
         }
 
-        /* --- NAVIGATION --- */
-        nav {
-            position: fixed; top: 0; width: 100%; z-index: 5000;
-            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(25px);
-            border-bottom: 1px solid var(--gray-border); padding: 2
+        /* Navigasiya */
+        nav
