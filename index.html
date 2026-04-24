@@ -3,96 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ntecno | Future Interface</title>
+    <title>Ntecno | Global Innovation Systems</title>
     <style>
         :root {
             --accent: #d4af37;
-            --bg: #000000;
-            --surface: #0a0a0a;
+            --bg: #030303;
+            --panel: rgba(20, 20, 20, 0.8);
             --text: #ffffff;
-            --gray: #888888;
+            --border: rgba(212, 175, 55, 0.3);
+            --shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         [data-theme="light"] {
             --bg: #ffffff;
-            --surface: #f5f5f5;
-            --text: #000000;
-            --gray: #666666;
+            --panel: rgba(240, 240, 240, 0.9);
+            --text: #111111;
+            --border: rgba(0, 0, 0, 0.1);
         }
+
+        * { box-sizing: border-box; transition: all 0.3s ease; }
 
         body {
-            margin: 0;
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Modern Navigasiya */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 8%;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo { font-size: 22px; font-weight: 800; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; }
-
-        .nav-controls { display: flex; gap: 20px; align-items: center; }
-
-        .btn-icon {
-            background: none; border: 1px solid var(--accent);
-            color: var(--accent); padding: 8px 15px;
-            border-radius: 5px; cursor: pointer; font-size: 14px;
-            transition: 0.3s;
-        }
-
-        .btn-icon:hover { background: var(--accent); color: #000; }
-
-        /* Modern Axtarış - Həqiqətən İşləyir */
-        .search-hero {
-            padding: 100px 5%;
-            text-align: center;
-        }
-
-        .search-wrapper {
-            position: relative;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        #mainSearch {
-            width: 100%;
-            padding: 20px 30px;
-            border-radius: 15px;
-            border: 1px solid #333;
-            background: var(--surface);
-            color: var(--text);
-            font-size: 18px;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        #mainSearch:focus { border-color: var(--accent); box-shadow: 0 0 20px rgba(212, 175, 55, 0.1); }
-
-        /* Layihə Kartları */
-        .container { padding: 0 8% 100px; }
-
-        .section-label { color: var(--accent); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 40px; display: block; }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-        }
-
-        .p-card {
-            background: var(--surface);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid rgba(255
+            margin: 0; background: var(--bg); color: var(--text);
+            font-family: 'Segoe UI', Roboto, sans-serif; line-height: 1.
