@@ -7,9 +7,10 @@
     <style>
         :root {
             --gold: #d4af37;
-            --black: #0a0a0a;
-            --gray: #1a1a1a;
+            --black: #080808;
+            --gray: #151515;
             --white: #ffffff;
+            --text-gray: #a0a0a0;
         }
 
         body, html {
@@ -20,44 +21,66 @@
             scroll-behavior: smooth;
         }
 
-        /* Navigasyon */
+        /* Navigasiya */
         nav {
-            padding: 20px 5%;
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.9);
-            border-bottom: 1px solid #333;
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid #222;
             position: sticky; top: 0; z-index: 1000;
+            backdrop-filter: blur(10px);
         }
 
-        .brand { font-size: 28px; font-weight: 800; color: var(--gold); letter-spacing: 3px; }
+        .brand { font-size: 26px; font-weight: 900; color: var(--gold); letter-spacing: 4px; }
 
-        .lang-switcher select {
-            background: transparent; color: var(--white);
-            border: 1px solid var(--gold); padding: 5px 10px; border-radius: 5px;
-        }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--gold); }
 
-        /* Axtarış Çubuğu */
-        .search-container {
-            padding: 40px 5%;
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            background: linear-gradient(to bottom, #111, #0a0a0a);
+            background: radial-gradient(circle, #1a1a1a 0%, #080808 100%);
+            border-bottom: 1px solid #111;
         }
 
+        .hero h1 { font-size: clamp(60px, 10vw, 120px); margin: 0; font-weight: 900; letter-spacing: -2px; }
+        .founder-box { background: var(--gold); color: black; padding: 5px 25px; border-radius: 50px; font-weight: bold; margin-top: 20px; }
+
+        /* Arama Çubuğu */
+        .search-area { padding: 50px 5%; text-align: center; }
         #searchInput {
-            width: 60%;
-            padding: 15px 25px;
+            width: 70%; max-width: 600px;
+            padding: 18px 30px;
             border-radius: 50px;
-            border: 2px solid var(--gold);
-            background: #000;
+            border: 1px solid #333;
+            background: var(--gray);
             color: white;
-            font-size: 18px;
+            font-size: 16px;
             outline: none;
             transition: 0.3s;
         }
+        #searchInput:focus { border-color: var(--gold); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
 
-        #searchInput:focus { box-shadow: 0 0 15px var(--gold); }
+        /* Xidmətlər (Services) */
+        .services { padding: 100px 8%; background: #0a0a0a; text-align: center; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin-top: 50px; }
+        .service-card { padding: 40px; background: var(--gray); border-radius: 20px; transition: 0.3s; border: 1px solid #111; }
+        .service-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .service-card i { font-size: 40px; color: var(--gold); display: block; margin-bottom: 20px; }
 
-        /* Hero */
-        .
+        /* Layihələr (Projects) */
+        .projects { padding: 100px 8%; }
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .project-card {
+            background: #111;
+            padding: 0;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid
