@@ -3,26 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ntecno | Global Innovation Systems</title>
+    <title>Ntecno | Global Innovation & Research Ecosystem 2026</title>
     <style>
+        /* --- PROFESSIONAL CSS ARCHITECTURE --- */
         :root {
-            --accent: #d4af37;
-            --bg: #030303;
-            --panel: rgba(20, 20, 20, 0.8);
-            --text: #ffffff;
-            --border: rgba(212, 175, 55, 0.3);
-            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+            --gold: #d4af37;
+            --gold-light: #f1d592;
+            --black-pure: #000000;
+            --black-soft: #0a0a0a;
+            --gray-dark: #151515;
+            --gray-border: #252525;
+            --text-main: #ffffff;
+            --text-dim: #b0b0b0;
+            --neon-glow: 0 0 20px rgba(212, 175, 55, 0.3);
         }
 
         [data-theme="light"] {
-            --bg: #ffffff;
-            --panel: rgba(240, 240, 240, 0.9);
-            --text: #111111;
-            --border: rgba(0, 0, 0, 0.1);
+            --black-pure: #ffffff;
+            --black-soft: #f8f9fa;
+            --gray-dark: #eeeeee;
+            --gray-border: #cccccc;
+            --text-main: #111111;
+            --text-dim: #444444;
         }
 
-        * { box-sizing: border-box; transition: all 0.3s ease; }
-
+        * { box-sizing: border-box; scroll-behavior: smooth; }
         body {
-            margin: 0; background: var(--bg); color: var(--text);
-            font-family: 'Segoe UI', Roboto, sans-serif; line-height: 1.
+            margin: 0; background-color: var(--black-pure); color: var(--text-main);
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; line-height: 1.8;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 5000;
+            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--gray-border); padding: 2
