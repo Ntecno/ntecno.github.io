@@ -3,197 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ntecno | Ultimate Cinema Search</title>
+    <title>NTECNO | Official Digital Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* 1. NTECNO BRANDING & CORE */
         :root {
-            --gold: #d4af37;
-            --black: #050505;
-            --card: #121212;
-            --white: #ffffff;
+            --ntecno-blue: #00d2ff;
+            --ntecno-glow: rgba(0, 210, 255, 0.5);
+            --dark-space: #010101;
+            --glass: rgba(255, 255, 255, 0.03);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
 
         body {
-            margin: 0; padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--black);
-            color: var(--white);
+            background-color: var(--dark-space);
+            color: #ffffff;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Başlıq */
-        .header {
-            padding: 40px 5%;
-            text-align: center;
-            background: linear-gradient(to bottom, #1a1a1a, var(--black));
+        /* 2. TECH BACKGROUND ANIMATION */
+        .grid-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(var(--ntecno-glow) 1px, transparent 1px), 
+                              linear-gradient(90deg, var(--ntecno-glow) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.1;
+            z-index: -1;
+            transform: perspective(500px) rotateX(60deg);
+            transform-origin: top;
+            animation: moveGrid 20s linear infinite;
         }
 
-        .header h1 { font-size: 50px; color: var(--gold); letter-spacing: 5px; margin-bottom: 10px; }
+        @keyframes moveGrid { from { background-position: 0 0; } to { background-position: 0 50px; } }
 
-        /* Axtarış Paneli */
-        .search-container {
-            max-width: 800px;
-            margin: 20px auto;
-            position: relative;
-            padding: 0 20px;
+        /* 3. NTECNO HEADER */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 25px 8%; background: rgba(0, 0, 0, 0.95);
+            border-bottom: 2px solid var(--ntecno-blue);
+            position: sticky; top: 0; z-index: 2000;
+            box-shadow: 0 5px 30px var(--ntecno-glow);
         }
 
-        #userMovieInput {
-            width: 100%;
-            padding: 20px 30px;
-            border-radius: 50px;
-            border: 2px solid #333;
-            background: #000;
-            color: var(--gold);
-            font-size: 18px;
-            outline: none;
-            transition: 0.3s;
+        .ntecno-logo {
+            font-family: 'Syncopate', sans-serif; font-size: 2.2rem;
+            color: var(--ntecno-blue); text-shadow: 0 0 15px var(--ntecno-blue);
+            text-decoration: none; font-weight: 700;
         }
 
-        #userMovieInput:focus { border-color: var(--gold); box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
-
-        .search-hint { margin-top: 10px; font-size: 13px; color: #666; }
-
-        /* Kateqoriya Düymələri */
-        .cat-box {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin: 30px 0;
+        .founder-badge {
+            border: 1px solid var(--ntecno-blue); color: var(--ntecno-blue);
+            padding: 8px 25px; border-radius: 4px; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 2px;
         }
 
-        .genre-btn {
-            padding: 12px 25px;
-            border-radius: 50px;
-            border: 1px solid #444;
-            background: var(--card);
-            color: #ccc;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
+        /* 4. GLOBAL MOVIE ENGINE */
+        .search-area {
+            height: 70vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
         }
 
-        .genre-btn:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-            transform: translateY(-3px);
+        .search-area h1 {
+            font-size: 3.5rem; margin-bottom: 40px; color: #fff;
+            text-transform: uppercase; letter-spacing: 10px;
         }
 
-        /* Nəticə Kartları */
-        .results-area {
-            padding: 40px 8%;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+        .ntecno-search { width: 100%; max-width: 900px; position: relative; }
+        .ntecno-search input {
+            width: 100%; padding: 30px 50px; border-radius: 5px;
+            background: rgba(0,0,0,0.8); border: 2px solid var(--ntecno-blue);
+            color: #fff; font-size: 1.6rem; font-family: 'Orbitron';
+            transition: 0.5s; box-shadow: inset 0 0 20px var(--ntecno-glow);
         }
 
-        .movie-card {
-            background: var(--card);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid #222;
-            text-align: center;
-            transition: 0.4s;
+        .ntecno-search input:focus {
+            box-shadow: 0 0 50px var(--ntecno-blue); transform: scale(1.03);
         }
 
-        .movie-card:hover {
-            border-color: var(--gold);
-            background: #1a1a1a;
-            cursor: pointer;
+        /* 5. CINEMA PORTAL */
+        #ntecnoPlayer {
+            max-width: 1200px; margin: -100px auto 100px;
+            display: none; border: 4px solid var(--ntecno-blue);
+            background: #000; position: relative;
+            animation: fadeIn 1s ease;
         }
 
-        .movie-card h3 { color: var(--gold); margin-bottom: 15px; font-size: 22px; }
-        .movie-card p { font-size: 14px; color: #888; margin-bottom: 20px; }
-        
-        .play-btn {
-            background: var(--gold);
-            color: #000;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
+        .iframe-wrap { position: relative; padding-bottom: 56.25%; height: 0; }
+        .iframe-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        /* 6. INFORMATION GRID */
+        .ntecno-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px; padding: 100px 10%;
         }
 
-        footer { text-align: center; padding: 50px; border-top: 1px solid #222; margin-top: 100px; color: #444; }
-    </style>
-</head>
-<body>
-
-    <div class="header">
-        <h1>NTECNO CINEMA</h1>
-        <p>Dünya Kinosu Sizin Barmaqlarınızın Ucunda</p>
-    </div>
-
-    <div class="search-container">
-        <input type="text" id="userMovieInput" placeholder="İstənilən film və ya serial adını yazın..." onkeyup="checkEnter(event)">
-        <div class="search-hint">Yazdıqdan sonra <b>Enter</b> basaraq birbaşa qlobal bazada axtarış edə bilərsiniz.</div>
-    </div>
-
-    <div class="cat-box">
-        <button class="genre-btn" onclick="quickSearch('Ən yaxşı Qorxu filmləri 2026')">😱 Qorxu</button>
-        <button class="genre-btn" onclick="quickSearch('Ən yaxşı Dram filmləri')">🎭 Dram</button>
-        <button class="genre-btn" onclick="quickSearch('Populyar Komediya filmləri')">😂 Əyləncə</button>
-        <button class="genre-btn" onclick="quickSearch('Yeni Fantastika filmləri')">🚀 Fantastika</button>
-        <button class="genre-btn" onclick="quickSearch('Maraqlı Aksiyon filmləri')">💥 Aksiyon</button>
-    </div>
-
-    <div class="results-area" id="resultsArea">
-        <div class="movie-card" onclick="quickSearch('Interstellar full izle')">
-            <h3>Interstellar</h3>
-            <p>Kosmos, zaman və insan iradəsi haqqında şah əsər.</p>
-            <span class="play-btn">İNDİ İZLƏ</span>
-        </div>
-        <div class="movie-card" onclick="quickSearch('The Conjuring full izle')">
-            <h3>The Conjuring</h3>
-            <p>Real hadisələrə əsaslanan qorxu dolu anlar.</p>
-            <span class="play-btn">İNDİ İZLƏ</span>
-        </div>
-        <div class="movie-card" onclick="quickSearch('Avengers Endgame full izle')">
-            <h3>Avengers: Endgame</h3>
-            <p>Dünyanın ən böyük qəhrəmanlarının final döyüşü.</p>
-            <span class="play-btn">İNDİ İZLƏ</span>
-        </div>
-    </div>
-
-    <footer>
-        &copy; 2026 Ntecno | Nicat Rəhimli tərəfindən təkmilləşdirilmiş sistem.
-    </footer>
-
-    <script>
-        // ENTER düyməsini yoxlayır
-        function checkEnter(event) {
-            if (event.key === "Enter") {
-                let query = document.getElementById('userMovieInput').value;
-                if (query !== "") {
-                    performGlobalSearch(query);
-                }
-            }
+        .n-card {
+            background: var(--glass); padding: 50px; border-radius: 2px;
+            border-right: 4px solid var(--ntecno-blue); transition: 0.4s;
         }
 
-        // Düymələr üçün sürətli funksiya
-        function quickSearch(query) {
-            performGlobalSearch(query);
+        .n-card:hover { background: rgba(0, 210, 255, 0.1); transform: translateX(10px); }
+
+        /* 7. THE FOUNDER (NICAT RƏHİMLİ) */
+        .founder-section {
+            padding: 100px 10%; background: #050505;
+            display: flex; align-items: center; gap: 60px;
+            border-top: 1px solid #222;
         }
 
-        // ƏSAS FUNKSİYA: Dünyadakı bütün filmləri tapmaq üçün
-        function performGlobalSearch(query) {
-            // İstifadəçini Google-un xüsusi "Video/Film" bazasına yönləndirir
-            // Bu yolla heç bir film limiti olmur, nə yazsan tapılır.
-            const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}+full+hd+izle`;
-            
-            // Saytın daxilində "Axtarılır..." effekti yaratmaq üçün:
-            document.getElementById('resultsArea').innerHTML = `
-                <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
-                    <h2 style="color: var(--gold)">"${query}" üçün qlobal nəticələr hazırlanır...</h2>
-                    <p>Sistem sizi ən uyğun video bazasına yönləndirir.</p>
-                </div>
-            `;
-
-            // 1 saniyə sonra yeni pəncərədə açır
-            setTimeout(() => {
-                window.open(searchUrl, '_blank');
-            }, 800);
+        .founder-circle {
+            min-width: 200px; height: 200px; border: 5px solid var(--ntecno-blue);
+            border-radius: 50%; box-shadow: 0 0 40px var(--ntecno-blue);
+            background: #111;
         }
-    </script>
-</body>
-</html>
+
+        /* 8. DOCK (NTECNO CONTROL PANEL) */
+        .ntecno-dock {
+            position: fixed; bottom: 30px; left: 50%;
