@@ -437,51 +437,51 @@
 </script>
 
 </body>
-</html> <div id="nesko-container">
+</html> <div id="nesko-global-system">
     <style>
-        #nesko-container {
+        #nesko-global-system {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 380px;
+            max-width: 400px;
             margin: 20px auto;
             padding: 25px;
             background: #ffffff;
             border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             text-align: center;
         }
-        .nesko-btn {
-            padding: 12px 25px;
+        .n-btn {
+            padding: 12px 20px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
             color: white !important;
-            margin: 10px 5px;
             text-decoration: none;
             display: inline-block;
             transition: 0.3s;
+            width: 100%;
+            box-sizing: border-box;
         }
-        .sub-red { background-color: #ff0000; }
-        .sub-red:hover { background-color: #cc0000; }
-        .join-blue { background-color: #065fd4; width: 100%; }
+        .n-sub { background-color: #ff0000; margin-bottom: 15px; }
+        .n-sub:hover { background-color: #cc0000; }
+        .n-join { background-color: #065fd4; }
         
-        #nesko-container input {
+        .n-input {
             padding: 12px;
             width: 100%;
             box-sizing: border-box;
-            margin-bottom: 10px;
-            border: 2px solid #eee;
+            margin-bottom: 15px;
+            border: 2px solid #f0f0f0;
             border-radius: 8px;
             outline: none;
         }
         
-        /* Gizli Admin Paneli */
-        #admin-panel {
-            display: none; /* Başlanğıcda gizlidir */
+        #n-admin-panel {
+            display: none;
             margin-top: 20px;
             padding: 15px;
-            background: #fff3f3;
-            border: 1px solid #ffcccc;
+            background: #fff5f5;
+            border: 1px dashed #ff0000;
             border-radius: 10px;
             text-align: left;
         }
@@ -493,88 +493,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: 5px;
+            border-radius: 6px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        .approve-btn { background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+        .approve-btn { background: #28a745; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
         
-        .member-list { margin-top: 20px; text-align: left; }
-        .member-name { padding: 8px; border-bottom: 1px solid #f0f0f0; color: #333; font-weight: 500; }
-    </style>
-
-    <h3 onclick="checkAdminClick()" style="cursor:default; user-select: none;">Nesko Az Kanalı</h3>
-    <a href="https://youtube.com/@rhimlinicat?si=H5qB5zg4CsI7Emac" target="_blank" class="nesko-btn sub-red">Abone Ol</a>
-    
-    <div style="margin: 15px 0; border-bottom: 1px solid #eee;"></div>
-
-    <input type="text" id="nesko-user-input" placeholder="Ad və Soyadınız">
-    <button class="nesko-btn join-blue" onclick="neskoIstekGonder()">Taraftar Üye Olmaq üçün İstək Göndər</button>
-    
-    <div class="member-list">
-        <strong>⭐ Taraftar Üyələr:</strong>
-        <div id="nesko-member-list"></div>
-    </div>
-
-    <div id="admin-panel">
-        <strong style="color: #d32f2f;">Admin İdarəetmə (Gözləyən İstəklər)</strong>
-        <div id="nesko-admin-requests" style="margin-top: 10px;"></div>
-        <button onclick="document.getElementById('admin-panel').style.display='none'" style="margin-top:10px; font-size:10px;">Paneli Bağla</button>
-    </div>
-
-    <script>
-        let clickCount = 0;
-
-        // Admin panelini açmaq üçün başlıqdakı "Nesko Az Kanalı" yazısına 3 dəfə klikləməlisən
-        function checkAdminClick() {
-            clickCount++;
-            if (clickCount === 3) {
-                document.getElementById('admin-panel').style.display = 'block';
-                clickCount = 0;
-                alert("Admin rejimi açıldı!");
-            }
-        }
-
-        function neskoDisplay() {
-            let reqs = JSON.parse(localStorage.getItem('nk_req') || "[]");
-            let mems = JSON.parse(localStorage.getItem('nk_mem') || "[]");
-
-            // İstəklər (Admin üçün)
-            let reqHTML = "";
-            reqs.forEach((n, i) => {
-                reqHTML += `<div class="req-item"><span>${n}</span> <button class="approve-btn" onclick="neskoTesdiq(${i})">Təsdiqlə</button></div>`;
-            });
-            document.getElementById('nesko-admin-requests').innerHTML = reqHTML || "Yeni istək yoxdur.";
-
-            // Təsdiqlənmiş Üyələr (Hər kəs üçün)
-            let memHTML = "";
-            mems.forEach(n => {
-                memHTML += `<div class="member-name">✔️ ${n} (Taraftar Üye)</div>`;
-            });
-            document.getElementById('nesko-member-list').innerHTML = memHTML || "<small>Hələlik üye yoxdur.</small>";
-        }
-
-        function neskoIstekGonder() {
-            let val = document.getElementById('nesko-user-input').value;
-            if(!val.trim()) return alert("Lütfən adınızı yazın!");
-            
-            let reqs = JSON.parse(localStorage.getItem('nk_req') || "[]");
-            reqs.push(val);
-            localStorage.setItem('nk_req', JSON.stringify(reqs));
-            document.getElementById('nesko-user-input').value = "";
-            alert("İstəyiniz göndərildi. Admin tərəfindən yoxlanılacaq.");
-            neskoDisplay();
-        }
-
-        function neskoTesdiq(i) {
-            let reqs = JSON.parse(localStorage.getItem('nk_req'));
-            let mems = JSON.parse(localStorage.getItem('nk_mem') || "[]");
-            mems.push(reqs[i]);
-            reqs.splice(i, 1);
-            localStorage.setItem('nk_req', JSON.stringify(reqs));
-            localStorage.setItem('nk_mem', JSON.stringify(mems));
-            neskoDisplay();
-        }
-
-        neskoDisplay();
-    </script>
-</div>
+        .member-list { margin-top: 25px; text-align: left; }
+        .member-name { padding: 10px; border-bottom: 1px solid #f9
