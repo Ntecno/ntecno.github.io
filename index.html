@@ -437,4 +437,129 @@
 </script>
 
 </body>
-</html>
+</html> div id="nesko-container">
+    <style>
+        /* Bütün stilləri bu ID-yə bağladıq ki, kənara çıxmasın */
+        #nesko-container {
+            font-family: sans-serif;
+            max-width: 350px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 1px solid #eee;
+        }
+        #nesko-container .nesko-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white !important;
+            margin: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        #nesko-container .sub-red { background-color: #ff0000; }
+        #nesko-container .join-blue { background-color: #065fd4; }
+        #nesko-container .approve-green { background: #28a745; font-size: 12px; padding: 5px 10px; }
+        
+        #nesko-container input {
+            padding: 8px;
+            width: 90%;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #nesko-container .admin-box {
+            margin-top: 20px;
+            border-top: 2px dashed #ccc;
+            padding-top: 15px;
+            font-size: 14px;
+            text-align: left;
+        }
+        #nesko-container .req-item {
+            background: #f9f9f9;
+            padding: 8px;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 3px solid #065fd4;
+        }
+        #nesko-container .member-name {
+            color: #2c3e50;
+            font-weight: bold;
+            list-style: none;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+
+    <h3>Nesko Az Panel</h3>
+    <a href="https://youtube.com/@rhimlinicat?si=H5qB5zg4CsI7Emac" target="_blank" class="nesko-btn sub-red">Abone Ol</a>
+    
+    <div style="margin: 20px 0; height: 1px; background: #eee;"></div>
+
+    <input type="text" id="nesko-user-input" placeholder="Ad və Soyadınız">
+    <button class="nesko-btn join-blue" onclick="neskoIstekGonder()">Üye Olmaq üçün İstək Göndər</button>
+    
+    <h4 style="margin-top: 20px;">⭐ Taraftar Üyələr:</h4>
+    <div id="nesko-member-list"></div>
+
+    <div class="admin-box">
+        <strong>Admin (Gözləyən İstəklər):</strong>
+        <div id="nesko-admin-requests"></div>
+    </div>
+
+    <script>
+        function neskoDisplay() {
+            let reqs = JSON.parse(localStorage.getItem('nk_req') || "[]");
+            let mems = JSON.parse(localStorage.getItem('nk_mem') || "[]");
+
+            // İstəkləri Admin Panelində göstər
+            let reqHTML = "";
+            reqs.forEach((n, i) => {
+                reqHTML += `<div class="req-item"><span>${n}</span> <button class="nesko-btn approve-green" onclick="neskoTesdiq(${i})">Qəbul</button></div>`;
+            });
+            document.getElementById('nesko-admin-requests').innerHTML = reqHTML || "Yeni istək yoxdur.";
+
+            // Təsdiqlənmişləri göstər
+            let memHTML = "";
+            mems.forEach(n => {
+                memHTML += `<div class="member-name">✅ ${n}</div>`;
+            });
+            document.getElementById('nesko-member-list').innerHTML = memHTML;
+        }
+
+        function neskoIstekGonder() {
+            let val = document.getElementById('nesko-user-input').value;
+            if(!val.trim()) return alert("Ad yazın!");
+            
+            let reqs = JSON.parse(localStorage.getItem('nk_req') || "[]");
+            reqs.push(val);
+            localStorage.setItem('nk_req', JSON.stringify(reqs));
+            document.getElementById('nesko-user-input').value = "";
+            alert("İstək göndərildi!");
+            neskoDisplay();
+        }
+
+        function neskoTesdiq(i) {
+            let reqs = JSON.parse(localStorage.getItem('nk_req'));
+            let mems = JSON.parse(localStorage.getItem('nk_mem') || "[]");
+            mems.push(reqs[i]);
+            reqs.splice(i, 1);
+            localStorage.setItem('nk_req', JSON.stringify(reqs));
+            localStorage.setItem('nk_mem', JSON.stringify(mems));
+            neskoDisplay();
+        }
+
+        // Səhifə açılanda siyahını yüklə
+        neskoDisplay();
+    </script>
+</div>
