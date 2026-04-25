@@ -438,3 +438,84 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kanal Paneli</title>
+    <style>
+        .button-container {
+            display: flex;
+            gap: 10px;
+            font-family: Arial, sans-serif;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            color: white;
+        }
+        .subscribe-btn {
+            background-color: #ff0000;
+        }
+        .join-btn {
+            background-color: #065fd4;
+        }
+        #join-form {
+            margin-top: 20px;
+            display: none;
+            border: 1px solid #ccc;
+            padding: 15px;
+            width: 300px;
+        }
+        #result-area {
+            margin-top: 15px;
+            font-style: italic;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<div class="button-container">
+    <a href="https://youtube.com/@rhimlinicat?si=H5qB5zg4CsI7Emac" target="_blank" class="btn subscribe-btn">Abone Ol</a>
+
+    <button onclick="toggleJoinForm()" class="btn join-btn">Üye Ol</button>
+</div>
+
+<div id="join-form">
+    <h3>Üyelik Başvurusu</h3>
+    <input type="text" id="userName" placeholder="Ad Soyad Yazın" style="width: 90%; padding: 5px;"><br><br>
+    <button onclick="sendRequest()">İstek Gönder</button>
+</div>
+
+<div id="result-area"></div>
+
+<script>
+    function toggleJoinForm() {
+        var form = document.getElementById('join-form');
+        form.style.display = (form.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function sendRequest() {
+        var name = document.getElementById('userName').value;
+        if (name.trim() === "") {
+            alert("Lütfen Ad Soyad yazın!");
+            return;
+        }
+
+        // Burada normalde veriler bir veritabanına gider.
+        // Şimdilik sadece bir onay süreci varmış gibi simüle ediyoruz.
+        document.getElementById('result-area').innerText = "İsteğiniz gönderildi: " + name + ". Onaylandığında 'Taraftar Üye' listesine ekleneceksiniz.";
+        
+        // Formu temizle ve gizle
+        document.getElementById('userName').value = "";
+        setTimeout(() => { document.getElementById('join-form').style.display = 'none'; }, 2000);
+    }
+</script>
+
+</body>
+</html>
