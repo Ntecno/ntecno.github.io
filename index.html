@@ -587,3 +587,172 @@
         refreshData();
     </script>
 </div>
+<div id="nesko-football-game">
+    <style>
+        #nesko-football-game {
+            font-family: 'Arial', sans-serif;
+            max-width: 500px;
+            margin: 20px auto;
+            text-align: center;
+            background: #27ae60;
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 5px solid #2ecc71;
+        }
+        .field {
+            width: 100%;
+            height: 250px;
+            background: #2ecc71;
+            border: 2px solid white;
+            position: relative;
+            margin-top: 15px;
+            overflow: hidden;
+            border-bottom: none;
+        }
+        .goal {
+            width: 200px;
+            height: 100px;
+            border: 5px solid white;
+            border-bottom: none;
+            margin: 0 auto;
+            position: relative;
+            background: rgba(255,255,255,0.1);
+        }
+        #ball {
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.5s ease-out;
+            cursor: pointer;
+            box-shadow: 0 4px 5px rgba(0,0,0,0.3);
+        }
+        #gk {
+            width: 40px;
+            height: 60px;
+            background: #e74c3c;
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+        select, .play-btn {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            font-weight: bold;
+        }
+        .play-btn { background: #f1c40f; color: #2c3e50; cursor: pointer; }
+        #score-board { font-size: 20px; margin-bottom: 10px; }
+    </style>
+
+    <h3>⚽ Nesko Penalti Seriyası</h3>
+    
+    <div id="setup">
+        <label>Oyunçu Seç:</label><br>
+        <select id="player-select">
+            <option>Nurlan Şükürov</option>
+            <option>İbrahim Adilov</option>
+            <option>Fateh Tanrıverdiyev</option>
+            <option>Ruşan Quliyev</option>
+            <option>Fərhad Quliyev</option>
+            <option>Nicat Rəhimli</option>
+            <option>Ramal Bayramov</option>
+            <option>Hüseyn Zahidov</option>
+            <option>Tofiq Atakişi</option>
+            <option>Mehdi Nəbiyev</option>
+            <option>Məzahir Səlimov</option>
+            <option>Ümid Ağamalıyev</option>
+            <option>Ayxan Quliyev</option>
+            <option>Sinan Yusifli</option>
+            <option>Fərid Rzalı</option>
+            <option>Murad Məmmədli</option>
+            <option>Zülfü Əliyev</option>
+            <option>Cavid Qarasov</option>
+        </select>
+        <button class="play-btn" onclick="startGame()">OYUNA BAŞLA</button>
+    </div>
+
+    <div id="game-area" style="display:none;">
+        <div id="score-board">Oyunçu: <span id="current-p"></span> | Qol: <span id="goals">0</span></div>
+        <div class="field" onclick="shoot(event)">
+            <div class="goal">
+                <div id="gk"></div>
+            </div>
+            <div id="ball"></div>
+        </div>
+        <p>Qapıya klikləyərək şut çək!</p>
+    </div>
+
+    <script>
+        let goalCount = 0;
+        let isShooting = false;
+
+        function startGame() {
+            const pName = document.getElementById('player-select').value;
+            document.getElementById('current-p').innerText = pName;
+            document.getElementById('setup').style.display = 'none';
+            document.getElementById('game-area').style.display = 'block';
+        }
+
+        function shoot(event) {
+            if(isShooting) return;
+            isShooting = true;
+
+            const ball = document.getElementById('ball');
+            const gk = document.getElementById('gk');
+            const field = document.querySelector('.field');
+            
+            // Kliklənən yerin koordinatlarını al
+            const rect = field.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            // Topu hərəkət etdir
+            ball.style.left = x + 'px';
+            ball.style.top = y + 'px';
+
+            // Qapıçı təsadüfi tərəfə tullanır
+            const gkPos = Math.random() * 160 + 20; // 20 ilə 180 arası
+            gk.style.left = gkPos + 'px';
+
+            setTimeout(() => {
+                // Qol yoxlanışı (Sadə məntiqlə)
+                // Əgər klik qapının içindədirsə və qapıçıdan uzaqdırsa
+                if (y < 120 && x > 150 && x < 350) {
+                    if (Math.abs(x - (gkPos + rect.left/4)) > 40) {
+                        goalCount++;
+                        document.getElementById('goals').innerText = goalCount;
+                        alert("QOOOL! Mükəmməl şut!");
+                    } else {
+                        alert("Qapıçı qaytardı! 🧤");
+                    }
+                } else {
+                    alert("Aut! Dəqiq nişan al!");
+                }
+
+                // Topu geri qaytar
+                resetBall();
+            }, 600);
+        }
+
+        function resetBall() {
+            const ball = document.getElementById('ball');
+            ball.style.bottom = '20px';
+            ball.style.top = 'auto';
+            ball.style.left = '50%';
+            isShooting = false;
+        }
+    </script>
+</div>
