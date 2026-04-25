@@ -3,78 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novaterra | Premium Portal</title>
+    <title>Novaterra | Premium Digital Universe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* MODERN DİZAYN AYARLARI */
+        /* 1. ANA DİZAYN VƏ RƏNGLƏR */
         :root {
-            --glow: #00ffcc;
+            --neon: #00ffcc;
+            --deep-dark: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --yt-red: #ff0000;
             --mc-green: #3fb518;
-            --dark-glass: rgba(0, 0, 0, 0.85);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            margin: 0;
-            padding: 0;
-            background: #050505;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            /* Arxa fon şəkli (HD Modern Gamer Style) */
-            background-image: radial-gradient(circle at center, rgba(0, 255, 204, 0.1) 0%, transparent 70%), 
-                              url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop');
-            background-attachment: fixed;
-            background-size: cover;
+            background-color: var(--deep-dark);
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* HEADER (QURUCU VƏ BAŞLIQ) */
-        .header {
-            text-align: center;
-            padding: 60px 20px;
-            border-bottom: 1px solid rgba(0, 255, 204, 0.2);
+        /* 2. PREMIUM ARXA FON (CANLI) */
+        .bg-animate {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1a2a3a 0%, #050505 100%);
         }
 
-        h1 {
-            font-size: 4rem;
-            letter-spacing: 5px;
-            margin: 0;
-            background: linear-gradient(to right, #fff, var(--glow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px var(--glow));
+        .stars-overlay {
+            position: absolute; width: 100%; height: 200%;
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.1;
+            animation: move-bg 100s linear infinite;
         }
 
-        .creator-tag {
-            background: var(--glow);
-            color: #000;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 10px;
-            font-size: 0.9rem;
+        @keyframes move-bg { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+
+        /* 3. NAVİQASİYA (ÜST PANEL) */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px); border-bottom: 2px solid var(--neon);
+            position: sticky; top: 0; z-index: 1000;
         }
 
-        /* MODERN AXTARIŞ SİSTEMİ */
-        .search-area {
-            max-width: 700px;
-            margin: 40px auto;
-            position: relative;
+        .brand-logo {
+            font-family: 'Orbitron', sans-serif; font-size: 2.2rem;
+            color: var(--neon); text-shadow: 0 0 20px var(--neon);
+            text-decoration: none;
         }
 
-        input#movieInput {
-            width: 100%;
-            padding: 20px 30px;
-            border-radius: 15px;
-            border: 1px solid var(--glow);
-            background: var(--dark-glass);
-            color: white;
-            font-size: 1.2rem;
-            transition: 0.3s;
-            box-sizing: border-box;
-        }
-
-        input#movieInput:focus {
-            box-shadow: 0 0 30px rgba(0, 255, 204, 0.4);
-            outline: none;
-        }
-
-        /* FİLM NƏTİCƏSİ (
+        .nav-controls { display: flex; align-items: center; gap
