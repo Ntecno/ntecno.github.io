@@ -3,124 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NTECNO | Official Digital Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
-    
+    <title>NTECNO | CineFlix Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* 1. NTECNO BRANDING & CORE */
         :root {
-            --ntecno-blue: #00d2ff;
-            --ntecno-glow: rgba(0, 210, 255, 0.5);
-            --dark-space: #010101;
-            --glass: rgba(255, 255, 255, 0.03);
+            --primary: #e50914;
+            --bg: #080808;
+            --card-bg: #161616;
+            --accent: #00d2ff;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { background: var(--bg); color: white; overflow-x: hidden; }
 
-        body {
-            background-color: var(--dark-space);
-            color: #ffffff;
-            font-family: 'Orbitron', sans-serif;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
-        /* 2. TECH BACKGROUND ANIMATION */
-        .grid-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(var(--ntecno-glow) 1px, transparent 1px), 
-                              linear-gradient(90deg, var(--ntecno-glow) 1px, transparent 1px);
-            background-size: 50px 50px;
-            opacity: 0.1;
-            z-index: -1;
-            transform: perspective(500px) rotateX(60deg);
-            transform-origin: top;
-            animation: moveGrid 20s linear infinite;
-        }
-
-        @keyframes moveGrid { from { background-position: 0 0; } to { background-position: 0 50px; } }
-
-        /* 3. NTECNO HEADER */
+        /* HEADER */
         header {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 25px 8%; background: rgba(0, 0, 0, 0.95);
-            border-bottom: 2px solid var(--ntecno-blue);
-            position: sticky; top: 0; z-index: 2000;
-            box-shadow: 0 5px 30px var(--ntecno-glow);
+            padding: 20px 5%; background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
         }
 
-        .ntecno-logo {
-            font-family: 'Syncopate', sans-serif; font-size: 2.2rem;
-            color: var(--ntecno-blue); text-shadow: 0 0 15px var(--ntecno-blue);
-            text-decoration: none; font-weight: 700;
+        .logo { font-size: 28px; font-weight: 800; color: var(--accent); letter-spacing: 2px; text-decoration: none; }
+        
+        .nav-links { display: flex; gap: 25px; list-style: none; }
+        .nav-links a { color: #ccc; text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .nav-links a:hover { color: white; }
+
+        .search-bar { display: flex; background: #1a1a1a; border-radius: 5px; padding: 5px 15px; border: 1px solid #333; }
+        .search-bar input { background: none; border: none; color: white; padding: 8px; outline: none; width: 200px; }
+        .search-bar button { background: none; border: none; color: var(--accent); cursor: pointer; font-weight: bold; }
+
+        /* HERO SECTION */
+        .hero {
+            height: 70vh; background: linear-gradient(to bottom, rgba(8,8,8,0) 0%, rgba(8,8,8,1) 100%), url('https://images.alphacoders.com/936/936383.jpg');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; padding: 0 5%;
         }
 
-        .founder-badge {
-            border: 1px solid var(--ntecno-blue); color: var(--ntecno-blue);
-            padding: 8px 25px; border-radius: 4px; font-size: 0.8rem;
-            text-transform: uppercase; letter-spacing: 2px;
+        .hero h1 { font-size: 50px; margin-bottom: 10px; }
+        .hero p { max-width: 600px; color: #ccc; margin-bottom: 20px; }
+        .founder-tag { background: var(--accent); color: black; padding: 5px 15px; border-radius: 20px; font-weight: bold; width: fit-content; margin-bottom: 15px; }
+
+        /* MOVIE GRID */
+        .container { padding: 40px 5%; }
+        .section-title { font-size: 22px; margin-bottom: 20px; border-left: 4px solid var(--accent); padding-left: 15px; }
+        
+        .movie-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 25px;
         }
 
-        /* 4. GLOBAL MOVIE ENGINE */
-        .search-area {
-            height: 70vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
+        .movie-card {
+            background: var(--card-bg); border-radius: 10px; overflow: hidden;
+            transition: 0.4s; cursor: pointer; position: relative;
         }
 
-        .search-area h1 {
-            font-size: 3.5rem; margin-bottom: 40px; color: #fff;
-            text-transform: uppercase; letter-spacing: 10px;
+        .movie-card:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .movie-card img { width: 100%; height: 270px; object-fit: cover; }
+        .movie-info { padding: 12px; }
+        .movie-info h3 { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .movie-info span { font-size: 12px; color: #777; }
+
+        /* VIDEO MODAL */
+        #videoModal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 2000; display: none;
+            justify-content: center; align-items: center;
+        }
+        .modal-content { width: 80%; max-width: 1000px; position: relative; }
+        .close-modal { position: absolute; top: -40px; right: 0; color: white; cursor: pointer; font-size: 25px; }
+        iframe { width: 100%; aspect-ratio: 16/9; border-radius: 10px; border: 2px solid var(--accent); }
+
+        footer { text-align: center; padding: 40px; color: #444; border-top: 1px solid #1a1a1a; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 30px; }
+            header { flex-direction: column; gap: 15px; text-align: center; }
+            .search-bar { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">NTECNO</a>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Movies</a></li>
+            <li><a href="#">Series</a></li>
+            <li><a href="#">LIVE</a></li>
+        </ul>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Film və ya aktyor axtar...">
+            <button onclick="searchMovies()">AXTAR</button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="founder-tag">Founder: Nicat Rəhimli</div>
+        <h1>John Wick: Chapter 4</h1>
+        <p>Ntecno keyfiyyəti ilə 4K formatında ən yeni filmləri kəşf edin. Qurucu Nicat Rəhimli tərəfindən idarə olunan xüsusi sinema portalı.</p>
+        <button style="padding: 12px 30px; background: var(--accent); border: none; border-radius: 5px; font-weight: bold; cursor: pointer;" onclick="openPlayer('John Wick 4')">İndi İzlə</button>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title" id="gridTitle">Trenddə Olan Filmlər</h2>
+        <div class="movie-grid" id="movieGrid">
+            </div>
+    </div>
+
+    <div id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">× BAĞLA</span>
+            <iframe id="videoPlayer" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 NTECNO | Qurucu: Nicat Rəhimli | Bütün hüquqlar qorunur.
+    </footer>
+
+    <script>
+        const movieGrid = document.getElementById('movieGrid');
+        const gridTitle = document.getElementById('gridTitle');
+        const searchInput = document.getElementById('searchInput');
+
+        // TREND FILMLERI GETIR (Real API)
+        async function fetchTrendMovies() {
+            try {
+                // TMDB-dən real trend filmləri çəkirik
+                const res = await fetch('https://api.themoviedb.org/3/trending/movie/week?api_key=15d1a998393a46d123405187c702a691');
+                const data = await res.json();
+                displayMovies(data.results);
+            } catch (err) {
+                console.log("Xəta baş verdi:", err);
+            }
         }
 
-        .ntecno-search { width: 100%; max-width: 900px; position: relative; }
-        .ntecno-search input {
-            width: 100%; padding: 30px 50px; border-radius: 5px;
-            background: rgba(0,0,0,0.8); border: 2px solid var(--ntecno-blue);
-            color: #fff; font-size: 1.6rem; font-family: 'Orbitron';
-            transition: 0.5s; box-shadow: inset 0 0 20px var(--ntecno-glow);
+        // MOVIELERI EKRANDA GOSTER
+        function displayMovies(movies) {
+            movieGrid.innerHTML = '';
+            movies.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.onclick = () => openPlayer(movie.title || movie.name);
+                
+                const imgPath = movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : 'https://via.placeholder.com/500x750?text=Ntecno+No+Image';
+                
+                card.innerHTML = `
+                    <img src="${imgPath}" alt="${movie.title}">
+                    <div class="movie-info">
+                        <h3>${movie.title || movie.name}</h3>
+                        <span>${movie.release_date ? movie.release_date.split('-')[0] : 'N/A'} • Ntecno HD</span>
+                    </div>
+                `;
+                movieGrid.appendChild(card);
+            });
         }
 
-        .ntecno-search input:focus {
-            box-shadow: 0 0 50px var(--ntecno-blue); transform: scale(1.03);
+        // AXTARIS FUNKSIYASI
+        async function searchMovies() {
+            const query = searchInput.value;
+            if (query.length < 2) return;
+
+            gridTitle.innerText = `"${query}" üçün axtarış nəticələri:`;
+            try {
+                const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=15d1a998393a46d123405187c702a691&query=${query}`);
+                const data = await res.json();
+                displayMovies(data.results);
+                window.scrollTo({ top: movieGrid.offsetTop - 100, behavior: 'smooth' });
+            } catch (err) {
+                alert("Axtarışda xəta oldu!");
+            }
         }
 
-        /* 5. CINEMA PORTAL */
-        #ntecnoPlayer {
-            max-width: 1200px; margin: -100px auto 100px;
-            display: none; border: 4px solid var(--ntecno-blue);
-            background: #000; position: relative;
-            animation: fadeIn 1s ease;
+        // PLAYER ACMAQ
+        function openPlayer(movieName) {
+            const modal = document.getElementById('videoModal');
+            const player = document.getElementById('videoPlayer');
+            modal.style.display = 'flex';
+            // Real film izləmə pleyeri (Simulyasiya olaraq YouTube/vidsrc istifadə edilir)
+            player.src = `https://www.youtube.com/embed?listType=search&list=${movieName} full movie`;
         }
 
-        .iframe-wrap { position: relative; padding-bottom: 56.25%; height: 0; }
-        .iframe-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-
-        /* 6. INFORMATION GRID */
-        .ntecno-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px; padding: 100px 10%;
+        function closeModal() {
+            document.getElementById('videoModal').style.display = 'none';
+            document.getElementById('videoPlayer').src = '';
         }
 
-        .n-card {
-            background: var(--glass); padding: 50px; border-radius: 2px;
-            border-right: 4px solid var(--ntecno-blue); transition: 0.4s;
-        }
+        // Enter düyməsi ilə axtarış
+        searchInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                searchMovies();
+            }
+        });
 
-        .n-card:hover { background: rgba(0, 210, 255, 0.1); transform: translateX(10px); }
-
-        /* 7. THE FOUNDER (NICAT RƏHİMLİ) */
-        .founder-section {
-            padding: 100px 10%; background: #050505;
-            display: flex; align-items: center; gap: 60px;
-            border-top: 1px solid #222;
-        }
-
-        .founder-circle {
-            min-width: 200px; height: 200px; border: 5px solid var(--ntecno-blue);
-            border-radius: 50%; box-shadow: 0 0 40px var(--ntecno-blue);
-            background: #111;
-        }
-
-        /* 8. DOCK (NTECNO CONTROL PANEL) */
-        .ntecno-dock {
-            position: fixed; bottom: 30px; left: 50%;
+        // Sayt açılanda trendləri göstər
+        fetchTrendMovies();
+    </script>
+</body>
+</html>
