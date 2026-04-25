@@ -253,3 +253,192 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ntecno | Innovation & Cinema</title>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --black: #0a0a0a;
+            --gray: #1a1a1a;
+            --white: #ffffff;
+            --red: #ff0000;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            scroll-behavior: smooth;
+        }
+
+        nav {
+            padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid #333;
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .brand { font-size: 28px; font-weight: 900; color: var(--gold); letter-spacing: 5px; }
+
+        /* --- FİLM SEARCH SECTION --- */
+        .movie-section {
+            padding: 60px 5%;
+            text-align: center;
+            background: linear-gradient(to bottom, #111, #0a0a0a);
+        }
+
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        #movieInput {
+            flex: 1;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 2px solid #333;
+            background: #000;
+            color: #fff;
+            outline: none;
+        }
+
+        #movieInput:focus { border-color: var(--gold); }
+
+        .category-btns {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .cat-btn {
+            padding: 10px 25px;
+            border-radius: 5px;
+            border: 1px solid var(--gold);
+            background: transparent;
+            color: var(--gold);
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background: var(--gold);
+            color: #000;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .movie-card {
+            background: var(--gray);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid #333;
+            transition: 0.3s;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05);
+            border-color: var(--gold);
+        }
+
+        .movie-card h4 { margin: 10px 0 5px 0; color: var(--gold); }
+        .movie-card p { font-size: 12px; color: #888; margin: 0; }
+        .movie-card .badge {
+            font-size: 10px;
+            background: #333;
+            padding: 2px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+
+        footer { padding: 40px; text-align: center; border-top: 1px solid #222; color: #444; }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="brand">NTECNO</div>
+    </nav>
+
+    <section class="movie-section">
+        <h2 style="color: var(--gold); margin-bottom: 20px;">Ntecno Cinema Hub</h2>
+        
+        <div class="search-box">
+            <input type="text" id="movieInput" placeholder="Film adı yazın..." onkeyup="filterMovies()">
+        </div>
+
+        <div class="category-btns">
+            <button class="cat-btn" onclick="filterCategory('all')">Hamısı</button>
+            <button class="cat-btn" onclick="filterCategory('qorxu')">Qorxu</button>
+            <button class="cat-btn" onclick="filterCategory('dram')">Dram</button>
+            <button class="cat-btn" onclick="filterCategory('eylence')">Əyləncə</button>
+            <button class="cat-btn" onclick="filterCategory('fantastic')">Fantastika</button>
+        </div>
+
+        <div class="movie-grid" id="movieGrid">
+            </div>
+    </section>
+
+    <footer>
+        &copy; 2026 Ntecno | Bütün filmlər qlobal bazadan çəkilir.
+    </footer>
+
+    <script>
+        // Film Datası (Bura istədiyin qədər film əlavə edə bilərsən)
+        const movies = [
+            { title: "The Conjuring", cat: "qorxu", year: "2013" },
+            { title: "Interstellar", cat: "fantastic", year: "2014" },
+            { title: "The Joker", cat: "dram", year: "2019" },
+            { title: "Inception", cat: "fantastic", year: "2010" },
+            { title: "Evil Dead", cat: "qorxu", year: "2013" },
+            { title: "Hangover", cat: "eylence", year: "2009" },
+            { title: "Avatar", cat: "fantastic", year: "2009" },
+            { title: "The Godfather", cat: "dram", year: "1972" },
+            { title: "IT (O)", cat: "qorxu", year: "2017" },
+            { title: "Deadpool", cat: "eylence", year: "2016" },
+            { title: "The Dark Knight", cat: "fantastic", year: "2008" },
+            { title: "Forest Gump", cat: "dram", year: "1994" },
+            { title: "Sinister", cat: "qorxu", year: "2012" },
+            { title: "Minions", cat: "eylence", year: "2015" }
+        ];
+
+        const movieGrid = document.getElementById('movieGrid');
+
+        function displayMovies(data) {
+            movieGrid.innerHTML = "";
+            data.forEach(m => {
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.onclick = () => watchMovie(m.title);
+                card.innerHTML = `
+                    <span class="badge">${m.cat}</span>
+                    <h4>${m.title}</h4>
+                    <p>İl: ${m.year}</p>
+                    <small style="color:var(--gold)">İzləmək üçün kliklə</small>
+                `;
+                movieGrid.appendChild(card);
+            });
+        }
+
+        // İlk açılışda hamısını göstər
+        displayMovies(movies);
+
+        // Axtarış funksiyası
+        function filterMovies
