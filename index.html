@@ -754,79 +754,211 @@
             ball.style.left = '50%';
             isShooting = false;
         }
-    </script> <!DOCTYPE html>
+    </script>
+</div> 
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTECNO | Official Brand Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ntecno-blue: #00d2ff;
+            --ntecno-dark: #050505;
+            --accent-red: #ff4757;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { background: var(--ntecno-dark); color: white; overflow-x: hidden; scroll-behavior: smooth; }
+
+        /* HEADER - ARTIQ AŞAĞI DÜŞƏNDƏ YUXARIDA QALIR */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 25px 8%; background: rgba(0,0,0,0.9);
+            border-bottom: 1px solid rgba(0, 210, 255, 0.3);
+            /* Position sticky silindi, artıq sənlə gəlmir */
+            position: relative; 
+            z-index: 1000;
+        }
+
+        .logo { 
+            font-family: 'Orbitron', sans-serif; font-size: 30px; font-weight: 700; 
+            color: var(--ntecno-blue); text-shadow: 0 0 15px var(--ntecno-blue);
+            text-decoration: none; 
+        }
+
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a { color: #888; text-decoration: none; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--ntecno-blue); }
+
+        .cta-btn { 
+            background: var(--ntecno-blue); color: black; padding: 10px 25px; 
+            border-radius: 5px; font-weight: bold; text-decoration: none; transition: 0.3s;
+            font-family: 'Orbitron'; font-size: 12px;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 90vh; display: flex; flex-direction: column; justify-content: center; 
+            align-items: center; text-align: center; padding: 0 5%;
+            background: radial-gradient(circle at center, #0a1a2a 0%, #050505 100%);
+            position: relative; overflow: hidden;
+        }
+
+        .founder-label {
+            background: rgba(0, 210, 255, 0.1); color: var(--ntecno-blue);
+            padding: 8px 20px; border-radius: 50px; border: 1px solid var(--ntecno-blue);
+            font-family: 'Orbitron'; font-size: 14px; margin-bottom: 20px;
+        }
+
+        .hero h1 { 
+            font-family: 'Orbitron', sans-serif; font-size: clamp(40px, 8vw, 80px); 
+            line-height: 1.1; margin-bottom: 25px;
+            background: linear-gradient(to bottom, #fff, #888);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* PROJECTS SECTION */
+        .services { padding: 100px 8%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+        .s-card {
+            background: var(--glass); padding: 50px; border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
+        }
+
+        .s-card i { font-size: 40px; color: var(--ntecno-blue); display: block; margin-bottom: 20px; }
+        .s-card h3 { font-family: 'Orbitron'; margin-bottom: 15px; }
+
+        /* FOOTER */
+        footer {
+            padding: 100px 8% 50px; border-top: 1px solid #111; text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">NTECNO</a>
+        <ul class="nav-links">
+            <li><a href="#about">Haqqımızda</a></li>
+            <li><a href="#projects">Layihələr</a></li>
+            <li><a href="#contact">Əlaqə</a></li>
+        </ul>
+        <a href="https://www.youtube.com/@Ntecno" target="_blank" class="cta-btn">ABUNƏ OL</a>
+    </header>
+
+    <section class="hero">
+        <div class="founder-label">Founder: Nicat Rəhimli</div>
+        <h1>Gələcəyin Texnologiyası <br> <span style="color: var(--ntecno-blue);">NTECNO</span></h1>
+        <p style="max-width: 700px; color: #aaa; font-size: 18px; margin-bottom: 40px;">Nicat Rəhimli tərəfindən yaradılan Ntecno, rəqəmsal dünyada yeni nəsil texnoloji həllər təqdim edir.</p>
+        <div style="display: flex; gap: 20px;">
+            <a href="https://www.youtube.com/@Ntecno" target="_blank" class="cta-btn" style="padding: 18px 45px;">KANALA KEÇ</a>
+        </div>
+    </section>
+
+    <section class="services" id="projects">
+        <div class="s-card">
+            <i>📡</i>
+            <h3>Digital Marketing</h3>
+            <p>Ntecno brendi altında reklam və tanıtım xidmətləri.</p>
+        </div>
+        <div class="s-card">
+            <i>🎮</i>
+            <h3>Gaming & Tech</h3>
+            <p>Minecraft modları və texnoloji icmallar yalnız Ntecno-da.</p>
+        </div>
+        <div class="s-card">
+            <i>🎬</i>
+            <h3>Video Production</h3>
+            <p>Peşəkar futbol editləri və 4K montajların hazırlanması.</p>
+        </div>
+    </section>
+
+    <footer>
+        <span style="font-family: 'Orbitron'; font-size: 24px;">NTECNO</span>
+        <p style="color: #666; margin-top: 20px;">&copy; 2026 NTECNO SYSTEMS | ALL RIGHTS RESERVED</p>
+        <p style="color: #444; font-size: 12px;">CHIEF EXECUTIVE OFFICER: **NICAT RƏHİMLİ**</p>
+    </footer>
+
+</body>
+</html> <!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nesko Az - Rəsmi Sayt</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #1a1a1a; color: white; margin: 0; padding: 20px; }
-        .container { max-width: 600px; margin: 0 auto; }
-        .section { background: #2c2c2c; padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #121212; color: white; margin: 0; padding: 15px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .section { background: #1e1e1e; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #333; }
         
-        /* Ortaq Düymə və Inputlar */
-        input, select { padding: 10px; border-radius: 5px; border: none; margin-bottom: 10px; width: 100%; box-sizing: border-box; }
-        button { cursor: pointer; border: none; border-radius: 5px; font-weight: bold; transition: 0.3s; padding: 10px; width: 100%; }
+        input, select { padding: 12px; border-radius: 6px; border: 1px solid #444; margin-bottom: 10px; width: 100%; box-sizing: border-box; background: #252525; color: white; }
+        button { cursor: pointer; border: none; border-radius: 6px; font-weight: bold; padding: 12px; width: 100%; transition: 0.2s; }
         .btn-blue { background: #065fd4; color: white; }
-        .btn-red { background: #ff0000; color: white; text-decoration: none; display: block; text-align: center; }
+        .btn-blue:hover { background: #054fb1; }
+        .btn-red { background: #cc0000; color: white; text-decoration: none; display: block; text-align: center; margin-bottom: 15px; }
 
-        /* Çat dizaynı */
-        #chat-messages { height: 250px; overflow-y: auto; background: #eee; padding: 10px; border-radius: 8px; color: #333; display: flex; flex-direction: column; gap: 8px; }
-        .msg { padding: 8px; border-radius: 8px; font-size: 14px; max-width: 85%; }
+        /* Çat */
+        #chat-messages { height: 200px; overflow-y: auto; background: #f0f0f0; padding: 10px; border-radius: 8px; color: #000; display: flex; flex-direction: column; gap: 8px; }
+        .msg { padding: 8px 12px; border-radius: 12px; font-size: 14px; max-width: 80%; line-height: 1.4; }
         .msg-me { background: #001f3f; color: white; align-self: flex-end; border: 1px solid gold; }
-        .msg-other { background: #ddd; align-self: flex-start; }
+        .msg-other { background: #e0e0e0; align-self: flex-start; }
 
-        /* Oyun dizaynı */
-        .field { width: 100%; height: 200px; background: #2ecc71; border: 2px solid white; position: relative; margin-top: 10px; cursor: crosshair; }
-        #ball { width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; bottom: 10px; left: 50%; transition: 0.5s; }
-        #gk { width: 30px; height: 50px; background: #e74c3c; position: absolute; top: 20px; left: 50%; transition: 0.3s; border-radius: 4px; }
+        /* Oyun */
+        .field { width: 100%; height: 180px; background: #2ecc71; border: 2px solid white; position: relative; margin-top: 10px; border-radius: 5px; }
+        #ball { width: 18px; height: 18px; background: white; border-radius: 50%; position: absolute; bottom: 10px; left: 50%; transition: 0.5s; transform: translateX(-50%); }
+        #gk { width: 35px; height: 50px; background: #e74c3c; position: absolute; top: 15px; left: 50%; transition: 0.3s; border-radius: 4px; transform: translateX(-50%); }
         
-        #admin-panel { display: none; background: #441111; padding: 15px; border-radius: 10px; margin-top: 10px; }
+        /* Admin Bölməsi */
+        #admin-panel { display: none; background: #2d1111; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px dashed red; }
+        .req-card { background: #3d1a1a; padding: 10px; margin-top: 8px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px; }
+        .ok-btn { background: #28a745; color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="section" style="text-align: center;">
-        <h2 onclick="openAdmin()" style="cursor: pointer;">Nesko Az Kanalı ⭐</h2>
-        <a href="https://youtube.com/@rhimlinicat" class="btn-red">YouTube-a Abunə Ol</a>
+        <h2>Nesko Az</h2>
+        <a href="https://youtube.com/@rhimlinicat" class="btn-red">🔴 ABONƏ OL</a>
     </div>
 
     <div class="section">
-        <h3>💬 Canlı Söhbət</h3>
+        <h3>💬 Söhbət</h3>
         <div id="chat-messages">Yüklənir...</div>
         <div style="display: flex; gap: 5px; margin-top: 10px;">
             <input type="text" id="chat-name" placeholder="Ad" style="width: 80px;">
-            <input type="text" id="chat-text" placeholder="Mesaj yaz...">
-            <button class="btn-blue" onclick="sendMessage()" style="width: 80px;">Göndər</button>
+            <input type="text" id="chat-text" placeholder="Mesaj...">
+            <button class="btn-blue" onclick="sendMessage()" style="width: 80px;">BUM!</button>
         </div>
     </div>
 
     <div class="section">
-        <h3>⚽ Penalti Seriyası</h3>
-        <select id="player-select">
-            <option>Nicat Rəhimli</option><option>Nurlan Şükürov</option><option>İbrahim Adilov</option>
-            <option>Fateh Tanrıverdiyev</option><option>Murad Məmmədli</option><option>Ramal Bayramov</option>
-        </select>
-        <div id="score">Qol: 0</div>
+        <h3>⚽ Penalti Şutla</h3>
+        <div id="score" style="font-weight: bold; margin-bottom: 5px;">Qol: 0</div>
         <div class="field" onclick="shoot(event)">
             <div id="gk"></div>
             <div id="ball"></div>
         </div>
-        <p style="font-size: 12px; text-align: center;">Qapıya kliklə!</p>
     </div>
 
     <div class="section">
-        <h3>📋 Üyəlik İstəyi</h3>
+        <h3>📋 Üyəlik</h3>
         <input type="text" id="reg-name" placeholder="Ad Soyad">
-        <button class="btn-blue" onclick="sendRequest()">Üye Ol</button>
-        <div id="verified-list" style="margin-top: 15px; font-size: 14px;"></div>
-    </div>
+        <button class="btn-blue" onclick="sendRequest()">İstək Göndər</button>
+        
+        <div id="verified-list" style="margin-top: 15px; border-top: 1px solid #444; padding-top: 10px;"></div>
+        
+        <button onclick="openAdminPanel()" style="background: none; color: #555; font-size: 11px; margin-top: 20px;">[Admin Girişi]</button>
 
-    <div id="admin-panel">
-        <strong>Gözləyən İstəklər:</strong>
-        <div id="admin-req-list"></div>
+        <div id="admin-panel">
+            <h4 style="margin: 0; color: #ff4d4d;">Gözləyən İstəklər:</h4>
+            <div id="admin-req-list"></div>
+        </div>
     </div>
 </div>
 
@@ -834,7 +966,7 @@
     const dbURL = "https://ntecno2-8ce64-default-rtdb.firebaseio.com/";
     const adminPassHash = "OTlOTg=="; // 99NN
 
-    // --- ÇAT SİSTEMİ ---
+    // ÇAT
     async function sendMessage() {
         let name = document.getElementById('chat-name').value || "Anonim";
         const text = document.getElementById('chat-text').value;
@@ -842,7 +974,7 @@
         if(!text.trim()) return;
 
         if(name === "Nicat") {
-            const p = prompt("Şifrəni yaz:");
+            const p = prompt("Şifrə:");
             if(btoa(p) === adminPassHash) { isAdmin = true; name = "Nicat ⭐"; }
             else { name = "Saxta Nicat"; }
         }
@@ -865,11 +997,11 @@
                 html += `<div class="msg ${m.isAdmin ? 'msg-me' : 'msg-other'}"><b>${m.name}:</b> ${m.message}</div>`;
             });
         }
-        box.innerHTML = html;
+        box.innerHTML = html || "Hələ mesaj yoxdur...";
         box.scrollTop = box.scrollHeight;
     }
 
-    // --- OYUN SİSTEMİ ---
+    // OYUN
     let goals = 0;
     function shoot(e) {
         const ball = document.getElementById('ball');
@@ -883,18 +1015,20 @@
         gk.style.left = gkPos + "%";
 
         setTimeout(() => {
-            if(y < 80 && Math.abs(x - (gkPos * rect.width/100)) > 30) {
+            if(y < 70 && Math.abs(x - (gkPos * rect.width/100)) > 35) {
                 goals++; document.getElementById('score').innerText = "Qol: " + goals;
             }
             ball.style.top = "auto"; ball.style.bottom = "10px"; ball.style.left = "50%";
         }, 500);
     }
 
-    // --- ÜYƏLİK SİSTEMİ ---
+    // ÜYƏLİK
     async function sendRequest() {
         const name = document.getElementById('reg-name').value;
+        if(!name) return alert("Ad yaz!");
         await fetch(dbURL + "requests.json", { method: "POST", body: JSON.stringify({ name: name }) });
-        alert("Göndərildi!");
+        alert("İstək göndərildi!");
+        document.getElementById('reg-name').value = "";
         loadMembers();
     }
 
@@ -902,15 +1036,15 @@
         const res = await fetch(dbURL + ".json");
         const data = await res.json();
         
-        let mHtml = "";
-        if(data.members) Object.values(data.members).forEach(m => mHtml += "✅ " + m.name + "<br>");
+        let mHtml = "<strong>Üyələr:</strong><br>";
+        if(data && data.members) Object.values(data.members).forEach(m => mHtml += "✅ " + m.name + "<br>");
         document.getElementById('verified-list').innerHTML = mHtml;
 
         let aHtml = "";
-        if(data.requests) Object.keys(data.requests).forEach(k => {
-            aHtml += `<div>${data.requests[k].name} <button onclick="approve('${k}','${data.requests[k].name}')">OK</button></div>`;
+        if(data && data.requests) Object.keys(data.requests).forEach(k => {
+            aHtml += `<div class="req-card"><span>${data.requests[k].name}</span> <button class="ok-btn" onclick="approve('${k}','${data.requests[k].name}')">Təsdiqlə</button></div>`;
         });
-        document.getElementById('admin-req-list').innerHTML = aHtml;
+        document.getElementById('admin-req-list').innerHTML = aHtml || "Yeni istək yoxdur.";
     }
 
     async function approve(id, name) {
@@ -919,187 +1053,19 @@
         loadMembers();
     }
 
-    function openAdmin() {
-        if(btoa(prompt("Admin Şifrəsi:")) === adminPassHash) document.getElementById('admin-panel').style.display = "block";
+    function openAdminPanel() {
+        const pass = prompt("Admin Şifrəsi:");
+        if(btoa(pass) === adminPassHash) {
+            document.getElementById('admin-panel').style.display = "block";
+        } else {
+            alert("Səhv şifrə!");
+        }
     }
 
-    setInterval(loadChat, 3000);
-    setInterval(loadMembers, 5000);
+    setInterval(loadChat, 4000);
+    setInterval(loadMembers, 6000);
     loadChat(); loadMembers();
 </script>
 
 </body>
-</html> 
-<!DOCTYPE html>
-<html lang="az">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tigers FC | Rəsmi Sayt</title>
-    <style>
-        :root {
-            --primary: #f39c12;
-            --dark: #1a1a1a;
-            --white: #ffffff;
-            --gray: #2c3e50;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0f0f0f;
-            color: var(--white);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-
-        /* HEADER - ARTIQ SƏN AŞAĞI DÜŞƏNDƏ YUXARIDA QALIR (sticky deyil) */
-        header {
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=1000') center/cover;
-            height: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            border-bottom: 4px solid var(--primary);
-            position: relative; /* Sticky və ya Fixed deyil! */
-        }
-
-        .club-name {
-            font-size: 4rem;
-            text-transform: uppercase;
-            font-weight: 900;
-            margin: 0;
-            color: var(--primary);
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 20px auto;
-            padding: 20px;
-        }
-
-        /* Meydança */
-        .pitch-container {
-            background: #27ae60;
-            border: 5px solid white;
-            border-radius: 10px;
-            height: 600px;
-            position: relative;
-            margin-bottom: 50px;
-            background-image: linear-gradient(rgba(255,255,255,0.1) 50%, transparent 50%);
-            background-size: 100% 100px;
-        }
-
-        .player-card { position: absolute; text-align: center; transform: translateX(-50%); }
-        .player-icon { background: var(--dark); border: 2px solid var(--primary); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-weight: bold; }
-        .player-name { font-size: 12px; background: rgba(0,0,0,0.7); padding: 2px 8px; border-radius: 5px; margin-top: 5px; display: block; }
-
-        /* Mövqelər */
-        .gk { bottom: 5%; left: 50%; }
-        .lb { bottom: 25%; left: 15%; }
-        .cb1 { bottom: 20%; left: 38%; }
-        .cb2 { bottom: 20%; left: 62%; }
-        .rb { bottom: 25%; left: 85%; }
-        .dm { bottom: 40%; left: 50%; }
-        .cm1 { bottom: 55%; left: 35%; }
-        .cm2 { bottom: 55%; left: 65%; }
-        .lw { bottom: 75%; left: 20%; }
-        .rw { bottom: 75%; left: 80%; }
-        .st { bottom: 85%; left: 50%; }
-
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
-        .card { background: var(--gray); padding: 20px; border-radius: 10px; cursor: pointer; transition: 0.3s; border-left: 5px solid var(--primary); }
-        .card:hover { transform: translateY(-5px); background: #34495e; }
-        .hidden-info { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
-        
-        .market-list { list-style: none; padding: 0; }
-        .market-list li { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .value { color: var(--primary); font-weight: bold; }
-
-        footer { text-align: center; padding: 40px; background: var(--dark); margin-top: 50px; }
-    </style>
-</head>
-<body>
-
-<header>
-    <h1 class="club-name">Tigers FC</h1>
-    <p>Qələbəyə doğru birlikdə!</p>
-</header>
-
-<div class="container">
-    <h2 style="text-align:center;">İLK 11 (Taktika: 4-1-2-3)</h2>
-    <div class="pitch-container">
-        <div class="player-card gk"><div class="player-icon">GK</div><span class="player-name">Fateh</span></div>
-        <div class="player-card lb"><div class="player-icon">LB</div><span class="player-name">Sinan</span></div>
-        <div class="player-card cb1"><div class="player-icon">CB</div><span class="player-name">Ayxan</span></div>
-        <div class="player-card cb2"><div class="player-icon">CB</div><span class="player-name">Mehdi</span></div>
-        <div class="player-card rb"><div class="player-icon">RB</div><span class="player-name">Ramal</span></div>
-        <div class="player-card dm"><div class="player-icon">DM</div><span class="player-name">Məzahir</span></div>
-        <div class="player-card cm1"><div class="player-icon">CM</div><span class="player-name">Nurlan</span></div>
-        <div class="player-card cm2"><div class="player-icon">CM</div><span class="player-name">Rushan</span></div>
-        <div class="player-card lw"><div class="player-icon">LW</div><span class="player-name">Hüseyn</span></div>
-        <div class="player-card st"><div class="player-icon">ST</div><span class="player-name">Nicat</span></div>
-        <div class="player-card rw"><div class="player-icon">RW</div><span class="player-name">İbrahim</span></div>
-    </div>
-
-    <div class="info-grid">
-        <div class="card" onclick="toggleInfo('market-values')">
-            <h3>💰 Bazar Dəyərlərini Öyrən</h3>
-            <div id="market-values" class="hidden-info">
-                <ul class="market-list">
-                    <li><span>Nurlan Şükürov</span> <span class="value">80,5 Mln €</span></li>
-                    <li><span>İbrahim Adilov</span> <span class="value">80,5 Mln €</span></li>
-                    <li><span>Fateh Tanrıverdiyev</span> <span class="value">67 Mln €</span></li>
-                    <li><span>Ruşan Quliyev</span> <span class="value">60 Mln €</span></li>
-                    <li><span>Ramal Bayramov</span> <span class="value">60 Mln €</span></li>
-                    <li><span>Fərhad Quliyev</span> <span class="value">56.3 Mln €</span></li>
-                    <li><span>Nicat Rəhimli</span> <span class="value">55,6 Mln €</span></li>
-                    <li><span>Hüseyn Zahidov</span> <span class="value">50 Mln €</span></li>
-                    <li><span>Tofiq Atakişi</span> <span class="value">45 Mln €</span></li>
-                    <li><span>Məzahir Səlimov</span> <span class="value">40,5 Mln €</span></li>
-                    <li><span>Mehdi Nəbiyev</span> <span class="value">40 Mln €</span></li>
-                    <li><span>Ümid Ağamalıyev</span> <span class="value">40 Mln €</span></li>
-                    <li><span>Ayxan Quliyev</span> <span class="value">32,3 Mln €</span></li>
-                    <li><span>Sinan Yusifli</span> <span class="value">30,5 Mln €</span></li>
-                    <li><span>Fərid Rzalı</span> <span class="value">13,2 Mln €</span></li>
-                    <li><span>Murad Məmmədli</span> <span class="value">3.5 Mln €</span></li>
-                    <li><span>Zülfü Əliyev</span> <span class="value">500 B €</span></li>
-                    <li><span>Cavid Qarasov</span> <span class="value">500 B €</span></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="card" onclick="toggleInfo('team-info')">
-            <h3>📋 Takım Bilgiləri</h3>
-            <div id="team-info" class="hidden-info">
-                <p><strong>Menejer:</strong> Zakir Döner</p>
-                <p><strong>Klub Rəngləri:</strong> Narıncı / Qara</p>
-                <p><strong>Liqa:</strong> Elite Pro League</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<footer>
-    <p>Site sahibi: <strong>Nicat Rəhimli</strong></p>
-    <p>&copy; 2026 Tigers FC. Bütün hüquqlar qorunur.</p>
-</footer>
-
-<script>
-    function toggleInfo(id) {
-        const element = document.getElementById(id);
-        if (element.style.display === "block") {
-            element.style.display = "none";
-        } else {
-            element.style.display = "block";
-        }
-    }
-</script>
-
-</body>
-</html>
-
-                                                                   </div>
+    </html>
