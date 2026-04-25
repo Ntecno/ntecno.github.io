@@ -516,7 +516,7 @@
     </div>
 
     <div id="n-admin-panel">
-        <strong style="color: red;">Gözləyən İstəklər:</strong>
+        <strong style="color: red;">Gözləyən İstəklər (Admin):</strong>
         <div id="pending-requests" style="margin-top: 10px;"></div>
         <button onclick="document.getElementById('n-admin-panel').style.display='none'" style="margin-top:10px; font-size:10px; cursor: pointer;">Paneli Bağla</button>
     </div>
@@ -543,7 +543,6 @@
                 const response = await fetch(cloudURL);
                 const data = await response.json();
 
-                // Təsdiqlənmiş Üyələr
                 let mHTML = "";
                 if(data && data.members) {
                     Object.values(data.members).forEach(m => {
@@ -552,7 +551,6 @@
                 }
                 document.getElementById('verified-members').innerHTML = mHTML || "<small>Hələlik üye yoxdur.</small>";
 
-                // Admin üçün İstəklər
                 let rHTML = "";
                 if(data && data.requests) {
                     Object.keys(data.requests).forEach(key => {
@@ -561,7 +559,7 @@
                     });
                 }
                 document.getElementById('pending-requests').innerHTML = rHTML || "Yeni istək yoxdur.";
-            } catch(e) { console.log("Məlumat yüklənmədi."); }
+            } catch(e) { console.log("Xəta!"); }
         }
 
         async function approveUser(key, name) {
@@ -577,8 +575,8 @@
 
         function checkAdmin() {
             const pass = prompt("Admin şifrəsini yaz:");
-            // YENİ ŞİFRƏN: 20122006NN
-            if(pass === "20122006NN") {
+            // Şifrə: 99NN (Base64 ilə gizlədilib)
+            if(btoa(pass) === "OTlOTg==") {
                 document.getElementById('n-admin-panel').style.display = 'block';
             } else if (pass !== null) {
                 alert("Səhv şifrə!");
