@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+i<!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
@@ -514,6 +514,103 @@
         // Formu temizle ve gizle
         document.getElementById('userName').value = "";
         setTimeout(() => { document.getElementById('join-form').style.display = 'none'; }, 2000);
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanal Üyelik Sistemi</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; background-color: #f4f4f4; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 350px; text-align: center; }
+        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: white; margin: 5px; text-decoration: none; display: inline-block; }
+        .sub-btn { background-color: #ff0000; }
+        .join-btn { background-color: #065fd4; }
+        .admin-section { margin-top: 30px; width: 350px; border-top: 2px solid #ccc; padding-top: 20px; }
+        input { padding: 8px; width: 80%; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .request-item { background: #fff; padding: 10px; margin: 5px 0; border-left: 5px solid #065fd4; display: flex; justify-content: space-between; align-items: center; }
+        .member-item { color: green; font-weight: bold; list-style: none; padding: 5px; }
+        .approve-btn { background: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Nesko Az Panel</h2>
+        <a href="https://youtube.com/@rhimlinicat?si=H5qB5zg4CsI7Emac" target="_blank" class="btn sub-btn">Kanalıma Abone Ol</a>
+        
+        <hr>
+
+        <h3>Taraftar Üyeliği</h3>
+        <input type="text" id="userName" placeholder="Ad və Soyadınız">
+        <button class="btn join-btn" onclick="istekGonder()">Üye Olmaq üçün İstək Göndər</button>
+        
+        <h4>Təsdiqlənmiş Taraftar Üyələr:</h4>
+        <ul id="memberList"></ul>
+    </div>
+
+    <div class="admin-section">
+        <h3>Admin Paneli (Gözləyən İstəklər)</h3>
+        <div id="requestList"></div>
+    </div>
+
+<script>
+    // Səhifə yüklənəndə məlumatları gətir
+    window.onload = function() {
+        displayData();
+    };
+
+    // İstək Göndərmə Funksiyası
+    function istekGonder() {
+        let name = document.getElementById('userName').value;
+        if(name.trim() === "") return alert("Ad soyad yazın!");
+
+        let requests = JSON.parse(localStorage.getItem('pendingRequests') || "[]");
+        requests.push(name);
+        localStorage.setItem('pendingRequests', JSON.stringify(requests));
+        
+        document.getElementById('userName').value = "";
+        alert("İstəyiniz göndərildi. Admin qəbul edəndə adınız siyahıda görünəcək.");
+        displayData();
+    }
+
+    // Admin tərəfindən Təsdiqləmə Funksiyası
+    function tesdiqle(index) {
+        let requests = JSON.parse(localStorage.getItem('pendingRequests'));
+        let members = JSON.parse(localStorage.getItem('approvedMembers') || "[]");
+
+        // İstəyi qəbul et və siyahıya sal
+        members.push(requests[index]);
+        requests.splice(index, 1);
+
+        localStorage.setItem('pendingRequests', JSON.stringify(requests));
+        localStorage.setItem('approvedMembers', JSON.stringify(members));
+        displayData();
+    }
+
+    // Məlumatları Ekranda Göstərmə Funksiyası
+    function displayData() {
+        let requests = JSON.parse(localStorage.getItem('pendingRequests') || "[]");
+        let members = JSON.parse(localStorage.getItem('approvedMembers') || "[]");
+
+        // İstəkləri Admin Panelində Göstər
+        let reqHTML = "";
+        requests.forEach((name, index) => {
+            reqHTML += `<div class="request-item">${name} <button class="approve-btn" onclick="tesdiqle(${index})">Qəbul Et</button></div>`;
+        });
+        document.getElementById('requestList').innerHTML = reqHTML || "Yeni istək yoxdur.";
+
+        // Təsdiqlənmiş Üyələri Göstər
+        let memHTML = "";
+        members.forEach(name => {
+            memHTML += `<li class="member-item">⭐ ${name} (Taraftar Üye)</li>`;
+        });
+        document.getElementById('memberList').innerHTML = memHTML;
     }
 </script>
 
