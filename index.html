@@ -3,152 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novaterra | Movies & Games</title>
+    <title>Ntecno | Ultimate Cinema Search</title>
     <style>
         :root {
-            --primary: #00ffcc;
-            --bg-dark: #0a0a0c;
-            --glass: rgba(255, 255, 255, 0.1);
+            --gold: #d4af37;
+            --black: #050505;
+            --card: #121212;
+            --white: #ffffff;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&w=1350&q=80'); /* Dinamik Fon */
-            background-attachment: fixed;
-            background-size: cover;
-            color: white;
-            overflow-x: hidden;
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
         }
 
-        /* 1. MOVIE SEARCH SECTION */
-        .search-container {
+        /* Başlıq */
+        .header {
+            padding: 40px 5%;
             text-align: center;
-            padding: 100px 20px;
-            backdrop-filter: blur(5px);
+            background: linear-gradient(to bottom, #1a1a1a, var(--black));
         }
 
-        h1 { font-size: 3rem; text-shadow: 0 0 20px var(--primary); }
+        .header h1 { font-size: 50px; color: var(--gold); letter-spacing: 5px; margin-bottom: 10px; }
 
-        input#movieInput {
-            padding: 15px 25px;
-            width: 60%;
-            border-radius: 30px;
-            border: 2px solid var(--primary);
-            background: rgba(0,0,0,0.6);
-            color: white;
-            font-size: 1.1rem;
+        /* Axtarış Paneli */
+        .search-container {
+            max-width: 800px;
+            margin: 20px auto;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        #userMovieInput {
+            width: 100%;
+            padding: 20px 30px;
+            border-radius: 50px;
+            border: 2px solid #333;
+            background: #000;
+            color: var(--gold);
+            font-size: 18px;
             outline: none;
+            transition: 0.3s;
         }
 
-        /* 2. AUTOMATIC MOVIE GRID */
-        #movieResult {
+        #userMovieInput:focus { border-color: var(--gold); box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+
+        .search-hint { margin-top: 10px; font-size: 13px; color: #666; }
+
+        /* Kateqoriya Düymələri */
+        .cat-box {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .genre-btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: 1px solid #444;
+            background: var(--card);
+            color: #ccc;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .genre-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        /* Nəticə Kartları */
+        .results-area {
+            padding: 40px 8%;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
         }
 
         .movie-card {
-            background: var(--glass);
-            border-radius: 15px;
-            padding: 10px;
+            background: var(--card);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid #222;
             text-align: center;
-            transition: 0.3s;
-            border: 1px solid transparent;
+            transition: 0.4s;
         }
 
         .movie-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 0 20px var(--primary);
+            border-color: var(--gold);
+            background: #1a1a1a;
+            cursor: pointer;
         }
 
-        .movie-card img { width: 100%; border-radius: 10px; }
-
-        /* 3. GAME CONTROL PANEL (Bottom) */
-        .game-control {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(0,0,0,0.9);
-            padding: 15px 0;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            border-top: 2px solid var(--primary);
-            z-index: 1000;
-        }
-
-        .control-btn {
-            background: #222;
-            color: var(--primary);
-            border: 1px solid var(--primary);
+        .movie-card h3 { color: var(--gold); margin-bottom: 15px; font-size: 22px; }
+        .movie-card p { font-size: 14px; color: #888; margin-bottom: 20px; }
+        
+        .play-btn {
+            background: var(--gold);
+            color: #000;
             padding: 10px 20px;
             border-radius: 5px;
-            cursor: pointer;
             text-decoration: none;
             font-weight: bold;
-            transition: 0.3s;
-            text-transform: uppercase;
-            font-size: 0.8rem;
+            display: inline-block;
         }
 
-        .control-btn:hover {
-            background: var(--primary);
-            color: black;
-            box-shadow: 0 0 15px var(--primary);
-        }
-
-        footer { padding-bottom: 100px; text-align: center; margin-top: 50px;}
-
+        footer { text-align: center; padding: 50px; border-top: 1px solid #222; margin-top: 100px; color: #444; }
     </style>
 </head>
 <body>
 
-    <div class="search-container">
-        <h1>Novaterra Cinema</h1>
-        <p>Filmin adını yaz və izləməyə hazırlaş...</p>
-        <input type="text" id="movieInput" placeholder="Məs: Spider-Man, Inception..." onkeyup="searchMovie()">
+    <div class="header">
+        <h1>NTECNO CINEMA</h1>
+        <p>Dünya Kinosu Sizin Barmaqlarınızın Ucunda</p>
     </div>
 
-    <div id="movieResult">
+    <div class="search-container">
+        <input type="text" id="userMovieInput" placeholder="İstənilən film və ya serial adını yazın..." onkeyup="checkEnter(event)">
+        <div class="search-hint">Yazdıqdan sonra <b>Enter</b> basaraq birbaşa qlobal bazada axtarış edə bilərsiniz.</div>
+    </div>
+
+    <div class="cat-box">
+        <button class="genre-btn" onclick="quickSearch('Ən yaxşı Qorxu filmləri 2026')">😱 Qorxu</button>
+        <button class="genre-btn" onclick="quickSearch('Ən yaxşı Dram filmləri')">🎭 Dram</button>
+        <button class="genre-btn" onclick="quickSearch('Populyar Komediya filmləri')">😂 Əyləncə</button>
+        <button class="genre-btn" onclick="quickSearch('Yeni Fantastika filmləri')">🚀 Fantastika</button>
+        <button class="genre-btn" onclick="quickSearch('Maraqlı Aksiyon filmləri')">💥 Aksiyon</button>
+    </div>
+
+    <div class="results-area" id="resultsArea">
+        <div class="movie-card" onclick="quickSearch('Interstellar full izle')">
+            <h3>Interstellar</h3>
+            <p>Kosmos, zaman və insan iradəsi haqqında şah əsər.</p>
+            <span class="play-btn">İNDİ İZLƏ</span>
         </div>
+        <div class="movie-card" onclick="quickSearch('The Conjuring full izle')">
+            <h3>The Conjuring</h3>
+            <p>Real hadisələrə əsaslanan qorxu dolu anlar.</p>
+            <span class="play-btn">İNDİ İZLƏ</span>
+        </div>
+        <div class="movie-card" onclick="quickSearch('Avengers Endgame full izle')">
+            <h3>Avengers: Endgame</h3>
+            <p>Dünyanın ən böyük qəhrəmanlarının final döyüşü.</p>
+            <span class="play-btn">İNDİ İZLƏ</span>
+        </div>
+    </div>
 
     <footer>
-        <p>&copy; 2026 Novaterra Project. Bütün haqlar qorunur.</p>
+        &copy; 2026 Ntecno | Nicat Rəhimli tərəfindən təkmilləşdirilmiş sistem.
     </footer>
 
-    <div class="game-control">
-        <a href="#mods" class="control-btn">🕹️ MC Modları</a>
-        <a href="#economy" class="control-btn">💎 İqtisadiyyat</a>
-        <a href="#server" class="control-btn">📡 Server Status</a>
-        <a href="#commands" class="control-btn">⌨️ Komandalar</a>
-    </div>
-
     <script>
-        // Sənin dediyin "Avtomatik" sistem:
-        async function searchMovie() {
-            let input = document.getElementById('movieInput').value;
-            let resultDiv = document.getElementById('movieResult');
-            
-            if(input.length > 2) {
-                // TMDB API-dən real datanı çəkirik (Nümunə üçün simulyasiya)
-                resultDiv.innerHTML = `
-                    <div class="movie-card">
-                        <img src="https://via.placeholder.com/200x300?text=${input}" alt="Poster">
-                        <h3>${input}</h3>
-                        <button class="control-btn" onclick="alert('Film tezliklə yüklənəcək!')">İzlə</button>
-                    </div>
-                `;
-            } else {
-                resultDiv.innerHTML = "";
+        // ENTER düyməsini yoxlayır
+        function checkEnter(event) {
+            if (event.key === "Enter") {
+                let query = document.getElementById('userMovieInput').value;
+                if (query !== "") {
+                    performGlobalSearch(query);
+                }
             }
         }
-    </script>
 
+        // Düymələr üçün sürətli funksiya
+        function quickSearch(query) {
+            performGlobalSearch(query);
+        }
+
+        // ƏSAS FUNKSİYA: Dünyadakı bütün filmləri tapmaq üçün
+        function performGlobalSearch(query) {
+            // İstifadəçini Google-un xüsusi "Video/Film" bazasına yönləndirir
+            // Bu yolla heç bir film limiti olmur, nə yazsan tapılır.
+            const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}+full+hd+izle`;
+            
+            // Saytın daxilində "Axtarılır..." effekti yaratmaq üçün:
+            document.getElementById('resultsArea').innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
+                    <h2 style="color: var(--gold)">"${query}" üçün qlobal nəticələr hazırlanır...</h2>
+                    <p>Sistem sizi ən uyğun video bazasına yönləndirir.</p>
+                </div>
+            `;
+
+            // 1 saniyə sonra yeni pəncərədə açır
+            setTimeout(() => {
+                window.open(searchUrl, '_blank');
+            }, 800);
+        }
+    </script>
 </body>
 </html>
