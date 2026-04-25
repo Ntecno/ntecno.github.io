@@ -3,442 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ntecno | Innovation Flow</title>
+    <title>Ntecno | Ultimate Cinema Search</title>
     <style>
         :root {
             --gold: #d4af37;
-            --black: #0a0a0a;
-            --gray: #1a1a1a;
+            --black: #050505;
+            --card: #121212;
             --white: #ffffff;
         }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--black);
-            color: var(--white);
-            scroll-behavior: smooth;
-        }
-
-        /* Navigasyon ve Dil Seçimi */
-        nav {
-            padding: 20px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.9);
-            border-bottom: 1px solid #333;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .brand {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--gold);
-            letter-spacing: 3px;
-        }
-
-        .lang-switcher select {
-            background: transparent;
-            color: var(--white);
-            border: 1px solid var(--gold);
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        /* Ana Bölüm */
-        .hero {
-            height: 70vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: radial-gradient(circle at center, #1c1c1c 0%, #0a0a0a 100%);
-        }
-
-        .hero h1 {
-            font-size: 72px;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        .founder {
-            font-size: 18px;
-            color: var(--gold);
-            margin-top: 10px;
-            letter-spacing: 2px;
-            font-weight: 300;
-        }
-
-        /* Projeler Bölümü */
-        .projects {
-            padding: 100px 5%;
-            background: var(--black);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 32px;
-            color: var(--gold);
-            margin-bottom: 50px;
-        }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .project-card {
-            background: var(--gray);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid #333;
-            transition: 0.3s;
-        }
-
-        .project-card:hover {
-            border-color: var(--gold);
-            transform: translateY(-10px);
-        }
-
-        .project-card h3 {
-            color: var(--gold);
-            margin-top: 0;
-        }
-
-        .project-card p {
-            color: #bbb;
-            line-height: 1.6;
-        }
-
-        /* YouTube Butonu */
-        .yt-btn {
-            display: inline-block;
-            margin-top: 40px;
-            padding: 15px 40px;
-            background-color: #ff0000;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 50px;
-            transition: 0.3s;
-        }
-
-        .yt-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-        }
-
-        footer {
-            text-align: center;
-            padding: 50px;
-            border-top: 1px solid #333;
-            color: #555;
-        }
-    </style>
-</head>
-<body>
-
-    <nav>
-        <div class="brand">NTECNO</div>
-        <div class="lang-switcher">
-            <select id="langSelect" onchange="changeLanguage()">
-                <option value="az">Azərbaycanca</option>
-                <option value="tr">Türkçe</option>
-                <option value="en">English</option>
-                <option value="ru">Русский</option>
-                <option value="de">Deutsch</option>
-            </select>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <h1 id="mainTitle">NTECNO</h1>
-        <p class="founder" id="founderText">Qurucu: Nicat Rəhimli</p>
-        <a href="https://youtube.com/@rhimlinicat?si=xzeD0tIleysVJyN8" target="_blank" class="yt-btn" id="ytBtn">YouTube Kanalımız</a>
-    </section>
-
-    <section class="projects" id="projects">
-        <h2 class="section-title" id="projTitle">Şirkət Projələri</h2>
-        <div class="project-grid">
-            <div class="project-card">
-                <h3 id="p1Title">NovaTerra Ecosystem</h3>
-                <p id="p1Desc">Gələcəyin rəqəmsal dövlət modeli. Virtual iqtisadiyyat və idarəetmə sistemlərinin qurulması.</p>
-            </div>
-            <div class="project-card">
-                <h3 id="p2Title">Minecraft Core Systems</h3>
-                <p id="p2Desc">Command Block və API istifadə edərək avtomatik iqtisadiyyat və resurs paylama mərkəzləri.</p>
-            </div>
-            <div class="project-card">
-                <h3 id="p3Title">Pro-Edit Sport Engine</h3>
-                <p id="p3Desc">VSDC və qabaqcıl montaj texnikaları ilə peşəkar futbol və idman çarxlarının istehsalı.</p>
-            </div>
-            <div class="project-card">
-                <h3 id="p4Title">Eco-AI Research</h3>
-                <p id="p4Desc">Süni intellektin su istehlakı və ətraf mühitə təsirlərini minimuma endirmək üçün araşdırmalar.</p>
-            </div>
-            <div class="project-card">
-                <h3 id="p5Title">Ntecno Mobile UI</h3>
-                <p id="p5Desc">İstifadəçi dostu, minimal və sürətli mobil interfeys dizaynları və tətbiq modelləri.</p>
-            </div>
-            <div class="project-card">
-                <h3 id="p6Title">Global Gaming Network</h3>
-                <p id="p6Desc">Dostlar və böyük kütlələr üçün kooperativ, təhlükəsiz və rəqabətli oyun serverləri.</p>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        &copy; 2026 Ntecno | Innovation Flow. All rights reserved.
-    </footer>
-
-    <script>
-        const translations = {
-            az: {
-                founder: "Qurucu: Nicat Rəhimli",
-                yt: "YouTube Kanalımız",
-                proj: "Şirkət Projələri",
-                p1T: "NovaTerra Ecosystem", p1D: "Gələcəyin rəqəmsal dövlət modeli. Virtual iqtisadiyyat və idarəetmə sistemləri.",
-                p2T: "Minecraft Core", p2D: "Avtomatik iqtisadiyyat və resurs paylama sistemləri."
-            },
-            tr: {
-                founder: "Kurucu: Nicat Rəhimli",
-                yt: "YouTube Kanalımız",
-                proj: "Şirket Projeleri",
-                p1T: "NovaTerra Ekosistemi", p1D: "Geleceğin dijital devlet modeli. Sanal ekonomi sistemleri.",
-                p2T: "Minecraft Çekirdeği", p2D: "Otomatik ekonomi ve kaynak dağıtım sistemleri."
-            },
-            en: {
-                founder: "Founder: Nicat Rahimli",
-                yt: "Our YouTube Channel",
-                proj: "Company Projects",
-                p1T: "NovaTerra Ecosystem", p1D: "Digital state model of the future. Virtual economy systems.",
-                p2T: "Minecraft Core", p2D: "Automatic economy and resource distribution systems."
-            },
-            ru: {
-                founder: "Основатель: Ниджат Рагимли",
-                yt: "Наш YouTube канал",
-                proj: "Проекты компании",
-                p1T: "Экосистема NovaTerra", p1D: "Цифровая модель государства будущего. Виртуальная экономика.",
-                p2T: "Minecraft Core", p2D: "Автоматическая экономика и системы распределения ресурсов."
-            },
-            de: {
-                founder: "Gründer: Nicat Rahimli",
-                yt: "Unser YouTube-Kanal",
-                proj: "Unternehmensprojekte",
-                p1T: "NovaTerra Ökosystem", p1D: "Digitales Staatsmodell der Zukunft. Virtuelle Wirtschaftssysteme.",
-                p2T: "Minecraft Core", p2D: "Automatische Wirtschafts- und Ressourcenverteilungssysteme."
-            }
-        };
-
-        function changeLanguage() {
-            const lang = document.getElementById('langSelect').value;
-            const t = translations[lang];
-            
-            document.getElementById('founderText').innerText = t.founder;
-            document.getElementById('ytBtn').innerText = t.yt;
-            document.getElementById('projTitle').innerText = t.proj;
-            document.getElementById('p1Title').innerText = t.p1T;
-            document.getElementById('p1Desc').innerText = t.p1D;
-            document.getElementById('p2Title').innerText = t.p2T;
-            document.getElementById('p2Desc').innerText = t.p2D;
-            // Diğer projeler için de benzer şekilde eklenebilir
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="az">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ntecno | Innovation & Cinema</title>
-    <style>
-        :root {
-            --gold: #d4af37;
-            --black: #0a0a0a;
-            --gray: #1a1a1a;
-            --white: #ffffff;
-            --red: #ff0000;
-        }
-
-        body, html {
+        body {
             margin: 0; padding: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--black);
             color: var(--white);
-            scroll-behavior: smooth;
         }
 
-        nav {
-            padding: 20px 5%;
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(0, 0, 0, 0.95);
-            border-bottom: 1px solid #333;
-            position: sticky; top: 0; z-index: 1000;
-        }
-
-        .brand { font-size: 28px; font-weight: 900; color: var(--gold); letter-spacing: 5px; }
-
-        /* --- FİLM SEARCH SECTION --- */
-        .movie-section {
-            padding: 60px 5%;
+        /* Başlıq */
+        .header {
+            padding: 40px 5%;
             text-align: center;
-            background: linear-gradient(to bottom, #111, #0a0a0a);
+            background: linear-gradient(to bottom, #1a1a1a, var(--black));
         }
 
-        .search-box {
-            max-width: 600px;
-            margin: 0 auto 30px;
-            display: flex;
-            gap: 10px;
+        .header h1 { font-size: 50px; color: var(--gold); letter-spacing: 5px; margin-bottom: 10px; }
+
+        /* Axtarış Paneli */
+        .search-container {
+            max-width: 800px;
+            margin: 20px auto;
+            position: relative;
+            padding: 0 20px;
         }
 
-        #movieInput {
-            flex: 1;
-            padding: 15px 25px;
+        #userMovieInput {
+            width: 100%;
+            padding: 20px 30px;
             border-radius: 50px;
             border: 2px solid #333;
             background: #000;
-            color: #fff;
+            color: var(--gold);
+            font-size: 18px;
             outline: none;
+            transition: 0.3s;
         }
 
-        #movieInput:focus { border-color: var(--gold); }
+        #userMovieInput:focus { border-color: var(--gold); box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
 
-        .category-btns {
+        .search-hint { margin-top: 10px; font-size: 13px; color: #666; }
+
+        /* Kateqoriya Düymələri */
+        .cat-box {
             display: flex;
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
-            margin-bottom: 40px;
+            margin: 30px 0;
         }
 
-        .cat-btn {
-            padding: 10px 25px;
-            border-radius: 5px;
-            border: 1px solid var(--gold);
-            background: transparent;
-            color: var(--gold);
+        .genre-btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: 1px solid #444;
+            background: var(--card);
+            color: #ccc;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
             transition: 0.3s;
         }
 
-        .cat-btn:hover, .cat-btn.active {
-            background: var(--gold);
-            color: #000;
+        .genre-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-3px);
         }
 
-        .movie-grid {
+        /* Nəticə Kartları */
+        .results-area {
+            padding: 40px 8%;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
         }
 
         .movie-card {
-            background: var(--gray);
-            border-radius: 15px;
-            padding: 15px;
-            border: 1px solid #333;
-            transition: 0.3s;
-            cursor: pointer;
-            text-align: left;
+            background: var(--card);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid #222;
+            text-align: center;
+            transition: 0.4s;
         }
 
         .movie-card:hover {
-            transform: scale(1.05);
             border-color: var(--gold);
+            background: #1a1a1a;
+            cursor: pointer;
         }
 
-        .movie-card h4 { margin: 10px 0 5px 0; color: var(--gold); }
-        .movie-card p { font-size: 12px; color: #888; margin: 0; }
-        .movie-card .badge {
-            font-size: 10px;
-            background: #333;
-            padding: 2px 8px;
-            border-radius: 10px;
-            text-transform: uppercase;
+        .movie-card h3 { color: var(--gold); margin-bottom: 15px; font-size: 22px; }
+        .movie-card p { font-size: 14px; color: #888; margin-bottom: 20px; }
+        
+        .play-btn {
+            background: var(--gold);
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
         }
 
-        footer { padding: 40px; text-align: center; border-top: 1px solid #222; color: #444; }
-
+        footer { text-align: center; padding: 50px; border-top: 1px solid #222; margin-top: 100px; color: #444; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="brand">NTECNO</div>
-    </nav>
+    <div class="header">
+        <h1>NTECNO CINEMA</h1>
+        <p>Dünya Kinosu Sizin Barmaqlarınızın Ucunda</p>
+    </div>
 
-    <section class="movie-section">
-        <h2 style="color: var(--gold); margin-bottom: 20px;">Ntecno Cinema Hub</h2>
-        
-        <div class="search-box">
-            <input type="text" id="movieInput" placeholder="Film adı yazın..." onkeyup="filterMovies()">
+    <div class="search-container">
+        <input type="text" id="userMovieInput" placeholder="İstənilən film və ya serial adını yazın..." onkeyup="checkEnter(event)">
+        <div class="search-hint">Yazdıqdan sonra <b>Enter</b> basaraq birbaşa qlobal bazada axtarış edə bilərsiniz.</div>
+    </div>
+
+    <div class="cat-box">
+        <button class="genre-btn" onclick="quickSearch('Ən yaxşı Qorxu filmləri 2026')">😱 Qorxu</button>
+        <button class="genre-btn" onclick="quickSearch('Ən yaxşı Dram filmləri')">🎭 Dram</button>
+        <button class="genre-btn" onclick="quickSearch('Populyar Komediya filmləri')">😂 Əyləncə</button>
+        <button class="genre-btn" onclick="quickSearch('Yeni Fantastika filmləri')">🚀 Fantastika</button>
+        <button class="genre-btn" onclick="quickSearch('Maraqlı Aksiyon filmləri')">💥 Aksiyon</button>
+    </div>
+
+    <div class="results-area" id="resultsArea">
+        <div class="movie-card" onclick="quickSearch('Interstellar full izle')">
+            <h3>Interstellar</h3>
+            <p>Kosmos, zaman və insan iradəsi haqqında şah əsər.</p>
+            <span class="play-btn">İNDİ İZLƏ</span>
         </div>
-
-        <div class="category-btns">
-            <button class="cat-btn" onclick="filterCategory('all')">Hamısı</button>
-            <button class="cat-btn" onclick="filterCategory('qorxu')">Qorxu</button>
-            <button class="cat-btn" onclick="filterCategory('dram')">Dram</button>
-            <button class="cat-btn" onclick="filterCategory('eylence')">Əyləncə</button>
-            <button class="cat-btn" onclick="filterCategory('fantastic')">Fantastika</button>
+        <div class="movie-card" onclick="quickSearch('The Conjuring full izle')">
+            <h3>The Conjuring</h3>
+            <p>Real hadisələrə əsaslanan qorxu dolu anlar.</p>
+            <span class="play-btn">İNDİ İZLƏ</span>
         </div>
-
-        <div class="movie-grid" id="movieGrid">
-            </div>
-    </section>
+        <div class="movie-card" onclick="quickSearch('Avengers Endgame full izle')">
+            <h3>Avengers: Endgame</h3>
+            <p>Dünyanın ən böyük qəhrəmanlarının final döyüşü.</p>
+            <span class="play-btn">İNDİ İZLƏ</span>
+        </div>
+    </div>
 
     <footer>
-        &copy; 2026 Ntecno | Bütün filmlər qlobal bazadan çəkilir.
+        &copy; 2026 Ntecno | Nicat Rəhimli tərəfindən təkmilləşdirilmiş sistem.
     </footer>
 
     <script>
-        // Film Datası (Bura istədiyin qədər film əlavə edə bilərsən)
-        const movies = [
-            { title: "The Conjuring", cat: "qorxu", year: "2013" },
-            { title: "Interstellar", cat: "fantastic", year: "2014" },
-            { title: "The Joker", cat: "dram", year: "2019" },
-            { title: "Inception", cat: "fantastic", year: "2010" },
-            { title: "Evil Dead", cat: "qorxu", year: "2013" },
-            { title: "Hangover", cat: "eylence", year: "2009" },
-            { title: "Avatar", cat: "fantastic", year: "2009" },
-            { title: "The Godfather", cat: "dram", year: "1972" },
-            { title: "IT (O)", cat: "qorxu", year: "2017" },
-            { title: "Deadpool", cat: "eylence", year: "2016" },
-            { title: "The Dark Knight", cat: "fantastic", year: "2008" },
-            { title: "Forest Gump", cat: "dram", year: "1994" },
-            { title: "Sinister", cat: "qorxu", year: "2012" },
-            { title: "Minions", cat: "eylence", year: "2015" }
-        ];
-
-        const movieGrid = document.getElementById('movieGrid');
-
-        function displayMovies(data) {
-            movieGrid.innerHTML = "";
-            data.forEach(m => {
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                card.onclick = () => watchMovie(m.title);
-                card.innerHTML = `
-                    <span class="badge">${m.cat}</span>
-                    <h4>${m.title}</h4>
-                    <p>İl: ${m.year}</p>
-                    <small style="color:var(--gold)">İzləmək üçün kliklə</small>
-                `;
-                movieGrid.appendChild(card);
-            });
+        // ENTER düyməsini yoxlayır
+        function checkEnter(event) {
+            if (event.key === "Enter") {
+                let query = document.getElementById('userMovieInput').value;
+                if (query !== "") {
+                    performGlobalSearch(query);
+                }
+            }
         }
 
-        // İlk açılışda hamısını göstər
-        displayMovies(movies);
+        // Düymələr üçün sürətli funksiya
+        function quickSearch(query) {
+            performGlobalSearch(query);
+        }
 
-        // Axtarış funksiyası
-        function filterMovies
+        // ƏSAS FUNKSİYA: Dünyadakı bütün filmləri tapmaq üçün
+        function performGlobalSearch(query) {
+            // İstifadəçini Google-un xüsusi "Video/Film" bazasına yönləndirir
+            // Bu yolla heç bir film limiti olmur, nə yazsan tapılır.
+            const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}+full+hd+izle`;
+            
+            // Saytın daxilində "Axtarılır..." effekti yaratmaq üçün:
+            document.getElementById('resultsArea').innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
+                    <h2 style="color: var(--gold)">"${query}" üçün qlobal nəticələr hazırlanır...</h2>
+                    <p>Sistem sizi ən uyğun video bazasına yönləndirir.</p>
+                </div>
+            `;
+
+            // 1 saniyə sonra yeni pəncərədə açır
+            setTimeout(() => {
+                window.open(searchUrl, '_blank');
+            }, 800);
+        }
+    </script>
+</body>
+</html>
