@@ -499,4 +499,93 @@
         .approve-btn { background: #28a745; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
         
         .member-list { margin-top: 25px; text-align: left; }
-        .member-name { padding: 10px; border-bottom: 1px solid #f9
+        .member-name { padding: 10px; border-bottom: 1px solid #f9f9f9; color: #333; display: flex; align-items: center; font-weight: 500; }
+    </style>
+
+    <h3 onclick="checkAdmin()" style="cursor: pointer; user-select: none;">Nesko Az Paneli</h3>
+    <a href="https://youtube.com/@rhimlinicat?si=H5qB5zg4CsI7Emac" target="_blank" class="n-btn n-sub">Kanalıma Abone Ol</a>
+    
+    <div style="margin-bottom: 20px; border-bottom: 1px solid #eee;"></div>
+
+    <input type="text" id="user-input-name" class="n-input" placeholder="Ad və Soyadınız">
+    <button class="n-btn n-join" onclick="sendToCloud()">Üye Olmaq üçün İstək Göndər</button>
+    
+    <div class="member-list">
+        <strong>⭐ Taraftar Üyələr:</strong>
+        <div id="verified-members">Yüklənir...</div>
+    </div>
+
+    <div id="n-admin-panel">
+        <strong style="color: red;">Gözləyən İstəklər:</strong>
+        <div id="pending-requests" style="margin-top: 10px;"></div>
+        <button onclick="document.getElementById('n-admin-panel').style.display='none'" style="margin-top:10px; font-size:10px; cursor: pointer;">Paneli Bağla</button>
+    </div>
+
+    <script>
+        const cloudURL = "https://ntecno2-8ce64-default-rtdb.firebaseio.com/.json";
+
+        async function sendToCloud() {
+            const name = document.getElementById('user-input-name').value;
+            if(!name.trim()) return alert("Adınızı yazın!");
+
+            await fetch("https://ntecno2-8ce64-default-rtdb.firebaseio.com/requests.json", {
+                method: "POST",
+                body: JSON.stringify({ name: name })
+            });
+            
+            document.getElementById('user-input-name').value = "";
+            alert("İstəyiniz göndərildi! Admin təsdiqləyəndə siyahıda görünəcək.");
+            refreshData();
+        }
+
+        async function refreshData() {
+            try {
+                const response = await fetch(cloudURL);
+                const data = await response.json();
+
+                // Təsdiqlənmiş Üyələr
+                let mHTML = "";
+                if(data && data.members) {
+                    Object.values(data.members).forEach(m => {
+                        mHTML += `<div class="member-name">✅ ${m.name} (Taraftar Üye)</div>`;
+                    });
+                }
+                document.getElementById('verified-members').innerHTML = mHTML || "<small>Hələlik üye yoxdur.</small>";
+
+                // Admin üçün İstəklər
+                let rHTML = "";
+                if(data && data.requests) {
+                    Object.keys(data.requests).forEach(key => {
+                        rHTML += `<div class="req-item"><span>${data.requests[key].name}</span> 
+                        <button class="approve-btn" onclick="approveUser('${key}', '${data.requests[key].name}')">Təsdiqlə</button></div>`;
+                    });
+                }
+                document.getElementById('pending-requests').innerHTML = rHTML || "Yeni istək yoxdur.";
+            } catch(e) { console.log("Məlumat yüklənmədi."); }
+        }
+
+        async function approveUser(key, name) {
+            await fetch("https://ntecno2-8ce64-default-rtdb.firebaseio.com/members.json", {
+                method: "POST",
+                body: JSON.stringify({ name: name })
+            });
+            await fetch(`https://ntecno2-8ce64-default-rtdb.firebaseio.com/requests/${key}.json`, {
+                method: "DELETE"
+            });
+            refreshData();
+        }
+
+        function checkAdmin() {
+            const pass = prompt("Admin şifrəsini yaz:");
+            // YENİ ŞİFRƏN: 20122006NN
+            if(pass === "20122006NN") {
+                document.getElementById('n-admin-panel').style.display = 'block';
+            } else if (pass !== null) {
+                alert("Səhv şifrə!");
+            }
+        }
+
+        setInterval(refreshData, 5000);
+        refreshData();
+    </script>
+</div>
