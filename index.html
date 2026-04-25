@@ -754,8 +754,7 @@
             ball.style.left = '50%';
             isShooting = false;
         }
-    </script>
-    </div> <!DOCTYPE html>
+    </script> <!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
@@ -930,7 +929,7 @@
 </script>
 
 </body>
-</html>
+</html> 
 <!DOCTYPE html>
 <html lang="az">
 <head>
@@ -954,7 +953,7 @@
             line-height: 1.6;
         }
 
-        /* BURANI DÜZƏLTDİM: ARTIQ SƏNLƏ GƏLMƏYƏCƏK */
+        /* HEADER - ARTIQ SƏN AŞAĞI DÜŞƏNDƏ YUXARIDA QALIR (sticky deyil) */
         header {
             background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=1000') center/cover;
             height: 300px;
@@ -964,9 +963,7 @@
             align-items: center;
             text-align: center;
             border-bottom: 4px solid var(--primary);
-            
-            /* Sabitləmə kodlarını sildim, indi normal davranacaq */
-            position: relative; 
+            position: relative; /* Sticky və ya Fixed deyil! */
         }
 
         .club-name {
@@ -984,7 +981,7 @@
             padding: 20px;
         }
 
-        /* Meydança və digər dizaynlar dəyişməz qalır... */
+        /* Meydança */
         .pitch-container {
             background: #27ae60;
             border: 5px solid white;
@@ -1000,6 +997,7 @@
         .player-icon { background: var(--dark); border: 2px solid var(--primary); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-weight: bold; }
         .player-name { font-size: 12px; background: rgba(0,0,0,0.7); padding: 2px 8px; border-radius: 5px; margin-top: 5px; display: block; }
 
+        /* Mövqelər */
         .gk { bottom: 5%; left: 50%; }
         .lb { bottom: 25%; left: 15%; }
         .cb1 { bottom: 20%; left: 38%; }
@@ -1017,6 +1015,10 @@
         .card:hover { transform: translateY(-5px); background: #34495e; }
         .hidden-info { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
         
+        .market-list { list-style: none; padding: 0; }
+        .market-list li { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .value { color: var(--primary); font-weight: bold; }
+
         footer { text-align: center; padding: 40px; background: var(--dark); margin-top: 50px; }
     </style>
 </head>
@@ -1028,23 +1030,76 @@
 </header>
 
 <div class="container">
-    <h2 style="text-align:center;">İLK 11</h2>
+    <h2 style="text-align:center;">İLK 11 (Taktika: 4-1-2-3)</h2>
     <div class="pitch-container">
         <div class="player-card gk"><div class="player-icon">GK</div><span class="player-name">Fateh</span></div>
+        <div class="player-card lb"><div class="player-icon">LB</div><span class="player-name">Sinan</span></div>
+        <div class="player-card cb1"><div class="player-icon">CB</div><span class="player-name">Ayxan</span></div>
+        <div class="player-card cb2"><div class="player-icon">CB</div><span class="player-name">Mehdi</span></div>
+        <div class="player-card rb"><div class="player-icon">RB</div><span class="player-name">Ramal</span></div>
+        <div class="player-card dm"><div class="player-icon">DM</div><span class="player-name">Məzahir</span></div>
+        <div class="player-card cm1"><div class="player-icon">CM</div><span class="player-name">Nurlan</span></div>
+        <div class="player-card cm2"><div class="player-icon">CM</div><span class="player-name">Rushan</span></div>
+        <div class="player-card lw"><div class="player-icon">LW</div><span class="player-name">Hüseyn</span></div>
         <div class="player-card st"><div class="player-icon">ST</div><span class="player-name">Nicat</span></div>
+        <div class="player-card rw"><div class="player-icon">RW</div><span class="player-name">İbrahim</span></div>
+    </div>
+
+    <div class="info-grid">
+        <div class="card" onclick="toggleInfo('market-values')">
+            <h3>💰 Bazar Dəyərlərini Öyrən</h3>
+            <div id="market-values" class="hidden-info">
+                <ul class="market-list">
+                    <li><span>Nurlan Şükürov</span> <span class="value">80,5 Mln €</span></li>
+                    <li><span>İbrahim Adilov</span> <span class="value">80,5 Mln €</span></li>
+                    <li><span>Fateh Tanrıverdiyev</span> <span class="value">67 Mln €</span></li>
+                    <li><span>Ruşan Quliyev</span> <span class="value">60 Mln €</span></li>
+                    <li><span>Ramal Bayramov</span> <span class="value">60 Mln €</span></li>
+                    <li><span>Fərhad Quliyev</span> <span class="value">56.3 Mln €</span></li>
+                    <li><span>Nicat Rəhimli</span> <span class="value">55,6 Mln €</span></li>
+                    <li><span>Hüseyn Zahidov</span> <span class="value">50 Mln €</span></li>
+                    <li><span>Tofiq Atakişi</span> <span class="value">45 Mln €</span></li>
+                    <li><span>Məzahir Səlimov</span> <span class="value">40,5 Mln €</span></li>
+                    <li><span>Mehdi Nəbiyev</span> <span class="value">40 Mln €</span></li>
+                    <li><span>Ümid Ağamalıyev</span> <span class="value">40 Mln €</span></li>
+                    <li><span>Ayxan Quliyev</span> <span class="value">32,3 Mln €</span></li>
+                    <li><span>Sinan Yusifli</span> <span class="value">30,5 Mln €</span></li>
+                    <li><span>Fərid Rzalı</span> <span class="value">13,2 Mln €</span></li>
+                    <li><span>Murad Məmmədli</span> <span class="value">3.5 Mln €</span></li>
+                    <li><span>Zülfü Əliyev</span> <span class="value">500 B €</span></li>
+                    <li><span>Cavid Qarasov</span> <span class="value">500 B €</span></li>
+                </ul>
+            </div>
         </div>
+
+        <div class="card" onclick="toggleInfo('team-info')">
+            <h3>📋 Takım Bilgiləri</h3>
+            <div id="team-info" class="hidden-info">
+                <p><strong>Menejer:</strong> Zakir Döner</p>
+                <p><strong>Klub Rəngləri:</strong> Narıncı / Qara</p>
+                <p><strong>Liqa:</strong> Elite Pro League</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer>
     <p>Site sahibi: <strong>Nicat Rəhimli</strong></p>
+    <p>&copy; 2026 Tigers FC. Bütün hüquqlar qorunur.</p>
 </footer>
 
 <script>
     function toggleInfo(id) {
         const element = document.getElementById(id);
-        element.style.display = (element.style.display === "block") ? "none" : "block";
+        if (element.style.display === "block") {
+            element.style.display = "none";
+        } else {
+            element.style.display = "block";
+        }
     }
 </script>
 
 </body>
 </html>
+
+                                                                   </div>
