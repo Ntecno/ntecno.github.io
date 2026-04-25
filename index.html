@@ -3,133 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novaterra | Official Site</title>
+    <title>Novaterra | Premium Portal</title>
     <style>
+        /* MODERN DİZAYN AYARLARI */
         :root {
-            --primary: #00ffcc;
-            --mc-gray: #313131;
-            --mc-green: #00AA00;
+            --glow: #00ffcc;
+            --mc-green: #3fb518;
+            --dark-glass: rgba(0, 0, 0, 0.85);
         }
 
         body {
             margin: 0;
             padding: 0;
-            background: #000 url('https://wallpaperaccess.com/full/151034.jpg') no-repeat center center fixed;
+            background: #050505;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            /* Arxa fon şəkli (HD Modern Gamer Style) */
+            background-image: radial-gradient(circle at center, rgba(0, 255, 204, 0.1) 0%, transparent 70%), 
+                              url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop');
+            background-attachment: fixed;
             background-size: cover;
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
-            overflow-x: hidden;
         }
 
-        /* ÜST HİSSƏ */
+        /* HEADER (QURUCU VƏ BAŞLIQ) */
         .header {
             text-align: center;
-            padding: 50px 20px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
+            padding: 60px 20px;
+            border-bottom: 1px solid rgba(0, 255, 204, 0.2);
         }
 
-        h1 { font-size: 3.5rem; color: var(--primary); text-shadow: 0 0 20px var(--primary); margin: 0; }
-        .creator { font-size: 1.2rem; color: #aaa; margin-top: 5px; }
-
-        /* AXTARIŞ */
-        .search-container { margin: 30px auto; max-width: 600px; }
-        input {
-            width: 90%; padding: 15px 25px; border-radius: 50px;
-            border: 2px solid var(--primary); background: rgba(0,0,0,0.8);
-            color: white; font-size: 1.1rem; outline: none;
+        h1 {
+            font-size: 4rem;
+            letter-spacing: 5px;
+            margin: 0;
+            background: linear-gradient(to right, #fff, var(--glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px var(--glow));
         }
 
-        /* FİLM NƏTİCƏLƏRİ */
-        #movieResult {
-            display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 20px; padding: 20px; margin-bottom: 150px;
+        .creator-tag {
+            background: var(--glow);
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 0.9rem;
         }
 
-        .movie-card {
-            background: rgba(255,255,255,0.1); border-radius: 15px;
-            padding: 15px; width: 300px; text-align: center;
-            border: 1px solid var(--primary);
+        /* MODERN AXTARIŞ SİSTEMİ */
+        .search-area {
+            max-width: 700px;
+            margin: 40px auto;
+            position: relative;
         }
 
-        /* ALT PANEL (GAME CONTROL) */
-        .game-control {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: var(--mc-gray); border-top: 4px solid #000;
-            display: flex; flex-wrap: wrap; justify-content: center;
-            gap: 15px; padding: 15px 0; z-index: 1000;
+        input#movieInput {
+            width: 100%;
+            padding: 20px 30px;
+            border-radius: 15px;
+            border: 1px solid var(--glow);
+            background: var(--dark-glass);
+            color: white;
+            font-size: 1.2rem;
+            transition: 0.3s;
+            box-sizing: border-box;
         }
 
-        .mc-btn {
-            background: #535353; border: 3px solid #000;
-            box-shadow: inset -4px -4px 0 #333, inset 4px 4px 0 #888;
-            color: white; padding: 10px 15px; text-decoration: none;
-            font-family: 'Courier New', monospace; font-weight: bold;
-            cursor: pointer; font-size: 0.9rem;
+        input#movieInput:focus {
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.4);
+            outline: none;
         }
 
-        .mc-btn:hover { background: var(--mc-green); transform: translateY(-3px); }
-        
-        .active-user { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
-
-    </style>
-</head>
-<body>
-
-    <div class="header">
-        <h1>NOVATERRA</h1>
-        <div class="creator">Qurucu: <b>Nicat Rəhimli</b></div>
-        
-        <div class="search-container">
-            <input type="text" id="movieInput" placeholder="Film adı yaz (Məs: Minecraft)..." onkeyup="searchMovie()">
-        </div>
-    </div>
-
-    <div id="movieResult">
-        </div>
-
-    <div class="game-control">
-        <a href="https://www.youtube.com/@Ntecno" target="_blank" class="mc-btn">📺 NTECNO KANALI</a>
-        <div class="mc-btn" onclick="alert('Minecraft Modlar Tezliklə Gəlir!')">🕹️ MC MODLAR</div>
-        <div class="mc-btn">👥 AKTİV İZLƏYİCİ: <span id="userCount" class="active-user">...</span></div>
-        <div class="mc-btn" onclick="location.reload()">🔄 SAYT GÜNCƏLLƏ</div>
-    </div>
-
-    <script>
-        // FİLM SİSTEMİ (İşləyən versiya)
-        const movies = [
-            {title: "Minecraft Movie (Fragman)", url: "https://www.youtube.com/embed/wMiOOfXpX10", img: "https://m.media-amazon.com/images/M/MV5BMjA5MjY5NjY1NF5BMl5BanBnXkFtZTgwNjAzMTIzMzE@._V1_.jpg"},
-            {title: "Spider-Man", url: "https://www.youtube.com/embed/JfVOs4VSpmA", img: "https://m.media-amazon.com/images/M/MV5BZWMyYzFjYTYtNTRjYi00OGExLWE2YzgtOGRmYjAxZTU3NzBiXkEyXkFqcGdeQXVyMzQ0MzA0NTM@._V1_.jpg"}
-        ];
-
-        function searchMovie() {
-            let input = document.getElementById('movieInput').value.toLowerCase();
-            let resultDiv = document.getElementById('movieResult');
-            resultDiv.innerHTML = "";
-
-            if(input.length > 1) {
-                let filtered = movies.filter(m => m.title.toLowerCase().includes(input));
-                filtered.forEach(m => {
-                    resultDiv.innerHTML += `
-                        <div class="movie-card">
-                            <img src="${m.img}" style="width:100%; border-radius:10px;">
-                            <h3>${m.title}</h3>
-                            <iframe width="100%" height="200" src="${m.url}" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        // AKTİV İZLƏYİCİ SAYĞACI (Simulyasiya)
-        function updateUsers() {
-            let count = Math.floor(Math.random() * (150 - 50) + 50); // 50-150 arası təsadüfi rəqəm
-            document.getElementById('userCount').innerText = count;
-        }
-        setInterval(updateUsers, 3000); // Hər 3 saniyədən bir dəyişir
-        updateUsers();
-
-    </script>
-
-</body>
-</html>
+        /* FİLM NƏTİCƏSİ (
