@@ -3,73 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novaterra | Ultimate Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    
+    <title>Novaterra | Movies & Games</title>
     <style>
-        /* =========================================
-           1. CORE SYSTEM & ANIMATIONS
-           ========================================= */
         :root {
-            --neon: #00ffcc;
-            --yt: #ff0000;
-            --bg-dark: #020202;
-            --glass: rgba(255, 255, 255, 0.07);
+            --primary: #00ffcc;
+            --bg-dark: #0a0a0c;
+            --glass: rgba(255, 255, 255, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
-            background-color: var(--bg-dark);
-            color: #ffffff;
-            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&w=1350&q=80'); /* Dinamik Fon */
+            background-attachment: fixed;
+            background-size: cover;
+            color: white;
             overflow-x: hidden;
-            background: radial-gradient(circle at center, #0a1a2a 0%, #020202 100%);
         }
 
-        @keyframes neonPulse {
-            0% { text-shadow: 0 0 10px var(--neon); }
-            50% { text-shadow: 0 0 30px var(--neon), 0 0 40px var(--neon); }
-            100% { text-shadow: 0 0 10px var(--neon); }
+        /* 1. MOVIE SEARCH SECTION */
+        .search-container {
+            text-align: center;
+            padding: 100px 20px;
+            backdrop-filter: blur(5px);
         }
 
-        /* =========================================
-           2. HEADER (FOUNDER & LOGO)
-           ========================================= */
-        header {
-            padding: 25px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        h1 { font-size: 3rem; text-shadow: 0 0 20px var(--primary); }
+
+        input#movieInput {
+            padding: 15px 25px;
+            width: 60%;
+            border-radius: 30px;
+            border: 2px solid var(--primary);
+            background: rgba(0,0,0,0.6);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        /* 2. AUTOMATIC MOVIE GRID */
+        #movieResult {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .movie-card {
+            background: var(--glass);
+            border-radius: 15px;
+            padding: 10px;
+            text-align: center;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .movie-card img { width: 100%; border-radius: 10px; }
+
+        /* 3. GAME CONTROL PANEL (Bottom) */
+        .game-control {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             background: rgba(0,0,0,0.9);
-            border-bottom: 3px solid var(--neon);
-            position: sticky;
-            top: 0;
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            border-top: 2px solid var(--primary);
             z-index: 1000;
-            backdrop-filter: blur(20px);
         }
 
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            color: var(--neon);
-            animation: neonPulse 3s infinite;
+        .control-btn {
+            background: #222;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
             text-decoration: none;
-        }
-
-        .founder-tag {
-            background: var(--neon);
-            color: #000;
-            padding: 8px 20px;
-            border-radius: 50px;
             font-weight: bold;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            box-shadow: 0 0 20px var(--neon);
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
         }
 
-        /* =========================================
-           3. GLOBAL SEARCH (EVERY MOVIE)
-           ========================================= */
-        .search-section {
-            height: 60vh;
+        .control-btn:hover {
+            background: var(--primary);
+            color: black;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        footer { padding-bottom: 100px; text-align: center; margin-top: 50px;}
+
+    </style>
+</head>
+<body>
+
+    <div class="search-container">
+        <h1>Novaterra Cinema</h1>
+        <p>Filmin adını yaz və izləməyə hazırlaş...</p>
+        <input type="text" id="movieInput" placeholder="Məs: Spider-Man, Inception..." onkeyup="searchMovie()">
+    </div>
+
+    <div id="movieResult">
+        </div>
+
+    <footer>
+        <p>&copy; 2026 Novaterra Project. Bütün haqlar qorunur.</p>
+    </footer>
+
+    <div class="game-control">
+        <a href="#mods" class="control-btn">🕹️ MC Modları</a>
+        <a href="#economy" class="control-btn">💎 İqtisadiyyat</a>
+        <a href="#server" class="control-btn">📡 Server Status</a>
+        <a href="#commands" class="control-btn">⌨️ Komandalar</a>
+    </div>
+
+    <script>
+        // Sənin dediyin "Avtomatik" sistem:
+        async function searchMovie() {
+            let input = document.getElementById('movieInput').value;
+            let resultDiv = document.getElementById('movieResult');
+            
+            if(input.length > 2) {
+                // TMDB API-dən real datanı çəkirik (Nümunə üçün simulyasiya)
+                resultDiv.innerHTML = `
+                    <div class="movie-card">
+                        <img src="https://via.placeholder.com/200x300?text=${input}" alt="Poster">
+                        <h3>${input}</h3>
+                        <button class="control-btn" onclick="alert('Film tezliklə yüklənəcək!')">İzlə</button>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = "";
+            }
+        }
+    </script>
+
+</body>
+</html>
