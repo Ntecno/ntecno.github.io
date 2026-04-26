@@ -755,8 +755,8 @@
             isShooting = false;
         }
     </script>
-</div>
-<!DOCTYPE html>
+    </div>
+    <!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
@@ -773,15 +773,8 @@
         }
         .poll-title { text-align: center; color: #ffd700; text-transform: uppercase; margin-bottom: 5px; }
         .timer-box {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: #ff4d4d;
-            background: #222;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #444;
+            text-align: center; font-size: 24px; font-weight: bold; color: #ff4d4d;
+            background: #222; padding: 10px; border-radius: 8px; margin-bottom: 20px;
         }
         .player-row { margin-bottom: 15px; background: #252525; padding: 10px; border-radius: 8px; }
         .player-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
@@ -789,7 +782,7 @@
             background: #ffd700; border: none; padding: 8px 15px;
             cursor: pointer; font-weight: bold; border-radius: 5px; transition: 0.3s;
         }
-        .vote-btn:disabled { background: #555; cursor: not-allowed; color: #888; }
+        .vote-btn:disabled { background: #555 !important; cursor: not-allowed; color: #888; }
         .progress-bar-bg { background: #333; height: 14px; border-radius: 7px; overflow: hidden; }
         .progress-bar-fill {
             background: linear-gradient(90deg, #ffd700, #ff8c00);
@@ -798,13 +791,15 @@
         #winner-announcement {
             text-align: center; font-size: 20px; color: #00ff00; font-weight: bold; margin-top: 20px; display: none;
         }
+        .voted-msg { color: #ffd700; text-align: center; display: none; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
 <div class="poll-container">
-    <h2 class="poll-title">BEST PLAYER OF THE DAY</h2>
-    <div class="timer-box">Səsvermənin bitməsinə: <span id="countdown">24:00:00</span></div>
+    <h2 class="poll-title">BEST PLAYER — GÜNLÜK SƏSVERMƏ</h2>
+    <div class="timer-box">Bitməyə qaldı: <span id="countdown">24:00:00</span></div>
+    <p id="already-voted" class="voted-msg">Siz artıq səs vermisiniz!</p>
     
     <div id="poll"></div>
     <div id="winner-announcement"></div>
@@ -819,40 +814,47 @@
         "Zülfü Əliyev", "Cavid Qarasov"
     ];
 
-    let votes = new Array(players.length).fill(0);
+    // LocalStorage-dən səsləri götürürük və ya boş massiv yaradırıq
+    let votes = JSON.parse(localStorage.getItem('pollVotes')) || new Array(players.length).fill(0);
     const pollDiv = document.getElementById('poll');
 
-    // Oyunçuları ekrana çıxarırıq
-    players.forEach((player, index) => {
-        pollDiv.innerHTML += `
-            <div class="player-row">
-                <div class="player-info">
-                    <span>${player}</span>
-                    <button class="vote-btn" id="btn-${index}" onclick="addVote(${index})">SƏS VER</button>
+    function renderPoll() {
+        pollDiv.innerHTML = "";
+        const hasVoted = localStorage.getItem('userHasVoted');
+
+        players.forEach((player, index) => {
+            let totalVotes = votes.reduce((a, b) => a + b, 0);
+            let percentage = totalVotes === 0 ? 0 : Math.round((votes[index] / totalVotes) * 100);
+            
+            pollDiv.innerHTML += `
+                <div class="player-row">
+                    <div class="player-info">
+                        <span>${player}</span>
+                        <button class="vote-btn" ${hasVoted ? 'disabled' : ''} onclick="addVote(${index})">SƏS VER</button>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${percentage}%"></div></div>
+                    <small>${percentage}% (${votes[index]} səs)</small>
                 </div>
-                <div class="progress-bar-bg"><div id="bar-${index}" class="progress-bar-fill"></div></div>
-                <small id="percent-${index}">0% (0 səs)</small>
-            </div>
-        `;
-    });
+            `;
+        });
+
+        if (hasVoted) {
+            document.getElementById('already-voted').style.display = 'block';
+        }
+    }
 
     function addVote(index) {
+        if (localStorage.getItem('userHasVoted')) return;
+
         votes[index]++;
-        updateDisplay();
+        localStorage.setItem('pollVotes', JSON.stringify(votes));
+        localStorage.setItem('userHasVoted', 'true');
+        
+        renderPoll();
     }
 
-    function updateDisplay() {
-        let totalVotes = votes.reduce((a, b) => a + b, 0);
-        votes.forEach((v, i) => {
-            let percentage = totalVotes === 0 ? 0 : Math.round((v / totalVotes) * 100);
-            document.getElementById(`bar-${i}`).style.width = percentage + "%";
-            document.getElementById(`percent-${i}`).innerText = `${percentage}% (${v} səs)`;
-        });
-    }
-
-    // 24 SAATLIQ TAYMER (Saniyə hesabı ilə: 24 * 60 * 60 = 86400)
+    // 24 SAATLIQ TAYMER
     let timeLeft = 86400; 
-
     const timerInterval = setInterval(function() {
         let hours = Math.floor(timeLeft / 3600);
         let minutes = Math.floor((timeLeft % 3600) / 60);
@@ -871,23 +873,20 @@
     }, 1000);
 
     function finishPoll() {
-        // Düymələri bağla
         document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
         document.getElementById("countdown").innerHTML = "BİTDİ";
-        document.getElementById("countdown").style.color = "white";
-
-        // Qalibi tap
+        
         let maxVotes = Math.max(...votes);
         let winnerIndex = votes.indexOf(maxVotes);
-        
         const announcement = document.getElementById("winner-announcement");
+        
         if (maxVotes > 0) {
-            announcement.innerHTML = `🏆 QALİB: ${players[winnerIndex]}! (${maxVotes} səs)`;
-        } else {
-            announcement.innerHTML = "Səsvermə başa çatdı, səs verilməyib.";
+            announcement.innerHTML = `🏆 QALİB: ${players[winnerIndex]}!`;
+            announcement.style.display = "block";
         }
-        announcement.style.display = "block";
     }
+
+    renderPoll(); // İlk açılışda cədvəli göstər
 </script>
 
 </body>
