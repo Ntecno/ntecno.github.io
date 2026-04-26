@@ -755,89 +755,74 @@
             isShooting = false;
         }
     </script>
-            </div> <div id="ntecno-final-poll" style="background:#111; color:gold; padding:20px; border-radius:15px; font-family:sans-serif; max-width:500px; margin:auto; border:2px solid gold;">
-    <h3 style="text-align:center;">BEST PLAYER — CANLI SƏSVERMƏ</h3>
-    <div id="timer-box" style="text-align:center; background:#222; padding:10px; border-radius:10px; margin-bottom:20px;">
-        <span id="global-timer" style="color:#ff4d4d; font-weight:bold; font-size:22px;">24:00:00</span>
     </div>
-    <div id="player-list-container">Yüklənir...</div>
+    <div id="ntecno-final" style="background:#000; color:gold; padding:20px; border-radius:15px; font-family:sans-serif; max-width:450px; margin:auto; border:2px solid gold;">
+    <h3 style="text-align:center;">BEST PLAYER — CANLI</h3>
+    <div style="text-align:center; background:#111; padding:10px; border-radius:10px; margin-bottom:15px;">
+        <span id="ntecno-timer" style="color:#ff4d4d; font-weight:bold; font-size:20px;">24:00:00</span>
+    </div>
+    <div id="players-box">Yüklənir...</div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script type="module">
+  // Firebase modullarını birbaşa çağırırıq (Yüklənmə problemi olmasın deyə)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyCB1XwkajktYJn_fCXsF6GA7DrVtnCSuG8",
-        authDomain: "ntecno31-e8e7b.firebaseapp.com",
-        databaseURL: "https://ntecno31-e8e7b-default-rtdb.firebaseio.com",
-        projectId: "ntecno31-e8e7b",
-        appId: "1:1089280483700:web:e5baa1994977254ee88c21"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyCB1XwkajktYJn_fCXsF6GA7DrVtnCSuG8",
+    authDomain: "ntecno31-e8e7b.firebaseapp.com",
+    databaseURL: "https://ntecno31-e8e7b-default-rtdb.firebaseio.com",
+    projectId: "ntecno31-e8e7b",
+    appId: "1:1089280483700:web:e5baa1994977254ee88c21"
+  };
 
-    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-    const players = ["Nurlan Şükürov", "İbrahim Adilov", "Fateh Tanrıverdiyev", "Ruşan Quliyev", "Fərhad Quliyev", "Nicat Rəhimli", "Ramal Bayramov", "Hüseyn Zahidov", "Tofiq Atakişi", "Mehdi Nəbiyev", "Məzahir Səlimov", "Ümid Ağamalıyev", "Ayxan Quliyev", "Sinan Yusifli", "Fərid Rzalı", "Murad Məmmədli", "Zülfü Əliyev", "Cavid Qarasov"];
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const players = ["Nurlan Şükürov", "İbrahim Adilov", "Fateh Tanrıverdiyev", "Ruşan Quliyev", "Fərhad Quliyev", "Nicat Rəhimli", "Ramal Bayramov", "Hüseyn Zahidov", "Tofiq Atakişi", "Mehdi Nəbiyev", "Məzahir Səlimov", "Ümid Ağamalıyev", "Ayxan Quliyev", "Sinan Yusifli", "Fərid Rzalı", "Murad Məmmədli", "Zülfü Əliyev", "Cavid Qarasov"];
 
-    // BAZANI İLK DƏFƏ DOLDURMAQ VƏ OXUMAQ
-    db.ref().on('value', (snapshot) => {
-        const data = snapshot.val() || {};
-        const votes = data.votes || new Array(players.length).fill(0);
-        let endTime = data.settings ? data.settings.endTime : null;
+  // Məlumatları bazadan çək
+  onValue(ref(db, 'votes'), (snapshot) => {
+    const votes = snapshot.val() || new Array(players.length).fill(0);
+    let total = votes.reduce((a, b) => a + b, 0);
+    let html = "";
+    let voted = localStorage.getItem('voted_v1');
 
-        // Əgər bazada vaxt yoxdursa, yarat
-        if (!endTime) {
-            endTime = Date.now() + (24 * 60 * 60 * 1000);
-            db.ref('settings/endTime').set(endTime);
-        }
-
-        // Taymeri başlat
-        updateTimer(endTime);
-
-        // Siyahını göstər
-        render(votes);
+    players.forEach((name, i) => {
+      let count = votes[i] || 0;
+      let prc = total === 0 ? 0 : Math.round((count / total) * 100);
+      html += `
+        <div style="margin-bottom:10px; background:#111; padding:8px; border-radius:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:13px;">${name}</span>
+            <button id="btn-${i}" style="background:gold; border:none; padding:4px 8px; cursor:pointer; font-weight:bold; border-radius:4px;">${voted ? 'OK' : 'SƏS'}</button>
+          </div>
+          <div style="background:#333; height:6px; margin-top:5px; border-radius:3px;"><div style="background:gold; height:100%; width:${prc}%"></div></div>
+        </div>`;
     });
+    document.getElementById('players-box').innerHTML = html;
 
-    function render(votes) {
-        let total = votes.reduce((a, b) => a + b, 0);
-        let html = "";
-        let voted = localStorage.getItem('ntecno_voted');
+    // Düymələrə funksiya ver
+    players.forEach((_, i) => {
+      const btn = document.getElementById(`btn-${i}`);
+      if(btn && !voted) {
+        btn.onclick = () => {
+          runTransaction(ref(db, `votes/${i}`), (c) => (c || 0) + 1);
+          localStorage.setItem('voted_v1', 'true');
+        };
+      } else if(btn) {
+        btn.disabled = true;
+      }
+    });
+  });
 
-        players.forEach((name, i) => {
-            let count = votes[i] || 0;
-            let prc = total === 0 ? 0 : Math.round((count / total) * 100);
-            html += `
-                <div style="margin-bottom:12px; background:#1a1a1a; padding:10px; border-radius:8px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-size:14px;">${name}</span>
-                        <button onclick="vote(${i})" ${voted ? 'disabled' : ''} style="background:gold; border:none; padding:5px 10px; cursor:pointer; font-weight:bold; border-radius:5px;">
-                            ${voted ? 'OK' : 'SƏS'}
-                        </button>
-                    </div>
-                    <div style="background:#333; height:8px; margin-top:8px; border-radius:4px;"><div style="background:gold; height:100%; width:${prc}%"></div></div>
-                    <small style="color:#aaa;">${prc}% (${count} səs)</small>
-                </div>`;
-        });
-        document.getElementById('player-list-container').innerHTML = html;
-    }
-
-    function vote(idx) {
-        if (localStorage.getItem('ntecno_voted')) return;
-        db.ref('votes/' + idx).transaction(c => (c || 0) + 1);
-        localStorage.setItem('ntecno_voted', 'true');
-    }
-
-    function updateTimer(endTime) {
-        setInterval(() => {
-            let distance = endTime - Date.now();
-            if (distance < 0) {
-                document.getElementById("global-timer").innerHTML = "BİTDİ";
-                return;
-            }
-            let h = Math.floor(distance / 3600000);
-            let m = Math.floor((distance % 3600000) / 60000);
-            let s = Math.floor((distance % 60000) / 1000);
-            document.getElementById("global-timer").innerHTML = `${h}:${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
-        }, 1000);
-    }
+  // Taymer (Sabit 24 saat)
+  let end = localStorage.getItem('ntecno_end') || Date.now() + 86400000;
+  localStorage.setItem('ntecno_end', end);
+  setInterval(() => {
+    let diff = end - Date.now();
+    if(diff < 0) return document.getElementById("ntecno-timer").innerHTML = "BİTDİ";
+    let h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+    document.getElementById("ntecno-timer").innerHTML = `${h}:${m<10?'0'+m:m}:${s<10?'0'+s:s}`;
+  }, 1000);
 </script>
