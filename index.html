@@ -755,139 +755,85 @@
             isShooting = false;
         }
     </script>
+                            </div> <div id="ntecno-poll-main" style="background:#111; color:gold; padding:25px; border-radius:15px; font-family:sans-serif; max-width:550px; margin:20px auto; border:2px solid gold; box-shadow: 0 0 15px rgba(255,215,0,0.3);">
+    <h2 style="text-align:center; text-transform:uppercase; letter-spacing:2px;">Best Player of the Day</h2>
+    <div id="timer-display" style="text-align:center; font-size:22px; background:#222; padding:10px; border-radius:10px; margin-bottom:20px; color:#ff4d4d; border:1px solid #333;">
+        Bitməyə qaldı: <span id="clock">24:00:00</span>
     </div>
-    <!DOCTYPE html>
-<html lang="az">
-<head>
-    <meta charset="UTF-8">
-    <style>
-        body { background-color: #121212; font-family: 'Segoe UI', sans-serif; }
-        .poll-container {
-            max-width: 600px;
-            background: #1a1a1a;
-            color: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin: 20px auto;
-            border: 2px solid #ffd700;
-        }
-        .poll-title { text-align: center; color: #ffd700; text-transform: uppercase; margin-bottom: 5px; }
-        .timer-box {
-            text-align: center; font-size: 24px; font-weight: bold; color: #ff4d4d;
-            background: #222; padding: 10px; border-radius: 8px; margin-bottom: 20px;
-        }
-        .player-row { margin-bottom: 15px; background: #252525; padding: 10px; border-radius: 8px; }
-        .player-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .vote-btn {
-            background: #ffd700; border: none; padding: 8px 15px;
-            cursor: pointer; font-weight: bold; border-radius: 5px; transition: 0.3s;
-        }
-        .vote-btn:disabled { background: #555 !important; cursor: not-allowed; color: #888; }
-        .progress-bar-bg { background: #333; height: 14px; border-radius: 7px; overflow: hidden; }
-        .progress-bar-fill {
-            background: linear-gradient(90deg, #ffd700, #ff8c00);
-            height: 100%; width: 0%; transition: width 0.4s;
-        }
-        #winner-announcement {
-            text-align: center; font-size: 20px; color: #00ff00; font-weight: bold; margin-top: 20px; display: none;
-        }
-        .voted-msg { color: #ffd700; text-align: center; display: none; margin-bottom: 10px; }
-    </style>
-</head>
-<body>
-
-<div class="poll-container">
-    <h2 class="poll-title">BEST PLAYER — GÜNLÜK SƏSVERMƏ</h2>
-    <div class="timer-box">Bitməyə qaldı: <span id="countdown">24:00:00</span></div>
-    <p id="already-voted" class="voted-msg">Siz artıq səs vermisiniz!</p>
-    
-    <div id="poll"></div>
-    <div id="winner-announcement"></div>
+    <div id="poll-items">Yüklənir...</div>
+    <div id="winner-box" style="display:none; text-align:center; font-size:24px; color:#00ff00; margin-top:20px; padding:15px; border:2px dashed #00ff00; border-radius:10px;"></div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
 <script>
-    const players = [
-        "Nurlan Şükürov", "İbrahim Adilov", "Fateh Tanrıverdiyev", "Ruşan Quliyev", 
-        "Fərhad Quliyev", "Nicat Rəhimli", "Ramal Bayramov", "Hüseyn Zahidov", 
-        "Tofiq Atakişi", "Mehdi Nəbiyev", "Məzahir Səlimov", "Ümid Ağamalıyev", 
-        "Ayxan Quliyev", "Sinan Yusifli", "Fərid Rzalı", "Murad Məmmədli", 
-        "Zülfü Əliyev", "Cavid Qarasov"
-    ];
+    // Sənin Firebase məlumatların
+    const firebaseConfig = {
+        apiKey: "AIzaSyCB1XwkajktYJn_fCXsF6GA7DrVtnCSuG8",
+        authDomain: "ntecno31-e8e7b.firebaseapp.com",
+        databaseURL: "https://ntecno31-e8e7b-default-rtdb.firebaseio.com",
+        projectId: "ntecno31-e8e7b",
+        appId: "1:1089280483700:web:e5baa1994977254ee88c21"
+    };
 
-    // LocalStorage-dən səsləri götürürük və ya boş massiv yaradırıq
-    let votes = JSON.parse(localStorage.getItem('pollVotes')) || new Array(players.length).fill(0);
-    const pollDiv = document.getElementById('poll');
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const players = ["Nurlan Şükürov", "İbrahim Adilov", "Fateh Tanrıverdiyev", "Ruşan Quliyev", "Fərhad Quliyev", "Nicat Rəhimli", "Ramal Bayramov", "Hüseyn Zahidov", "Tofiq Atakişi", "Mehdi Nəbiyev", "Məzahir Səlimov", "Ümid Ağamalıyev", "Ayxan Quliyev", "Sinan Yusifli", "Fərid Rzalı", "Murad Məmmədli", "Zülfü Əliyev", "Cavid Qarasov"];
 
-    function renderPoll() {
-        pollDiv.innerHTML = "";
-        const hasVoted = localStorage.getItem('userHasVoted');
+    // Səsləri Realtime izlə
+    db.ref('votes').on('value', (snap) => {
+        const votes = snap.val() || new Array(players.length).fill(0);
+        renderPoll(votes);
+    });
 
-        players.forEach((player, index) => {
-            let totalVotes = votes.reduce((a, b) => a + b, 0);
-            let percentage = totalVotes === 0 ? 0 : Math.round((votes[index] / totalVotes) * 100);
-            
-            pollDiv.innerHTML += `
-                <div class="player-row">
-                    <div class="player-info">
-                        <span>${player}</span>
-                        <button class="vote-btn" ${hasVoted ? 'disabled' : ''} onclick="addVote(${index})">SƏS VER</button>
-                    </div>
-                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${percentage}%"></div></div>
-                    <small>${percentage}% (${votes[index]} səs)</small>
-                </div>
-            `;
-        });
-
-        if (hasVoted) {
-            document.getElementById('already-voted').style.display = 'block';
-        }
-    }
-
-    function addVote(index) {
-        if (localStorage.getItem('userHasVoted')) return;
-
-        votes[index]++;
-        localStorage.setItem('pollVotes', JSON.stringify(votes));
-        localStorage.setItem('userHasVoted', 'true');
+    function renderPoll(votes) {
+        let total = votes.reduce((a, b) => a + b, 0);
+        let html = "";
+        const hasVoted = localStorage.getItem('ntecno_voted_global');
         
-        renderPoll();
+        players.forEach((name, i) => {
+            let prc = total === 0 ? 0 : Math.round((votes[i] / total) * 100);
+            html += `
+                <div style="margin-bottom:15px; background:#1a1a1a; padding:12px; border-radius:10px; border:1px solid #333;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span style="font-weight:bold;">${name}</span>
+                        <button onclick="vote(${i})" ${hasVoted ? 'disabled' : ''} style="background:gold; color:black; border:none; padding:6px 12px; font-weight:bold; cursor:pointer; border-radius:5px;">
+                            ${hasVoted ? 'OK' : 'SƏS'}
+                        </button>
+                    </div>
+                    <div style="background:#333; height:12px; border-radius:6px; overflow:hidden;">
+                        <div style="background:linear-gradient(90deg, #ffd700, #ff8c00); height:100%; width:${prc}%; transition: 1s;"></div>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:5px; color:#aaa;">
+                        <span>${prc}%</span> <span>${votes[i]} səs</span>
+                    </div>
+                </div>`;
+        });
+        document.getElementById('poll-items').innerHTML = html;
     }
 
-    // 24 SAATLIQ TAYMER
-    let timeLeft = 86400; 
-    const timerInterval = setInterval(function() {
-        let hours = Math.floor(timeLeft / 3600);
-        let minutes = Math.floor((timeLeft % 3600) / 60);
-        let seconds = timeLeft % 60;
+    function vote(idx) {
+        if(localStorage.getItem('ntecno_voted_global')) return;
+        db.ref('votes/' + idx).transaction(c => (c || 0) + 1);
+        localStorage.setItem('ntecno_voted_global', 'true');
+    }
 
-        document.getElementById("countdown").innerHTML = 
-            (hours < 10 ? "0" + hours : hours) + ":" + 
-            (minutes < 10 ? "0" + minutes : minutes) + ":" + 
-            (seconds < 10 ? "0" + seconds : seconds);
-
+    // TAYMER SİSTEMİ (24 saat)
+    let timeLeft = 86400;
+    const interval = setInterval(() => {
+        let h = Math.floor(timeLeft / 3600);
+        let m = Math.floor((timeLeft % 3600) / 60);
+        let s = timeLeft % 60;
+        document.getElementById("clock").innerHTML = `${h < 10 ? '0'+h : h}:${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+        
         if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            finishPoll();
+            clearInterval(interval);
+            document.querySelectorAll('button').forEach(b => b.disabled = true);
+            document.getElementById("clock").innerHTML = "BİTDİ";
+            // Qalibi tapmaq məntiqi bura əlavə oluna bilər
         }
         timeLeft--;
     }, 1000);
-
-    function finishPoll() {
-        document.querySelectorAll('.vote-btn').forEach(btn => btn.disabled = true);
-        document.getElementById("countdown").innerHTML = "BİTDİ";
-        
-        let maxVotes = Math.max(...votes);
-        let winnerIndex = votes.indexOf(maxVotes);
-        const announcement = document.getElementById("winner-announcement");
-        
-        if (maxVotes > 0) {
-            announcement.innerHTML = `🏆 QALİB: ${players[winnerIndex]}!`;
-            announcement.style.display = "block";
-        }
-    }
-
-    renderPoll(); // İlk açılışda cədvəli göstər
 </script>
-
-</body>
-</html>
+                            
