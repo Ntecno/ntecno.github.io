@@ -754,22 +754,19 @@
             ball.style.left = '50%';
             isShooting = false;
         }
-    </script> <div id="ntecno-voting-system" style="background:#111; color:gold; padding:20px; border-radius:15px; font-family:sans-serif; max-width:500px; margin:auto; border:2px solid gold;">
-    <h3 style="text-align:center; margin-bottom:10px;">BEST PLAYER — CANLI SƏSVERMƏ</h3>
-    
-    <div style="text-align:center; background:#222; padding:10px; border-radius:10px; margin-bottom:20px; border:1px solid #333;">
-        <span style="color:#888; font-size:14px;">Səsvermənin bitməsinə qaldı:</span><br>
-        <span id="global-timer" style="color:#ff4d4d; font-weight:bold; font-size:22px;">--:--:--</span>
+    </script>
+            </div> <div id="ntecno-final-poll" style="background:#111; color:gold; padding:20px; border-radius:15px; font-family:sans-serif; max-width:500px; margin:auto; border:2px solid gold;">
+    <h3 style="text-align:center;">BEST PLAYER — CANLI SƏSVERMƏ</h3>
+    <div id="timer-box" style="text-align:center; background:#222; padding:10px; border-radius:10px; margin-bottom:20px;">
+        <span id="global-timer" style="color:#ff4d4d; font-weight:bold; font-size:22px;">24:00:00</span>
     </div>
-
-    <div id="player-list-container">Siyahı yüklənir...</div>
+    <div id="player-list-container">Yüklənir...</div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <script>
-    // 1. FİRREBASE AYARLARI (Sənin şəkillərindən götürülüb)
     const firebaseConfig = {
         apiKey: "AIzaSyCB1XwkajktYJn_fCXsF6GA7DrVtnCSuG8",
         authDomain: "ntecno31-e8e7b.firebaseapp.com",
@@ -778,87 +775,69 @@
         appId: "1:1089280483700:web:e5baa1994977254ee88c21"
     };
 
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
-    }
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-
     const players = ["Nurlan Şükürov", "İbrahim Adilov", "Fateh Tanrıverdiyev", "Ruşan Quliyev", "Fərhad Quliyev", "Nicat Rəhimli", "Ramal Bayramov", "Hüseyn Zahidov", "Tofiq Atakişi", "Mehdi Nəbiyev", "Məzahir Səlimov", "Ümid Ağamalıyev", "Ayxan Quliyev", "Sinan Yusifli", "Fərid Rzalı", "Murad Məmmədli", "Zülfü Əliyev", "Cavid Qarasov"];
 
-    // 2. QLOBAL TAYMER (Bazadan oxunur)
-    function syncTimer() {
-        db.ref('settings/endTime').on('value', (snapshot) => {
-            let endTime = snapshot.val();
-            
-            // Əgər bazada vaxt yoxdursa, indidən 24 saat sonranı yaz (ilk dəfə üçün)
-            if (!endTime) {
-                endTime = Date.now() + (24 * 60 * 60 * 1000);
-                db.ref('settings/endTime').set(endTime);
-            }
+    // BAZANI İLK DƏFƏ DOLDURMAQ VƏ OXUMAQ
+    db.ref().on('value', (snapshot) => {
+        const data = snapshot.val() || {};
+        const votes = data.votes || new Array(players.length).fill(0);
+        let endTime = data.settings ? data.settings.endTime : null;
 
-            const x = setInterval(() => {
-                let now = Date.now();
-                let distance = endTime - now;
+        // Əgər bazada vaxt yoxdursa, yarat
+        if (!endTime) {
+            endTime = Date.now() + (24 * 60 * 60 * 1000);
+            db.ref('settings/endTime').set(endTime);
+        }
 
-                if (distance < 0) {
-                    clearInterval(x);
-                    document.getElementById("global-timer").innerHTML = "BİTDİ";
-                    return;
-                }
+        // Taymeri başlat
+        updateTimer(endTime);
 
-                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        // Siyahını göstər
+        render(votes);
+    });
 
-                document.getElementById("global-timer").innerHTML = 
-                    (hours < 10 ? "0"+hours : hours) + ":" + 
-                    (minutes < 10 ? "0"+minutes : minutes) + ":" + 
-                    (seconds < 10 ? "0"+seconds : seconds);
-            }, 1000);
-        });
-    }
-
-    // 3. SƏSLƏRİ CANLI GÖSTƏR
-    db.ref('votes').on('value', (snapshot) => {
-        const votes = snapshot.val() || new Array(players.length).fill(0);
+    function render(votes) {
         let total = votes.reduce((a, b) => a + b, 0);
         let html = "";
-        let userHasVoted = localStorage.getItem('ntecno_voted_v1');
+        let voted = localStorage.getItem('ntecno_voted');
 
         players.forEach((name, i) => {
             let count = votes[i] || 0;
             let prc = total === 0 ? 0 : Math.round((count / total) * 100);
             html += `
-                <div style="margin-bottom:12px; background:#1a1a1a; padding:10px; border-radius:8px; border:1px solid #333;">
+                <div style="margin-bottom:12px; background:#1a1a1a; padding:10px; border-radius:8px;">
                     <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="font-size:14px; font-weight:bold;">${name}</span>
-                        <button onclick="vote(${i})" ${userHasVoted ? 'disabled' : ''} 
-                                style="background:gold; color:black; border:none; padding:5px 12px; font-weight:bold; cursor:pointer; border-radius:5px;">
-                            ${userHasVoted ? 'SƏS VERİLDİ' : 'SƏS VER'}
+                        <span style="font-size:14px;">${name}</span>
+                        <button onclick="vote(${i})" ${voted ? 'disabled' : ''} style="background:gold; border:none; padding:5px 10px; cursor:pointer; font-weight:bold; border-radius:5px;">
+                            ${voted ? 'OK' : 'SƏS'}
                         </button>
                     </div>
-                    <div style="background:#333; height:10px; margin-top:8px; border-radius:5px; overflow:hidden;">
-                        <div style="background:gold; height:100%; width:${prc}%; transition: 0.8s;"></div>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:5px; color:#aaa;">
-                        <span>${prc}%</span> <span>${count} səs</span>
-                    </div>
+                    <div style="background:#333; height:8px; margin-top:8px; border-radius:4px;"><div style="background:gold; height:100%; width:${prc}%"></div></div>
+                    <small style="color:#aaa;">${prc}% (${count} səs)</small>
                 </div>`;
         });
         document.getElementById('player-list-container').innerHTML = html;
-    });
-
-    // 4. SƏS VERMƏ FUNKSİYASI
-    function vote(index) {
-        if (localStorage.getItem('ntecno_voted_v1')) return;
-
-        db.ref('votes/' + index).transaction((current) => {
-            return (current || 0) + 1;
-        }).then(() => {
-            localStorage.setItem('ntecno_voted_v1', 'true');
-        }).catch(err => alert("Xəta: " + err.message));
     }
 
-    syncTimer();
+    function vote(idx) {
+        if (localStorage.getItem('ntecno_voted')) return;
+        db.ref('votes/' + idx).transaction(c => (c || 0) + 1);
+        localStorage.setItem('ntecno_voted', 'true');
+    }
+
+    function updateTimer(endTime) {
+        setInterval(() => {
+            let distance = endTime - Date.now();
+            if (distance < 0) {
+                document.getElementById("global-timer").innerHTML = "BİTDİ";
+                return;
+            }
+            let h = Math.floor(distance / 3600000);
+            let m = Math.floor((distance % 3600000) / 60000);
+            let s = Math.floor((distance % 60000) / 1000);
+            document.getElementById("global-timer").innerHTML = `${h}:${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+        }, 1000);
+    }
 </script>
-                                                                                  </div>
