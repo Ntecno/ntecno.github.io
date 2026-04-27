@@ -914,3 +914,148 @@ function openTab(evt, tabName) {
 
 </body>
         </html>
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <title>Elite Pro League | Canlı Yayım</title>
+    <style>
+        body { background: #0d0d0d; color: white; font-family: sans-serif; margin: 0; overflow: hidden; }
+        #game-container { display: none; width: 100vw; height: 100vh; flex-direction: column; align-items: center; justify-content: center; }
+        
+        /* Meydança */
+        #pitch { 
+            width: 800px; height: 500px; background: #2e7d32; border: 5px solid white; position: relative;
+            background-image: linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 100%;
+        }
+        .center-circle { width: 100px; height: 100px; border: 2px solid white; border-radius: 50%; position: absolute; top: 200px; left: 350px; }
+        
+        /* Oyunçular */
+        .player { width: 15px; height: 15px; border-radius: 50%; position: absolute; transition: all 0.5s linear; font-size: 8px; font-weight: bold; text-align: center; line-height: 15px; }
+        .tigers { background: orange; color: black; border: 1px solid white; }
+        .opponents { background: blue; color: white; border: 1px solid white; }
+        
+        /* Skor və Taymer */
+        #scoreboard { background: rgba(0,0,0,0.8); padding: 20px; border-radius: 10px; width: 800px; display: flex; justify-content: space-between; margin-bottom: 10px; border: 2px solid orange; }
+        .timer { font-size: 30px; font-weight: bold; color: gold; }
+        .score { font-size: 40px; }
+        
+        /* Mesajlar */
+        #commentary { position: absolute; bottom: 20px; background: rgba(0,0,0,0.7); width: 800px; text-align: center; padding: 10px; }
+        
+        #menu { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        .btn { background: orange; border: none; padding: 20px 40px; font-size: 20px; cursor: pointer; border-radius: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div id="menu">
+        <h1>Elite Pro League: Bedraplang vs Tigers FC</h1>
+        <p>Matç saatı: 23:00</p>
+        <button class="btn" id="start-btn">MATÇA GET</button>
+    </div>
+
+    <div id="game-container">
+        <div id="scoreboard">
+            <div>Tigers FC <span class="score" id="score-home">0</span></div>
+            <div class="timer" id="match-timer">00:00</div>
+            <div><span class="score" id="score-away">0</span> Bedraplang</div>
+        </div>
+        
+        <div id="pitch">
+            <div class="center-circle"></div>
+            </div>
+
+        <div id="commentary" id="log">Oyun başladı!</div>
+    </div>
+
+<script>
+    const tigersNames = ["Fateh(GK)", "Nicat(ST)", "Ibrahim(RW)", "Huseyin(LW)", "Nurlan(CM)", "Rushan(CM)", "Mezahir(DM)", "Ramal(RB)", "Mehdi(CB)", "Ayxan(CB)", "Sinan(LB)"];
+    const opponentNames = ["Ismail", "Mehemmed", "Jack", "Robert", "Thomas", "Daniel", "Kevin", "Oliver", "Harry", "George", "GK Smith"];
+    
+    let minute = 0;
+    let homeScore = 0;
+    let awayScore = 0;
+    let isHalfTime = false;
+
+    const events = {
+        6: { team: 'away', player: 'Jack' },
+        11: { team: 'home', player: 'Ibrahim' },
+        18: { team: 'home', player: 'Nurlan' },
+        33: { team: 'home', player: 'Nicat' },
+        34: { team: 'home', player: 'Ramal' },
+        40: { team: 'away', player: 'Mehemmed' },
+        44: { team: 'away', player: 'Ismail' },
+        63: { team: 'home', player: 'Nicat' },
+        74: { team: 'home', player: 'Ayxan' },
+        82: { team: 'home', player: 'Rushan' },
+        89: { team: 'away', player: 'Robert' },
+        91: { team: 'home', player: 'Ayxan', penalty: true }
+    };
+
+    document.getElementById('start-btn').onclick = function() {
+        document.getElementById('menu').style.display = 'none';
+        document.getElementById('game-container').style.display = 'flex';
+        startGame();
+    };
+
+    function createPlayers() {
+        const pitch = document.getElementById('pitch');
+        for(let i=0; i<11; i++) {
+            let p1 = document.createElement('div');
+            p1.className = 'player tigers';
+            p1.id = 'home-' + i;
+            p1.innerText = tigersNames[i][0];
+            pitch.appendChild(p1);
+
+            let p2 = document.createElement('div');
+            p2.className = 'player opponents';
+            p2.id = 'away-' + i;
+            p2.innerText = opponentNames[i][0];
+            pitch.appendChild(p2);
+        }
+    }
+
+    function movePlayers() {
+        for(let i=0; i<11; i++) {
+            document.getElementById('home-' + i).style.left = Math.random() * 780 + 'px';
+            document.getElementById('home-' + i).style.top = Math.random() * 480 + 'px';
+            document.getElementById('away-' + i).style.left = Math.random() * 780 + 'px';
+            document.getElementById('away-' + i).style.top = Math.random() * 480 + 'px';
+        }
+    }
+
+    function startGame() {
+        createPlayers();
+        let gameClock = setInterval(() => {
+            if(isHalfTime) return;
+
+            minute++;
+            document.getElementById('match-timer').innerText = (minute < 10 ? "0"+minute : minute) + ":00";
+            
+            movePlayers();
+
+            if(events[minute]) {
+                const ev = events[minute];
+                if(ev.team === 'home') homeScore++; else awayScore++;
+                document.getElementById('score-home').innerText = homeScore;
+                document.getElementById('score-away').innerText = awayScore;
+                document.getElementById('commentary').innerText = `QOOOL! ${ev.player} ${ev.penalty ? '(Penalti)' : ''} Hesab: ${homeScore}-${awayScore}`;
+            }
+
+            if(minute === 45 && !isHalfTime) {
+                isHalfTime = true;
+                document.getElementById('commentary').innerText = "FASİLƏ (15 dəqiqə)";
+                setTimeout(() => { isHalfTime = false; }, 2000); // Test üçün 2 saniyə (realda 15dəq olar)
+            }
+
+            if(minute >= 92) {
+                clearInterval(gameClock);
+                document.getElementById('commentary').innerText = `OYUN BİTDİ! YEKUN HESAB: ${homeScore}-${awayScore}`;
+            }
+        }, 1000); // 1 saniyə = 1 dəqiqə kimi sürətləndirildi (Real 90 dəq üçün 60000 yazılmalıdır)
+    }
+</script>
+</body>
+</html>
