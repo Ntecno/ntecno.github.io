@@ -755,8 +755,8 @@
             isShooting = false;
         }
     </script>
-    </div>
-    <!DOCTYPE html>
+            </div>
+            <!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
@@ -764,189 +764,98 @@
     <title>Elite Pro League 2026/27</title>
     <style>
         :root {
-            --bg-color: #0b0f1a;
-            --card-bg: #161e2d;
-            --accent: #fbbf24;
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-            --success: #10b981;
-            --danger: #ef4444;
-            --info: #3b82f6;
-            --border: #2d3748;
+            --bg: #0b0f1a; --card: #161e2d; --accent: #fbbf24;
+            --text: #f8fafc; --dim: #94a3b8;
+            --ucl: #00ff88; --uel: #00bfff; --uconf: #ffaa00; --rel: #ff4d4d;
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .container {
-            width: 100%;
-            max-width: 950px;
-        }
-        .header-section {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 15px;
-        }
-        h1 {
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            margin: 0;
-            font-size: 32px;
-        }
-        .subtitle {
-            color: var(--text-dim);
-            margin-top: 5px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--border);
-            overflow-x: auto;
-        }
-        h2 {
-            font-size: 18px;
-            margin-top: 0;
-            border-left: 4px solid var(--accent);
-            padding-left: 10px;
-            color: var(--accent);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 700px;
-        }
-        th {
-            background: #1f2937;
-            color: var(--accent);
-            padding: 14px;
-            font-size: 12px;
-            text-transform: uppercase;
-        }
-        td {
-            padding: 12px;
-            border-bottom: 1px solid var(--border);
-            text-align: center;
-            font-size: 14px;
-        }
-        .t-left { text-align: left; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 950px; }
+        .card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 25px; border: 1px solid #2d3748; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1, h2 { text-align: center; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 14px; text-align: center; border-bottom: 1px solid #2d3748; }
         
-        /* Region Styling */
-        .champions { background: rgba(16, 185, 129, 0.15); } 
-        .relegation { background: rgba(239, 68, 68, 0.15); } 
-        .my-team { background: rgba(251, 191, 36, 0.2) !important; border-left: 5px solid var(--accent); }
-        
-        .pos-num {
-            display: inline-block;
-            width: 28px;
-            height: 28px;
-            line-height: 28px;
-            border-radius: 6px;
-            font-weight: bold;
-            background: #334155;
-        }
-        .c-gold { background: var(--success); color: white; }
-        .r-red { background: var(--danger); color: white; }
+        /* Turnir Rəngləri */
+        .ucl { border-left: 6px solid var(--ucl); background: rgba(0, 255, 136, 0.1); }
+        .uel { border-left: 6px solid var(--uel); background: rgba(0, 191, 255, 0.1); }
+        .uconf { border-left: 6px solid var(--uconf); background: rgba(255, 170, 0, 0.1); }
+        .rel { border-left: 6px solid var(--rel); background: rgba(255, 77, 77, 0.1); }
+        .my-team { background: rgba(251, 191, 36, 0.2) !important; font-weight: bold; }
 
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            margin: 2px;
-        }
-        .goal-badge { background: var(--info); color: white; }
-        .assist-badge { background: #8b5cf6; color: white; }
+        .legend { display: flex; gap: 20px; justify-content: center; margin-bottom: 15px; font-size: 12px; font-weight: bold; }
+        .l-item { display: flex; align-items: center; gap: 8px; }
+        .box { width: 15px; height: 15px; border-radius: 3px; }
+        
+        .puskas-card { background: linear-gradient(45deg, #1f2937, #111827); border: 1px solid #ec4899; padding: 15px; border-radius: 10px; margin: 10px 0; }
+        .dist { color: #ec4899; font-weight: bold; font-size: 18px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header-section">
-        <h1>ELITE PRO LEAGUE</h1>
-        <div class="subtitle">2026/27 SEZONU</div>
+    <h1>ELITE PRO LEAGUE 2026/27</h1>
+    
+    <div class="legend">
+        <div class="l-item"><div class="box" style="background:var(--ucl)"></div> ÇL (1.)</div>
+        <div class="l-item"><div class="box" style="background:var(--uel)"></div> AL (2-3.)</div>
+        <div class="l-item"><div class="box" style="background:var(--uconf)"></div> KL (4.)</div>
+        <div class="l-item"><div class="box" style="background:var(--rel)"></div> Küme Düşmə</div>
     </div>
 
     <div class="card">
         <h2>Puan Durumu</h2>
         <table>
             <thead>
-                <tr>
-                    <th>#</th>
-                    <th class="t-left">Komanda</th>
-                    <th>O</th>
-                    <th>Q</th>
-                    <th>H</th>
-                    <th>M</th>
-                    <th>AT</th>
-                    <th>YT</th>
-                    <th>GF</th>
-                    <th>Xal</th>
-                </tr>
+                <tr><th>#</th><th style="text-align:left">Komanda</th><th>O</th><th>GF</th><th>Xal</th></tr>
             </thead>
             <tbody>
-                <tr class="champions my-team">
-                    <td><span class="pos-num c-gold">1</span></td>
-                    <td class="t-left"><b>Tigers FC</b></td>
-                    <td>1</td><td>1</td><td>0</td><td>0</td><td>8</td><td>4</td><td>+4</td><td><b>3</b></td>
-                </tr>
-                <tr><td><span class="pos-num">2</span></td><td class="t-left">Tayburlebur</td><td>1</td><td>1</td><td>0</td><td>0</td><td>3</td><td>1</td><td>+2</td><td><b>3</b></td></tr>
-                <tr><td><span class="pos-num">3</span></td><td class="t-left">Encir FK</td><td>1</td><td>1</td><td>0</td><td>0</td><td>2</td><td>0</td><td>+2</td><td><b>3</b></td></tr>
-                <tr><td><span class="pos-num">4</span></td><td class="t-left">Baku City</td><td>1</td><td>1</td><td>0</td><td>0</td><td>8</td><td>7</td><td>+1</td><td><b>3</b></td></tr>
-                <tr><td><span class="pos-num">5</span></td><td class="t-left">Farmland</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>1</b></td></tr>
-                <tr><td><span class="pos-num">6</span></td><td class="t-left">Storm Rangers</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>1</b></td></tr>
-                <tr><td><span class="pos-num">7</span></td><td class="t-left">Alov FK</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
-                <tr><td><span class="pos-num">8</span></td><td class="t-left">Bozqurdlar</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
-                <tr><td><span class="pos-num">9</span></td><td class="t-left">Dəmir Yumruq</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
-                <tr><td><span class="pos-num">10</span></td><td class="t-left">Göyçə FK</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
-                <tr><td><span class="pos-num">11</span></td><td class="t-left">Qarabağ Qartalları</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
-                <tr><td><span class="pos-num">12</span></td><td class="t-left">Şimal Ulduzu</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
-                <tr><td><span class="pos-num">13</span></td><td class="t-left">Xəzər Sahil</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
-                <tr><td><span class="pos-num">14</span></td><td class="t-left">Zəfər City</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
-                <tr class="relegation"><td><span class="pos-num">15</span></td><td class="t-left">Fredom City</td><td>1</td><td>0</td><td>0</td><td>1</td><td>7</td><td>8</td><td>-1</td><td><b>0</b></td></tr>
-                <tr class="relegation"><td><span class="pos-num">16</span></td><td class="t-left">Eagles Land</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>2</td><td>-2</td><td><b>0</b></td></tr>
-                <tr class="relegation"><td><span class="pos-num r-red">17</span></td><td class="t-left">Handking</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>3</td><td>-2</td><td><b>0</b></td></tr>
-                <tr class="relegation"><td><span class="pos-num r-red">18</span></td><td class="t-left">Bedraplang</td><td>1</td><td>0</td><td>0</td><td>1</td><td>4</td><td>8</td><td>-4</td><td><b>0</b></td></tr>
+                <tr class="ucl my-team"><td>1</td><td style="text-align:left">Tigers FC</td><td>1</td><td>+4</td><td>3</td></tr>
+                <tr class="uel"><td>2</td><td style="text-align:left">Tayburlebur</td><td>1</td><td>+2</td><td>3</td></tr>
+                <tr class="uel"><td>3</td><td style="text-align:left">Encir FK</td><td>1</td><td>+2</td><td>3</td></tr>
+                <tr class="uconf"><td>4</td><td style="text-align:left">Baku City</td><td>1</td><td>+1</td><td>3</td></tr>
+                <tr><td>5</td><td style="text-align:left">Farmland</td><td>1</td><td>0</td><td>1</td></tr>
+                <tr><td>6</td><td style="text-align:left">Storm Rangers</td><td>1</td><td>0</td><td>1</td></tr>
+                <tr><td>7</td><td style="text-align:left">Alov FK</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>8</td><td style="text-align:left">Bozqurdlar</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>9</td><td style="text-align:left">Dəmir Yumruq</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>10</td><td style="text-align:left">Göyçə FK</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>11</td><td style="text-align:left">Qarabağ Qartalları</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>12</td><td style="text-align:left">Şimal Ulduzu</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>13</td><td style="text-align:left">Xəzər Sahil</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr><td>14</td><td style="text-align:left">Zəfər City</td><td>0</td><td>0</td><td>0</td></tr>
+                <tr class="rel"><td>15</td><td style="text-align:left">Fredom City</td><td>1</td><td>-1</td><td>0</td></tr>
+                <tr class="rel"><td>16</td><td style="text-align:left">Eagles Land</td><td>1</td><td>-2</td><td>0</td></tr>
+                <tr class="rel"><td>17</td><td style="text-align:left">Handking</td><td>1</td><td>-2</td><td>0</td></tr>
+                <tr class="rel"><td>18</td><td style="text-align:left">Bedraplang</td><td>1</td><td>-4</td><td>0</td></tr>
             </tbody>
         </table>
     </div>
 
     <div class="card">
-        <h2>🔥 Top Statistikalar</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th class="t-left">Oyunçu</th>
-                    <th>Komanda</th>
-                    <th>Performans</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td class="t-left">Hjutsi</td><td>-</td><td><span class="badge goal-badge">4 QOL</span> <span class="badge assist-badge">3 ASİST</span></td></tr>
-                <tr><td class="t-left">Hyu</td><td>-</td><td><span class="badge goal-badge">4 QOL</span> <span class="badge assist-badge">2 ASİST</span></td></tr>
-                <tr class="my-team"><td class="t-left"><b>Nicat</b></td><td>Tigers FC</td><td><span class="badge goal-badge">2 QOL</span> <span class="badge assist-badge">1 ASİST</span></td></tr>
-                <tr class="my-team"><td class="t-left"><b>Ayxan</b></td><td>Tigers FC</td><td><span class="badge goal-badge">2 QOL</span></td></tr>
-                <tr class="my-team"><td class="t-left"><b>İbrahim</b></td><td>Tigers FC</td><td><span class="badge goal-badge">1 QOL</span> <span class="badge assist-badge">2 ASİST</span></td></tr>
-                <tr class="my-team"><td class="t-left"><b>Nurlan</b></td><td>Tigers FC</td><td><span class="badge goal-badge">1 QOL</span> <span class="badge assist-badge">2 ASİST</span></td></tr>
-                <tr class="my-team"><td class="t-left"><b>Rushan</b></td><td>Tigers FC</td><td><span class="badge goal-badge">1 QOL</span></td></tr>
-            </tbody>
-        </table>
+        <h2>⚽ 1. Sezon Oyun Nəticələri</h2>
+        <div style="text-align: center; font-size: 16px; line-height: 1.8;">
+            Tigers FC <b style="color:var(--accent)">8 - 4</b> Bedraplang<br>
+            Baku City <b style="color:var(--accent)">8 - 7</b> Fredom City<br>
+            Encir FK <b style="color:var(--accent)">2 - 0</b> Eagles Land<br>
+            Farmland <b style="color:var(--accent)">0 - 0</b> Storm Rangers<br>
+            Tayburlebur <b style="color:var(--accent)">3 - 1</b> Handking
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🏆 Puskas Gol Adayları</h2>
+        <div class="puskas-card">
+            <div style="font-size: 20px; font-weight: bold;">Nurlan Şükürov (Tigers FC)</div>
+            <div class="dist">Məsafə: 68.3 metr</div>
+            <div style="color: var(--dim);">Uzaqdan möhtəşəm raket!</div>
+        </div>
+        <div class="puskas-card">
+            <div style="font-size: 20px; font-weight: bold;">Hyu</div>
+            <div class="dist">Məsafə: 26.8 metr</div>
+            <div style="color: var(--dim);">Akrobatik Rövaşata qolu!</div>
+        </div>
     </div>
 </div>
 
 </body>
-                                               </html>
-                                               
+</html>
