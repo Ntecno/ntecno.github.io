@@ -913,70 +913,133 @@ function openTab(evt, tabName) {
 </script>
 
 </body>
-    </html>
-    <!DOCTYPE html>
+            </html>
+        <!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tigers FC - LIVE</title>
+    <title>Tigers FC - Pro Live</title>
     <style>
-        body { background: #000; color: white; font-family: sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
-        .header { width: 100%; max-width: 400px; background: #111; padding: 15px 0; border-bottom: 2px solid orange; display: flex; justify-content: space-around; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .team { text-align: center; font-size: 14px; font-weight: bold; }
-        .score { font-size: 35px; color: orange; display: block; }
-        .info { text-align: center; background: #222; padding: 5px 10px; border-radius: 5px; }
-        #stadium { position: relative; width: 350px; height: 500px; background: #2e7d32; border: 3px solid white; margin-top: 20px; overflow: hidden; }
-        .goal { position: absolute; width: 80px; height: 20px; border: 2px solid white; left: 135px; }
-        .top { top: -2px; } .bottom { bottom: -2px; }
-        .p { position: absolute; width: 18px; height: 18px; border-radius: 50%; font-size: 10px; font-weight: bold; text-align: center; line-height: 18px; transition: 1s; z-index: 5; border: 1px solid #000; }
-        .t { background: orange; color: #000; } .b { background: #2196f3; color: #fff; }
-        #ball { position: absolute; width: 12px; height: 12px; background: #fff; border-radius: 50%; transition: 0.6s; z-index: 10; border: 1px solid #000; }
+        body { background: #000; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; overflow: hidden; }
+        .header { width: 100%; max-width: 400px; background: #111; padding: 10px 0; border-bottom: 3px solid orange; display: flex; justify-content: space-around; align-items: center; z-index: 100; }
+        .score { font-size: 35px; font-weight: bold; color: orange; }
+        #stadium { position: relative; width: 360px; height: 530px; background: #2e7d32; border: 3px solid white; margin-top: 10px; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        
+        /* Oyunçu və Ad Stili */
+        .p-wrap { position: absolute; display: flex; flex-direction: column; align-items: center; transition: 1s; z-index: 5; }
+        .p-circle { width: 18px; height: 18px; border-radius: 50%; border: 1px solid #000; }
+        .p-name { font-size: 8px; margin-top: 2px; background: rgba(0,0,0,0.7); padding: 1px 3px; border-radius: 3px; white-space: nowrap; }
+        .t .p-circle { background: orange; } .b .p-circle { background: #2196f3; }
+        
+        #ball { position: absolute; width: 12px; height: 12px; background: #fff; border-radius: 50%; transition: 0.5s; z-index: 10; border: 1px solid #000; }
+        
+        /* Qol Efekti */
+        #gool-overlay { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.6); display: none; flex-direction: column; 
+            justify-content: center; align-items: center; z-index: 200; 
+        }
+        .gool-title { font-size: 60px; font-weight: 900; color: yellow; text-shadow: 4px 4px #ff0000; margin: 0; }
+        .gool-scorer { font-size: 24px; color: white; font-weight: bold; text-transform: uppercase; }
+
+        .net { position: absolute; width: 80px; height: 15px; border: 2px dashed rgba(255,255,255,0.5); left: 140px; }
+        .top-net { top: 0; } .bot-net { bottom: 0; }
     </style>
 </head>
 <body>
+    <div id="gool-overlay">
+        <h1 class="gool-title">GOOOL!!!</h1>
+        <div class="gool-scorer" id="scorer-name">PLAYER</div>
+    </div>
+
     <div class="header">
-        <div class="team">TIGERS FC<span id="h-s" class="score">0</span></div>
-        <div class="info">
-            <span id="status" style="color:red; font-size:10px; font-weight:bold;">CANLI</span>
-            <span id="clock" style="font-size:20px; font-weight:bold;">00:00</span>
+        <div style="text-align:center; font-size:12px;">TIGERS FC<br><span id="h-s" class="score">0</span></div>
+        <div style="text-align:center; background:#222; padding:5px 12px; border-radius:5px;">
+            <div style="color:red; font-size:9px; font-weight:bold; letter-spacing:1px;">CANLI</div>
+            <div id="clock" style="font-size:22px; font-weight:bold;">00:00</div>
         </div>
-        <div class="team">BEDRAPLANG<span id="a-s" class="score">0</span></div>
+        <div style="text-align:center; font-size:12px;">BEDRAPLANG<br><span id="a-s" class="score">0</span></div>
     </div>
+
     <div id="stadium">
-        <div class="goal top"></div>
-        <div class="goal bottom"></div>
-        <div id="ball" style="top:244px; left:169px;"></div>
+        <div class="net top-net"></div>
+        <div class="net bot-net"></div>
+        <div id="ball" style="top:259px; left:174px;"></div>
     </div>
+
 <script>
-    const tH = [{n:"F",p:[166,470]},{n:"N",p:[166,100]},{n:"I",p:[80,150]},{n:"H",p:[250,150]},{n:"N",p:[110,250]},{n:"R",p:[220,250]},{n:"M",p:[166,320]},{n:"R",p:[50,380]},{n:"M",p:[130,380]},{n:"A",p:[200,380]},{n:"S",p:[280,380]}];
-    const oH = [{n:"G",p:[166,30]},{n:"I",p:[166,370]},{n:"M",p:[80,320]},{n:"J",p:[250,320]},{n:"R",p:[110,220]},{n:"T",p:[220,220]},{n:"D",p:[166,150]},{n:"K",p:[50,80]},{n:"O",p:[130,80]},{n:"H",p:[200,80]},{n:"G",p:[280,80]}];
-    let m=0, s=0, h=0, a=0;
-    const goals = {6:'A', 11:'H', 18:'H', 33:'H', 34:'H', 40:'A', 44:'A', 63:'H', 74:'H', 82:'H', 89:'A', 91:'H'};
-    function start() {
+    // Oyunçu dataları
+    const tigers = [
+        {n:"Fateh",p:[171,490]},{n:"Nicat",p:[171,110]},{n:"Ibrahim",p:[80,180]},{n:"Huseyin",p:[260,180]},
+        {n:"Nurlan",p:[110,270]},{n:"Rushan",p:[230,270]},{n:"Mezahir",p:[171,320]},{n:"Ramal",p:[60,390]},
+        {n:"Mehdi",p:[140,390]},{n:"Ayxan",p:[200,390]},{n:"Sinan",p:[280,390]}
+    ];
+    const enemies = [
+        {n:"GK",p:[171,20]},{n:"Ismail",p:[171,380]},{n:"Mehemmed",p:[80,320]},{n:"Jack",p:[260,320]},
+        {n:"Robert",p:[110,210]},{n:"Thomas",p:[230,210]},{n:"Daniel",p:[171,150]},{n:"Kevin",p:[60,80]},
+        {n:"Oliver",p:[140,80]},{n:"Harry",p:[200,80]},{n:"George",p:[280,80]}
+    ];
+
+    // Ssenari: Dəqiqə -> Kim vurdu (H=Tigers, A=Rəqib), Adı
+    const goalEvents = {
+        6: {s:'A', n:'Bedraplang'}, 11: {s:'H', n:'Ibrahim'}, 18: {s:'H', n:'Nurlan'},
+        33: {s:'H', n:'Nicat'}, 34: {s:'H', n:'Ramal'}, 40: {s:'A', n:'Bedraplang'},
+        44: {s:'A', n:'Bedraplang'}, 63: {s:'H', n:'Nicat'}, 74: {s:'H', n:'Ayxan'},
+        82: {s:'H', n:'Rushan'}, 89: {s:'A', n:'Bedraplang'}, 91: {s:'H', n:'Ayxan'}
+    };
+
+    let m=23, s=13, h=0, a=0; // Saat 23:13-dən davam edir
+
+    function init() {
         const st = document.getElementById('stadium');
-        tH.forEach((x,i) => create(x, 't', 'h'+i, st));
-        oH.forEach((x,i) => create(x, 'b', 'a'+i, st));
-        setInterval(() => {
-            s++; if(s==60){s=0; m++;}
-            document.getElementById('clock').innerText = (m<10?'0'+m:m)+':'+(s<10?'0'+s:s);
-            let b = document.getElementById('ball');
-            if(s==0 && goals[m]) {
-                if(goals[m]=='H') { h++; b.style.left="169px"; b.style.top="10px"; } 
-                else { a++; b.style.left="169px"; b.style.top="480px"; }
-                document.getElementById('h-s').innerText=h; document.getElementById('a-s').innerText=a;
-                setTimeout(()=> { b.style.left="169px"; b.style.top="244px"; }, 1500);
-            } else if(s%3==0) {
-                let t = document.getElementById((Math.random()>0.5?'h':'a')+Math.floor(Math.random()*11));
-                b.style.left=t.style.left; b.style.top=t.style.top;
+        tigers.forEach((p,i) => createP(p, 't', 'h'+i, st));
+        enemies.forEach((p,i) => createP(p, 'b', 'a'+i, st));
+        setInterval(update, 1000);
+    }
+
+    function createP(d, c, id, p) {
+        let w = document.createElement('div');
+        w.className = 'p-wrap ' + c; w.id = id;
+        w.style.left = d.p[0]+'px'; w.style.top = d.p[1]+'px';
+        w.innerHTML = `<div class="p-circle"></div><div class="p-name">${d.n}</div>`;
+        p.appendChild(w);
+    }
+
+    function update() {
+        s++; if(s==60){s=0; m++;}
+        document.getElementById('clock').innerText = (m<10?'0'+m:m)+':'+(s<10?'0'+s:s);
+        
+        let ball = document.getElementById('ball');
+        // Oyunun real neçənci dəqiqəsi olduğunu hesabla (23:00-dan bəri)
+        let gameMin = (m - 23) * 60 + s; 
+        let event = goalEvents[s]; // Test üçün saniyələri dəqiqə kimi götürürük
+
+        if(event) {
+            document.getElementById('scorer-name').innerText = event.n;
+            document.getElementById('gool-overlay').style.display = 'flex';
+            
+            if(event.s == 'H') { 
+                h++; ball.style.top = "5px"; ball.style.left = "174px"; 
+            } else { 
+                a++; ball.style.top = "513px"; ball.style.left = "174px"; 
             }
-        }, 1000);
+            
+            delete goalEvents[s];
+            setTimeout(() => {
+                document.getElementById('h-s').innerText = h;
+                document.getElementById('a-s').innerText = a;
+                document.getElementById('gool-overlay').style.display = 'none';
+                ball.style.top = "259px"; ball.style.left = "174px";
+            }, 2500);
+        } else if(s % 3 == 0) {
+            let side = Math.random() > 0.5 ? 'h' : 'a';
+            let target = document.getElementById(side + Math.floor(Math.random()*11));
+            ball.style.left = target.style.left; ball.style.top = target.style.top;
+        }
     }
-    function create(d, c, i, p) {
-        let e=document.createElement('div'); e.className='p '+c; e.id=i; e.innerText=d.n;
-        e.style.left=d.p[0]+'px'; e.style.top=d.p[1]+'px'; p.appendChild(e);
-    }
-    window.onload = start; // Səhifə açılan kimi oyun başlasın (vaxt artıq keçib)
+
+    window.onload = init;
 </script>
 </body>
-</html>
+</html>    
