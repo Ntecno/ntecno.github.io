@@ -761,289 +761,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Pro League | Official Portal</title>
+    <title>Elite Pro League 2026/27</title>
     <style>
         :root {
-            --primary: #f39c12;
-            --dark-bg: #0d0d0d;
-            --card-bg: #181818;
-            --border: #2a2a2a;
-            --ucl: #4285f4; --uel: #f4b400; --uecl: #0f9d58; --rel: #db4437;
+            --bg-color: #0b0f1a;
+            --card-bg: #161e2d;
+            --accent: #fbbf24;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --border: #2d3748;
         }
-
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--dark-bg); color: white; margin: 0; padding: 10px; }
-        .container { max-width: 950px; margin: 0 auto; }
-
-        /* TABS */
-        .tabs { display: flex; gap: 8px; margin-bottom: 15px; justify-content: center; flex-wrap: wrap; }
-        .tab-btn { 
-            background: var(--card-bg); border: 1px solid var(--border); color: #888; 
-            padding: 10px 20px; cursor: pointer; border-radius: 5px; font-weight: bold; transition: 0.3s;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .tab-btn.active { background: var(--primary); color: black; border-color: var(--primary); }
+        .container {
+            width: 100%;
+            max-width: 950px;
+        }
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 15px;
+        }
+        h1 {
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin: 0;
+            font-size: 32px;
+        }
+        .subtitle {
+            color: var(--text-dim);
+            margin-top: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+            overflow-x: auto;
+        }
+        h2 {
+            font-size: 18px;
+            margin-top: 0;
+            border-left: 4px solid var(--accent);
+            padding-left: 10px;
+            color: var(--accent);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+        th {
+            background: #1f2937;
+            color: var(--accent);
+            padding: 14px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+            font-size: 14px;
+        }
+        .t-left { text-align: left; }
+        
+        /* Region Styling */
+        .champions { background: rgba(16, 185, 129, 0.15); } 
+        .relegation { background: rgba(239, 68, 68, 0.15); } 
+        .my-team { background: rgba(251, 191, 36, 0.2) !important; border-left: 5px solid var(--accent); }
+        
+        .pos-num {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            border-radius: 6px;
+            font-weight: bold;
+            background: #334155;
+        }
+        .c-gold { background: var(--success); color: white; }
+        .r-red { background: var(--danger); color: white; }
 
-        .content-section { display: none; background: var(--card-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .content-section.active { display: block; }
-
-        /* CƏDVƏL (PUAN DURUMU) */
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th { background: #222; color: #777; font-size: 11px; padding: 12px; text-align: left; text-transform: uppercase; }
-        td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
-        .rank-col { width: 40px; font-weight: bold; text-align: center; }
-        .line-ucl { border-left: 4px solid var(--ucl); }
-        .line-uel { border-left: 4px solid var(--uel); }
-        .line-uecl { border-left: 4px solid var(--uecl); }
-        .line-rel { border-left: 4px solid var(--rel); }
-        .pts-bold { font-weight: bold; color: var(--primary); }
-
-        /* MAÇLAR */
-        .match-card { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; border-bottom: 1px solid var(--border); }
-        .match-time { color: var(--primary); font-weight: bold; width: 60px; text-align: center; }
-        .team-box { width: 180px; font-weight: 500; }
-        .vs-box { font-weight: bold; color: #444; background: #222; padding: 2px 8px; border-radius: 4px; }
-
-        /* STATS */
-        .stats-placeholder { padding: 50px; text-align: center; color: #555; }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 2px;
+        }
+        .goal-badge { background: var(--info); color: white; }
+        .assist-badge { background: #8b5cf6; color: white; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="tabs">
-        <button class="tab-btn active" onclick="openTab(event, 'standings')">Cədvəl</button>
-        <button class="tab-btn" onclick="openTab(event, 'matches')">Maçlar</button>
-        <button class="tab-btn" onclick="openTab(event, 'stats')">Statistika</button>
+    <div class="header-section">
+        <h1>ELITE PRO LEAGUE</h1>
+        <div class="subtitle">2026/27 SEZONU</div>
     </div>
 
-    <div id="standings" class="content-section active">
-        <div style="padding: 15px; font-weight: bold; border-bottom: 1px solid var(--border);">ELITE PRO LEAGUE - 2026/27</div>
-        <div style="overflow-x: auto;">
-            <table>
-                <thead>
-                    <tr><th class="rank-col">#</th><th>KLUB</th><th>O</th><th>AV</th><th class="rank-col">P</th></tr>
-                </thead>
-                <tbody>
-                    <tr class="line-ucl"><td class="rank-col">1</td><td><strong>Tigers FC</strong></td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr class="line-ucl"><td class="rank-col">2</td><td>Baku City</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr class="line-uel"><td class="rank-col">3</td><td>Eagles Land</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr class="line-uecl"><td class="rank-col">4</td><td>Fedom City</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr><td class="rank-col">5</td><td>Encir FK</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr><td class="rank-col">6</td><td>FormLand</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr><td class="rank-col">7</td><td>Storm Rangers</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr><td class="rank-col">8</td><td>Bedraplang</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr><td class="rank-col">9</td><td>Tayburlebur</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr><td class="rank-col">10</td><td>HandKing</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr><td class="rank-col">11</td><td>Iron Wolves</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr><td class="rank-col">12</td><td>Diamond FC</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr><td class="rank-col">13</td><td>Blaze United</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr><td class="rank-col">14</td><td>Cyber Titans</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr><td class="rank-col">15</td><td>Nova Rovers</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr class="line-rel"><td class="rank-col">16</td><td>Shadow Squad</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr class="line-rel"><td class="rank-col">17</td><td>Anchor Port</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                    <tr class="line-rel"><td class="rank-col">18</td><td>Last Stand</td><td>0</td><td>0</td><td class="rank-col pts-bold">0</td></tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="card">
+        <h2>Puan Durumu</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th class="t-left">Komanda</th>
+                    <th>O</th>
+                    <th>Q</th>
+                    <th>H</th>
+                    <th>M</th>
+                    <th>AT</th>
+                    <th>YT</th>
+                    <th>GF</th>
+                    <th>Xal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="champions my-team">
+                    <td><span class="pos-num c-gold">1</span></td>
+                    <td class="t-left"><b>Tigers FC</b></td>
+                    <td>1</td><td>1</td><td>0</td><td>0</td><td>8</td><td>4</td><td>+4</td><td><b>3</b></td>
+                </tr>
+                <tr><td><span class="pos-num">2</span></td><td class="t-left">Tayburlebur</td><td>1</td><td>1</td><td>0</td><td>0</td><td>3</td><td>1</td><td>+2</td><td><b>3</b></td></tr>
+                <tr><td><span class="pos-num">3</span></td><td class="t-left">Encir FK</td><td>1</td><td>1</td><td>0</td><td>0</td><td>2</td><td>0</td><td>+2</td><td><b>3</b></td></tr>
+                <tr><td><span class="pos-num">4</span></td><td class="t-left">Baku City</td><td>1</td><td>1</td><td>0</td><td>0</td><td>8</td><td>7</td><td>+1</td><td><b>3</b></td></tr>
+                <tr><td><span class="pos-num">5</span></td><td class="t-left">Farmland</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>1</b></td></tr>
+                <tr><td><span class="pos-num">6</span></td><td class="t-left">Storm Rangers</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>1</b></td></tr>
+                <tr><td><span class="pos-num">7</span></td><td class="t-left">Alov FK</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+                <tr><td><span class="pos-num">8</span></td><td class="t-left">Bozqurdlar</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+                <tr><td><span class="pos-num">9</span></td><td class="t-left">Dəmir Yumruq</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+                <tr><td><span class="pos-num">10</span></td><td class="t-left">Göyçə FK</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+                <tr><td><span class="pos-num">11</span></td><td class="t-left">Qarabağ Qartalları</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+                <tr><td><span class="pos-num">12</span></td><td class="t-left">Şimal Ulduzu</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+                <tr><td><span class="pos-num">13</span></td><td class="t-left">Xəzər Sahil</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+                <tr><td><span class="pos-num">14</span></td><td class="t-left">Zəfər City</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><b>0</b></td></tr>
+                <tr class="relegation"><td><span class="pos-num">15</span></td><td class="t-left">Fredom City</td><td>1</td><td>0</td><td>0</td><td>1</td><td>7</td><td>8</td><td>-1</td><td><b>0</b></td></tr>
+                <tr class="relegation"><td><span class="pos-num">16</span></td><td class="t-left">Eagles Land</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>2</td><td>-2</td><td><b>0</b></td></tr>
+                <tr class="relegation"><td><span class="pos-num r-red">17</span></td><td class="t-left">Handking</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>3</td><td>-2</td><td><b>0</b></td></tr>
+                <tr class="relegation"><td><span class="pos-num r-red">18</span></td><td class="t-left">Bedraplang</td><td>1</td><td>0</td><td>0</td><td>1</td><td>4</td><td>8</td><td>-4</td><td><b>0</b></td></tr>
+            </tbody>
+        </table>
     </div>
 
-    <div id="matches" class="content-section">
-        <div style="padding: 15px; background: #000; color: var(--primary); font-weight: bold; text-align: center;">1. TUR | 27 APREL OYUNLARI</div>
-        
-        <div class="match-card">
-            <div class="match-time">23:00</div>
-            <div class="team-box" style="text-align: right;">Bedraplang</div>
-            <div class="vs-box">VS</div>
-            <div class="team-box">Tigers FC</div>
-        </div>
-
-        <div class="match-card">
-            <div class="match-time">23:30</div>
-            <div class="team-box" style="text-align: right;">Baku City</div>
-            <div class="vs-box">VS</div>
-            <div class="team-box">Fedom City</div>
-        </div>
-
-        <div class="match-card">
-            <div class="match-time">23:30</div>
-            <div class="team-box" style="text-align: right;">Eagles Land</div>
-            <div class="vs-box">VS</div>
-            <div class="team-box">Encir FK</div>
-        </div>
-
-        <div class="match-card">
-            <div class="match-time">00:00</div>
-            <div class="team-box" style="text-align: right;">FormLand</div>
-            <div class="vs-box">VS</div>
-            <div class="team-box">Storm Rangers</div>
-        </div>
-
-        <div class="match-card">
-            <div class="match-time">00:00</div>
-            <div class="team-box" style="text-align: right;">Tayburlebur</div>
-            <div class="vs-box">VS</div>
-            <div class="team-box">HandKing</div>
-        </div>
-        
-        <div style="padding: 15px; text-align: center; font-size: 11px; color: #444;">Digər 4 oyunun vaxtı tezliklə elan olunacaq.</div>
-    </div>
-
-    <div id="stats" class="content-section">
-        <div class="stats-placeholder">
-            <h2>LİQA STATİSTİKALARI</h2>
-            <p>Hələlik heç bir oyun keçirilməyib.</p>
-            <div style="display: flex; justify-content: space-around; margin-top: 30px;">
-                <div>⚽ Qollar: 0</div>
-                <div>🅰️ Assist: 0</div>
-                <div>🟨 Kartlar: 0</div>
-            </div>
-        </div>
+    <div class="card">
+        <h2>🔥 Top Statistikalar</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th class="t-left">Oyunçu</th>
+                    <th>Komanda</th>
+                    <th>Performans</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="t-left">Hjutsi</td><td>-</td><td><span class="badge goal-badge">4 QOL</span> <span class="badge assist-badge">3 ASİST</span></td></tr>
+                <tr><td class="t-left">Hyu</td><td>-</td><td><span class="badge goal-badge">4 QOL</span> <span class="badge assist-badge">2 ASİST</span></td></tr>
+                <tr class="my-team"><td class="t-left"><b>Nicat</b></td><td>Tigers FC</td><td><span class="badge goal-badge">2 QOL</span> <span class="badge assist-badge">1 ASİST</span></td></tr>
+                <tr class="my-team"><td class="t-left"><b>Ayxan</b></td><td>Tigers FC</td><td><span class="badge goal-badge">2 QOL</span></td></tr>
+                <tr class="my-team"><td class="t-left"><b>İbrahim</b></td><td>Tigers FC</td><td><span class="badge goal-badge">1 QOL</span> <span class="badge assist-badge">2 ASİST</span></td></tr>
+                <tr class="my-team"><td class="t-left"><b>Nurlan</b></td><td>Tigers FC</td><td><span class="badge goal-badge">1 QOL</span> <span class="badge assist-badge">2 ASİST</span></td></tr>
+                <tr class="my-team"><td class="t-left"><b>Rushan</b></td><td>Tigers FC</td><td><span class="badge goal-badge">1 QOL</span></td></tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
-<script>
-function openTab(evt, tabName) {
-    var i, content, tablinks;
-    content = document.getElementsByClassName("content-section");
-    for (i = 0; i < content.length; i++) { content[i].style.display = "none"; }
-    tablinks = document.getElementsByClassName("tab-btn");
-    for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.classList.add("active");
-}
-</script>
-
 </body>
-                                                                                      </html> <!DOCTYPE html>
-<html lang="az">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tigers FC - Canlı Sistem</title>
-    <style>
-        html, body { height: 100%; margin: 0; padding: 0; background: #000; color: white; font-family: sans-serif; overflow-y: auto; }
-        body { display: flex; flex-direction: column; align-items: center; }
-        .header { width: 100%; max-width: 400px; background: #111; padding: 15px 0; border-bottom: 2px solid orange; display: flex; justify-content: space-around; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .score { font-size: 30px; font-weight: bold; color: orange; }
-        #stadium { position: relative; width: 350px; height: 500px; background: #2e7d32; border: 3px solid white; margin: 20px 0; overflow: hidden; flex-shrink: 0; }
-        .p-wrap { position: absolute; display: flex; flex-direction: column; align-items: center; transition: 1.5s linear; z-index: 5; }
-        .p-circle { width: 16px; height: 16px; border-radius: 50%; border: 1px solid #000; }
-        .p-name { font-size: 8px; margin-top: 2px; background: rgba(0,0,0,0.7); padding: 1px 3px; border-radius: 2px; }
-        .t .p-circle { background: orange; } .b .p-circle { background: #2196f3; }
-        #ball { position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%; transition: 0.6s; z-index: 10; border: 1px solid #000; }
-        #gool-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; }
-        .info-txt { font-size: 40px; color: yellow; text-align: center; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <div id="gool-screen"><div class="info-txt" id="main-msg">GOOOL!!!</div><div id="scr-name" style="font-size:25px; color:white; margin-top:10px;"></div></div>
-
-    <div class="header">
-        <div style="text-align:center">TIGERS<br><span id="h-s" class="score">0</span></div>
-        <div style="text-align:center; background:#222; padding:5px 10px; border-radius:5px;">
-            <div id="status" style="color:red; font-size:9px; font-weight:bold;">CANLI</div>
-            <div id="clock" style="font-size:22px; font-weight:bold;">00:00</div>
-        </div>
-        <div style="text-align:center">BEDRA<br><span id="a-s" class="score">0</span></div>
-    </div>
-
-    <div id="stadium"><div id="ball" style="top:245px; left:170px;"></div></div>
-
-<script>
-    const tigers = [{n:"Fateh",p:[165,460]},{n:"Nicat",p:[165,100]},{n:"Ibrahim",p:[70,160]},{n:"Huseyin",p:[250,160]},{n:"Nurlan",p:[100,250]},{n:"Rushan",p:[220,250]},{n:"Mezahir",p:[165,300]},{n:"Ramal",p:[50,370]},{n:"Mehdi",p:[130,370]},{n:"Ayxan",p:[190,370]},{n:"Sinan",p:[270,370]}];
-    const foes = [{n:"GK",p:[165,20]},{n:"Ismail",p:[165,350]},{n:"Mehemmed",p:[70,300]},{n:"Jack",p:[250,300]},{n:"Robert",p:[100,200]},{n:"Thomas",p:[220,200]},{n:"Daniel",p:[165,140]},{n:"Kevin",p:[50,70]},{n:"Oliver",p:[130,70]},{n:"Harry",p:[190,70]},{n:"George",p:[270,70]}];
-    const goalEvents = {6:{s:'A',n:'Bedraplang'},11:{s:'H',n:'Ibrahim'},18:{s:'H',n:'Nurlan'},33:{s:'H',n:'Nicat'},34:{s:'H',n:'Ramal'},40:{s:'A',n:'Bedraplang'},44:{s:'A',n:'Bedraplang'},63:{s:'H',n:'Nicat'},74:{s:'H',n:'Ayxan'},82:{s:'H',n:'Rushan'},89:{s:'A',n:'Bedraplang'},91:{s:'H',n:'Ayxan'}};
-    
-    let hScore=0, aScore=0;
-
-    function init() {
-        const st = document.getElementById('stadium');
-        tigers.forEach((p,i) => createP(p,'t','h'+i,st));
-        foes.forEach((p,i) => createP(p,'b','a'+i,st));
-        setInterval(matchEngine, 1000);
-    }
-
-    function matchEngine() {
-        let now = new Date();
-        let currentH = now.getHours();
-        let currentM = now.getMinutes();
-        let currentS = now.getSeconds();
-
-        // Oyun 23:30-da başlayıb. Neçənci dəqiqədəyik?
-        let totalElapsed = (currentH === 23) ? (currentM - 30) : (60 + currentM + (currentH === 1 ? 60 : 0));
-        
-        let gameMin, isBreak = false;
-
-        if (totalElapsed < 45) {
-            gameMin = totalElapsed;
-        } else if (totalElapsed >= 45 && totalElapsed < 50) {
-            gameMin = 45;
-            isBreak = true;
-        } else {
-            gameMin = totalElapsed - 5; // 5 dəqiqəlik fasiləni çıxırıq
-        }
-
-        if (gameMin > 95) gameMin = 95;
-
-        // Hesabı həmin dəqiqəyə görə yenilə (dalbadal qol çıxmasın deyə)
-        let tempH = 0, tempA = 0;
-        Object.keys(goalEvents).forEach(m => {
-            if (gameMin > m || (gameMin == m && currentS > 5)) {
-                if(goalEvents[m].s === 'H') tempH++; else tempA++;
-            }
-        });
-        hScore = tempH; aScore = tempA;
-        document.getElementById('h-s').innerText = hScore;
-        document.getElementById('a-s').innerText = aScore;
-        document.getElementById('clock').innerText = (gameMin<10?'0'+gameMin:gameMin)+':'+(currentS<10?'0'+currentS:currentS);
-
-        // Fasilə ekranı
-        if (isBreak) {
-            document.getElementById('main-msg').innerText = "İLK YARI BİTDİ\nFASİLƏ";
-            document.getElementById('gool-screen').style.display = 'flex';
-            document.getElementById('status').innerText = "FASİLƏ";
-            return;
-        } else {
-            document.getElementById('status').innerText = "CANLI";
-        }
-
-        // Qol anı
-        if (currentS === 0 && goalEvents[gameMin]) {
-            showGoal(goalEvents[gameMin].n, goalEvents[gameMin].s);
-        }
-
-        if (currentS % 2 === 0) movePlayers();
-    }
-
-    function showGoal(name, side) {
-        document.getElementById('main-msg').innerText = "GOOOL!!!";
-        document.getElementById('scr-name').innerText = name;
-        document.getElementById('gool-screen').style.display = 'flex';
-        let b = document.getElementById('ball');
-        b.style.top = (side === 'H') ? "5px" : "490px";
-        setTimeout(() => { document.getElementById('gool-screen').style.display = 'none'; b.style.top = "245px"; }, 3000);
-    }
-
-    function movePlayers() {
-        let b = document.getElementById('ball');
-        let target = document.getElementById((Math.random()>0.5?'h':'a')+Math.floor(Math.random()*11));
-        b.style.left = target.style.left; b.style.top = target.style.top;
-        [...Array(11).keys()].forEach(i => {
-            ['h','a'].forEach(t => {
-                let el = document.getElementById(t+i);
-                let x = parseInt(el.style.left), y = parseInt(el.style.top);
-                el.style.left = (x + (Math.random()-0.5)*15)+'px';
-                el.style.top = (y + (Math.random()-0.5)*15)+'px';
-            });
-        });
-    }
-
-    function createP(d,c,id,p){
-        let w=document.createElement('div'); w.className='p-wrap '+c; w.id=id;
-        w.style.left=d.p[0]+'px'; w.style.top=d.p[1]+'px';
-        w.innerHTML=`<div class="p-circle"></div><div class="p-name">${d.n}</div>`;
-        p.appendChild(w);
-    }
-    window.onload = init;
-</script>
-</body>
-</html>
+                                               </html>
+                                               
