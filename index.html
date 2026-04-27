@@ -913,41 +913,62 @@ function openTab(evt, tabName) {
 </script>
 
 </body>
-      <!DOCTYPE html>
+                            </html>
+                            <!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tigers FC - Auto Live</title>
+    <title>Tigers FC - Real Match</title>
     <style>
-        body { background: #000; color: white; font-family: sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; overflow-y: auto; }
+        /* SCROLL PROBLEMİNİN HƏLLİ */
+        html, body { height: 100%; margin: 0; padding: 0; background: #000; color: white; font-family: sans-serif; overflow-y: auto !important; }
+        body { display: flex; flex-direction: column; align-items: center; }
+        
         .header { width: 100%; max-width: 400px; background: #111; padding: 15px 0; border-bottom: 2px solid orange; display: flex; justify-content: space-around; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .score { font-size: 35px; font-weight: bold; color: orange; }
-        #stadium { position: relative; width: 360px; height: 530px; background: #2e7d32; border: 3px solid white; margin: 20px 0; overflow: hidden; }
-        .p-wrap { position: absolute; display: flex; flex-direction: column; align-items: center; transition: 1.2s linear; z-index: 5; }
-        .p-circle { width: 18px; height: 18px; border-radius: 50%; border: 1px solid #000; }
-        .p-name { font-size: 8px; margin-top: 2px; background: rgba(0,0,0,0.7); padding: 1px 3px; border-radius: 3px; }
+        .score { font-size: 30px; font-weight: bold; color: orange; }
+        
+        #stadium { position: relative; width: 350px; height: 500px; background: #2e7d32; border: 3px solid white; margin: 20px 0; overflow: hidden; flex-shrink: 0; }
+        
+        .p-wrap { position: absolute; display: flex; flex-direction: column; align-items: center; transition: 1.5s linear; z-index: 5; }
+        .p-circle { width: 16px; height: 16px; border-radius: 50%; border: 1px solid #000; }
+        .p-name { font-size: 8px; margin-top: 2px; background: rgba(0,0,0,0.7); padding: 1px 3px; border-radius: 2px; }
         .t .p-circle { background: orange; } .b .p-circle { background: #2196f3; }
-        #ball { position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%; transition: 0.5s; z-index: 10; border: 1px solid #000; }
-        #gool-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; }
-        .gool-txt { font-size: 55px; color: yellow; text-shadow: 3px 3px red; font-weight: 900; }
+        
+        #ball { position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%; transition: 0.6s; z-index: 10; border: 1px solid #000; }
+        
+        #gool-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; }
+        .gool-txt { font-size: 50px; color: yellow; text-shadow: 3px 3px red; font-weight: 900; }
     </style>
 </head>
 <body>
-    <div id="gool-overlay"><div class="gool-txt">GOOOL!!!</div><div id="scr-name" style="font-size:22px; color:white;"></div></div>
+    <div id="gool-screen">
+        <div class="gool-txt">GOOOL!!!</div>
+        <div id="scr-name" style="font-size:25px; color:white; margin-top:10px;"></div>
+    </div>
+
     <div class="header">
-        <div style="text-align:center">TIGERS FC<br><span id="h-s" class="score">0</span></div>
+        <div style="text-align:center">TIGERS<br><span id="h-s" class="score">0</span></div>
         <div style="text-align:center; background:#222; padding:5px 10px; border-radius:5px;">
             <div id="status" style="color:gray; font-size:9px; font-weight:bold;">GÖZLƏNİLİR</div>
             <div id="clock" style="font-size:22px; font-weight:bold;">00:00</div>
         </div>
-        <div style="text-align:center">BEDRAPLANG<br><span id="a-s" class="score">0</span></div>
+        <div style="text-align:center">BEDRA<br><span id="a-s" class="score">0</span></div>
     </div>
-    <div id="stadium"><div id="ball" style="top:260px; left:175px;"></div></div>
+
+    <div id="stadium">
+        <div id="ball" style="top:245px; left:170px;"></div>
+    </div>
+
+    <div style="width:100%; max-width:400px; padding:20px; background:#111; text-align:center; margin-bottom:50px;">
+        <h3>Puan Durumu</h3>
+        <p>Tigers FC: 1-ci yer</p>
+    </div>
 
 <script>
-    const tigers = [{n:"Fateh",p:[170,490]},{n:"Nicat",p:[170,110]},{n:"Ibrahim",p:[80,180]},{n:"Huseyin",p:[260,180]},{n:"Nurlan",p:[110,270]},{n:"Rushan",p:[230,270]},{n:"Mezahir",p:[170,320]},{n:"Ramal",p:[60,390]},{n:"Mehdi",p:[140,390]},{n:"Ayxan",p:[200,390]},{n:"Sinan",p:[280,390]}];
-    const foes = [{n:"GK",p:[170,20]},{n:"Ismail",p:[170,380]},{n:"Mehemmed",p:[80,320]},{n:"Jack",p:[260,320]},{n:"Robert",p:[110,210]},{n:"Thomas",p:[230,210]},{n:"Daniel",p:[170,150]},{n:"Kevin",p:[60,80]},{n:"Oliver",p:[140,80]},{n:"Harry",p:[200,80]},{n:"George",p:[280,80]}];
+    const tigers = [{n:"Fateh",p:[165,460]},{n:"Nicat",p:[165,100]},{n:"Ibrahim",p:[70,160]},{n:"Huseyin",p:[250,160]},{n:"Nurlan",p:[100,250]},{n:"Rushan",p:[220,250]},{n:"Mezahir",p:[165,300]},{n:"Ramal",p:[50,370]},{n:"Mehdi",p:[130,370]},{n:"Ayxan",p:[190,370]},{n:"Sinan",p:[270,370]}];
+    const foes = [{n:"GK",p:[165,20]},{n:"Ismail",p:[165,350]},{n:"Mehemmed",p:[70,300]},{n:"Jack",p:[250,300]},{n:"Robert",p:[100,200]},{n:"Thomas",p:[220,200]},{n:"Daniel",p:[165,140]},{n:"Kevin",p:[50,70]},{n:"Oliver",p:[130,70]},{n:"Harry",p:[190,70]},{n:"George",p:[270,70]}];
+    
     const goalEvents = {6:{s:'A',n:'Bedraplang'},11:{s:'H',n:'Ibrahim'},18:{s:'H',n:'Nurlan'},33:{s:'H',n:'Nicat'},34:{s:'H',n:'Ramal'},40:{s:'A',n:'Bedraplang'},44:{s:'A',n:'Bedraplang'},63:{s:'H',n:'Nicat'},74:{s:'H',n:'Ayxan'},82:{s:'H',n:'Rushan'},89:{s:'A',n:'Bedraplang'},91:{s:'H',n:'Ayxan'}};
     
     let m=0, s=0, hScore=0, aScore=0, isLive=false;
@@ -956,48 +977,73 @@ function openTab(evt, tabName) {
         const st = document.getElementById('stadium');
         tigers.forEach((p,i) => createP(p,'t','h'+i,st));
         foes.forEach((p,i) => createP(p,'b','a'+i,st));
-        
-        // Hər saniyə real vaxtı yoxla
-        setInterval(checkTime, 1000);
+        setInterval(matchLogic, 1000);
     }
 
-    function checkTime() {
+    function matchLogic() {
+        let now = new Date();
+        let h = now.getHours(), min = now.getMinutes(), sec = now.getSeconds();
+
+        // SAAT 23:30-DA BAŞLAYIR
         if (!isLive) {
-            let now = new Date();
-            // Tam saat 23:30 olanda oyunu başlat
-            if (now.getHours() === 23 && now.getMinutes() === 30) {
+            if (h === 23 && min >= 30) {
                 isLive = true;
                 document.getElementById('status').innerText = "CANLI";
                 document.getElementById('status').style.color = "red";
-                startMatch();
+                // Oyuna daxil olanda hesabın neçə-neçə olduğunu dəqiqəyə görə hesabla
+                updateLiveScore(min - 30);
             }
+        }
+
+        if (isLive) {
+            m = min - 30; if(m < 0) m = 0;
+            s = sec;
+            document.getElementById('clock').innerText = (m<10?'0'+m:m)+':'+(s<10?'0'+s:s);
+
+            if (s === 0 && goalEvents[m]) {
+                fireGoal(goalEvents[m].n, goalEvents[m].s);
+                delete goalEvents[m];
+            }
+            if (s % 2 === 0) moveEverything();
         }
     }
 
-    function startMatch() {
-        setInterval(() => {
-            s++; if(s==60){s=0; m++;}
-            document.getElementById('clock').innerText = (m<10?'0'+m:m)+':'+(s<10?'0'+s:s);
-            let ball = document.getElementById('ball');
-            
-            if(s==0 && goalEvents[m]) {
-                let ev = goalEvents[m];
-                document.getElementById('scr-name').innerText = ev.n;
-                document.getElementById('gool-overlay').style.display='flex';
-                if(ev.s=='H'){hScore++; ball.style.top="5px";} else {aScore++; ball.style.top="515px";}
-                setTimeout(() => {
-                    document.getElementById('h-s').innerText=hScore; document.getElementById('a-s').innerText=aScore;
-                    document.getElementById('gool-overlay').style.display='none';
-                    ball.style.top="260px";
-                }, 3000);
-                delete goalEvents[m];
+    function updateLiveScore(currentM) {
+        Object.keys(goalEvents).forEach(matchM => {
+            if (currentM > matchM) {
+                if(goalEvents[matchM].s === 'H') hScore++; else aScore++;
+                delete goalEvents[matchM];
             }
-            if(s%2==0){
-                let target = document.getElementById((Math.random()>0.5?'h':'a')+Math.floor(Math.random()*11));
-                ball.style.left=target.style.left; ball.style.top=target.style.top;
-                [...Array(11).keys()].forEach(i => { moveP('h'+i); moveP('a'+i); });
-            }
-        }, 1000);
+        });
+        document.getElementById('h-s').innerText = hScore;
+        document.getElementById('a-s').innerText = aScore;
+    }
+
+    function fireGoal(name, side) {
+        document.getElementById('scr-name').innerText = name;
+        document.getElementById('gool-screen').style.display = 'flex';
+        let b = document.getElementById('ball');
+        if(side==='H') { hScore++; b.style.top="5px"; } else { aScore++; b.style.top="490px"; }
+        setTimeout(() => {
+            document.getElementById('h-s').innerText = hScore;
+            document.getElementById('a-s').innerText = aScore;
+            document.getElementById('gool-screen').style.display = 'none';
+            b.style.top = "245px";
+        }, 3000);
+    }
+
+    function moveEverything() {
+        let b = document.getElementById('ball');
+        let target = document.getElementById((Math.random()>0.5?'h':'a')+Math.floor(Math.random()*11));
+        b.style.left = target.style.left; b.style.top = target.style.top;
+        [...Array(11).keys()].forEach(i => {
+            ['h','a'].forEach(t => {
+                let el = document.getElementById(t+i);
+                let x = parseInt(el.style.left), y = parseInt(el.style.top);
+                el.style.left = (x + (Math.random()-0.5)*15)+'px';
+                el.style.top = (y + (Math.random()-0.5)*15)+'px';
+            });
+        });
     }
 
     function createP(d,c,id,p){
@@ -1007,12 +1053,7 @@ function openTab(evt, tabName) {
         p.appendChild(w);
     }
 
-    function moveP(id){
-        let el=document.getElementById(id); let x=parseInt(el.style.left), y=parseInt(el.style.top);
-        el.style.left=(x+(Math.random()-0.5)*15)+'px'; el.style.top=(y+(Math.random()-0.5)*15)+'px';
-    }
-
     window.onload = init;
 </script>
 </body>
-</html>                                                                   </html>
+</html>
