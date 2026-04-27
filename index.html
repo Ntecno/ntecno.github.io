@@ -919,83 +919,106 @@ function openTab(evt, tabName) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tigers FC - Live Match</title>
+    <title>Tigers FC Live</title>
     <style>
-        body { background: #000; color: white; font-family: sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
+        body { background: #000; color: white; font-family: sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; overflow-x: hidden; }
         
-        /* Hesab Paneli */
-        .scoreboard { width: 100%; max-width: 400px; background: #111; padding: 15px 0; border-bottom: 2px solid orange; display: flex; justify-content: space-around; align-items: center; }
-        .score { font-size: 30px; font-weight: bold; color: orange; }
-        .time-box { text-align: center; background: #222; padding: 5px 15px; border-radius: 5px; }
-        #status { font-size: 10px; color: red; font-weight: bold; display: block; }
+        /* Sabit Hesab Paneli */
+        .header { width: 100%; max-width: 400px; background: #111; padding: 15px 0; border-bottom: 2px solid orange; display: flex; justify-content: space-around; align-items: center; position: relative; z-index: 20; }
+        .team-name { font-size: 16px; font-weight: bold; text-align: center; color: #fff; }
+        .score { font-size: 32px; font-weight: bold; color: orange; display: block; }
+        .match-info { text-align: center; background: #222; padding: 5px 12px; border-radius: 5px; min-width: 80px; }
+        #status { font-size: 9px; color: red; font-weight: bold; display: block; margin-bottom: 2px; }
 
-        /* Meydança və Qalalar */
-        #stadium { position: relative; margin-top: 10px; width: 380px; height: 500px; background: #2e7d32; border: 2px solid white; overflow: hidden; }
-        .goal { position: absolute; width: 60px; height: 20px; border: 2px solid white; border-bottom: none; left: 160px; z-index: 1; }
-        .goal-top { top: 0; }
-        .goal-bottom { bottom: 0; border-top: none; border-bottom: 2px solid white; }
+        /* Meydança Konstruksiyası */
+        #pitch-wrap { padding: 20px 0; width: 100%; display: flex; justify-content: center; }
+        #stadium { position: relative; width: 360px; height: 520px; background: #2e7d32; border: 3px solid white; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .goal-area { position: absolute; width: 70px; height: 25px; border: 2px solid white; left: 145px; z-index: 1; }
+        .top-goal { top: -2px; border-top: none; }
+        .bottom-goal { bottom: -2px; border-bottom: none; }
         
         /* Oyunçular və Top */
-        .p { position: absolute; width: 16px; height: 16px; border-radius: 50%; font-size: 9px; font-weight: bold; text-align: center; line-height: 16px; transition: 1.5s; z-index: 5; }
-        .t { background: orange; color: #000; }
-        .o { background: #2196f3; color: #fff; }
-        #ball { position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%; transition: 0.8s; z-index: 10; border: 1px solid #000; }
+        .player { position: absolute; width: 18px; height: 18px; border-radius: 50%; font-size: 10px; font-weight: bold; text-align: center; line-height: 18px; transition: all 1.2s ease-in-out; z-index: 5; border: 1px solid #000; }
+        .t { background: orange; color: #000; } /* Tigers FC */
+        .b { background: #2196f3; color: #fff; } /* Bedraplang */
+        #ball { position: absolute; width: 12px; height: 12px; background: #fff; border-radius: 50%; transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10; border: 1px solid #000; }
     </style>
 </head>
 <body>
 
-    <div class="scoreboard">
-        <div style="text-align:center">Tigers<br><span id="h-s" class="score">0</span></div>
-        <div class="time-box">
+    <div class="header">
+        <div class="team-name">TIGERS FC<span id="h-s" class="score">0</span></div>
+        <div class="match-info">
             <span id="status">GÖZLƏNİLİR</span>
-            <span id="clock" style="font-size:20px; font-weight:bold;">23:00</span>
+            <span id="clock" style="font-size:18px; font-weight:bold;">23:00</span>
         </div>
-        <div style="text-align:center">Rəqib<br><span id="a-s" class="score">0</span></div>
+        <div class="team-name">BEDRAPLANG<span id="a-s" class="score">0</span></div>
     </div>
 
-    <div id="stadium">
-        <div class="goal goal-top"></div> <div class="goal goal-bottom"></div> <div id="ball" style="top:245px; left:185px;"></div>
+    <div id="pitch-wrap">
+        <div id="stadium">
+            <div class="goal-area top-goal"></div>
+            <div class="goal-area bottom-goal"></div>
+            <div id="ball" style="top:254px; left:174px;"></div>
+        </div>
     </div>
 
 <script>
-    const tH = [{n:"F",p:[185,460]},{n:"N",p:[185,100]},{n:"I",p:[100,150]},{n:"H",p:[270,150]},{n:"N",p:[130,250]},{n:"R",p:[240,250]},{n:"M",p:[185,300]},{n:"R",p:[80,380]},{n:"M",p:[150,380]},{n:"A",p:[220,380]},{n:"S",p:[290,380]}];
-    const oH = [{n:"G",p:[185,20]},{n:"I",p:[185,350]},{n:"M",p:[100,300]},{n:"J",p:[270,300]},{n:"R",p:[130,200]},{n:"T",p:[240,200]},{n:"D",p:[185,150]},{n:"K",p:[80,80]},{n:"O",p:[150,80]},{n:"H",p:[220,80]},{n:"G",p:[290,80]}];
+    const tigers = [
+        {n:"F",p:[171,480]},{n:"N",p:[171,120]},{n:"I",p:[80,180]},{n:"H",p:[260,180]},
+        {n:"N",p:[110,280]},{n:"R",p:[230,280]},{n:"M",p:[171,330]},{n:"R",p:[60,400]},
+        {n:"M",p:[140,400]},{n:"A",p:[200,400]},{n:"S",p:[280,400]}
+    ];
+    const enemies = [
+        {n:"G",p:[171,20]},{n:"I",p:[171,380]},{n:"M",p:[80,320]},{n:"J",p:[260,320]},
+        {n:"R",p:[110,220]},{n:"T",p:[230,220]},{n:"D",p:[171,170]},{n:"K",p:[60,100]},
+        {n:"O",p:[140,100]},{n:"H",p:[200,100]},{n:"G",p:[280,100]}
+    ];
     
-    let m=0, s=0, h=0, a=0, live=false;
-    const goals = {6:'A',11:'H',18:'H',33:'H',34:'H',40:'A',44:'A',63:'H',74:'H',82:'H',89:'A',91:'H'};
+    let min=0, sec=0, hScore=0, aScore=0, isLive=false;
+    const goals = {6:'A', 11:'H', 18:'H', 33:'H', 34:'H', 40:'A', 44:'A', 63:'H', 74:'H', 82:'H', 89:'A', 91:'H'};
 
     function init() {
-        const st = document.getElementById('stadium');
-        tH.forEach((x,i) => { let d=document.createElement('div'); d.className='p t'; d.id='h'+i; d.innerText=x.n; d.style.left=x.p[0]+'px'; d.style.top=x.p[1]+'px'; st.appendChild(d); });
-        oH.forEach((x,i) => { let d=document.createElement('div'); d.className='p o'; d.id='a'+i; d.innerText=x.n; d.style.left=x.p[0]+'px'; d.style.top=x.p[1]+'px'; st.appendChild(d); });
+        const stadium = document.getElementById('stadium');
+        tigers.forEach((p,i) => createP(p, 't', 'h'+i, stadium));
+        enemies.forEach((p,i) => createP(p, 'b', 'a'+i, stadium));
         
         setInterval(() => {
-            let n = new Date();
-            if(n.getHours() === 23 && n.getMinutes() === 0 && !live) { 
-                live=true; 
+            let now = new Date();
+            if(now.getHours() === 23 && now.getMinutes() === 0 && !isLive) { 
+                isLive = true; 
                 document.getElementById('status').innerText = "CANLI";
-                start(); 
+                startMatch(); 
             }
         }, 1000);
     }
 
-    function start() {
+    function createP(data, cl, id, parent) {
+        let d = document.createElement('div');
+        d.className = 'player ' + cl; d.id = id; d.innerText = data.n;
+        d.style.left = data.p[0]+'px'; d.style.top = data.p[1]+'px';
+        parent.appendChild(d);
+    }
+
+    function startMatch() {
         setInterval(() => {
-            s++; if(s==60){s=0; m++;}
-            document.getElementById('clock').innerText = (m<10?'0'+m:m)+':'+(s<10?'0'+s:s);
+            sec++; if(sec==60){sec=0; min++;}
+            document.getElementById('clock').innerText = (min<10?'0'+min:min)+':'+(sec<10?'0'+sec:sec);
             
             let ball = document.getElementById('ball');
             
-            if(s==0 && goals[m]) {
-                if(goals[m]=='H') { 
-                    h++; ball.style.left = "185px"; ball.style.top = "5px"; // Üst qapı
+            if(sec==0 && goals[min]) {
+                if(goals[min]=='H') { 
+                    hScore++; ball.style.left = "174px"; ball.style.top = "5px"; 
                 } else { 
-                    a++; ball.style.left = "185px"; ball.style.top = "485px"; // Alt qapı
+                    aScore++; ball.style.left = "174px"; ball.style.top = "503px"; 
                 }
-                document.getElementById('h-s').innerText=h; document.getElementById('a-s').innerText=a;
-                setTimeout(() => { ball.style.left="185px"; ball.style.top="245px"; }, 2000);
-            } else if(s%4==0) {
-                let target = document.getElementById((Math.random()>0.5?'h':'a')+Math.floor(Math.random()*11));
+                document.getElementById('h-s').innerText = hScore;
+                document.getElementById('a-s').innerText = aScore;
+                setTimeout(() => { ball.style.left="174px"; ball.style.top="254px"; }, 1500);
+            } else if(sec%3==0) {
+                let side = Math.random() > 0.5 ? 'h' : 'a';
+                let target = document.getElementById(side + Math.floor(Math.random()*11));
                 ball.style.left = target.style.left; ball.style.top = target.style.top;
             }
         }, 1000);
