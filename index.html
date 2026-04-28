@@ -873,146 +873,157 @@
 </div>
 
 </body>
-</html>
-<!DOCTYPE html>
+                                                             </html>
+        <!DOCTYPE html>
 <html lang="az">
 <head>
     <meta charset="UTF-8">
-    <title>LIVE: Tigers FC vs Baku City</title>
+    <title>LIVE: Tigers FC vs Baku City (Official)</title>
     <style>
-        :root { --field-green: #2e7d32; --line-white: rgba(255,255,255,0.8); }
-        body { background: #1a1a1a; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
+        :root { --field: #2e7d32; --lines: rgba(255,255,255,0.9); }
+        body { background: #121212; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; }
         
-        /* Scoreboard */
-        #scoreboard { background: #000; width: 100%; padding: 20px; display: flex; justify-content: center; align-items: center; gap: 40px; border-bottom: 4px solid #fbbf24; position: sticky; top: 0; z-index: 100; }
-        .team-box { text-align: center; }
-        .score-val { font-size: 48px; font-weight: 900; background: #333; padding: 10px 20px; border-radius: 8px; color: #fbbf24; min-width: 100px; }
-        #timer { font-size: 32px; font-family: monospace; color: #ff4d4d; border: 2px solid #ff4d4d; padding: 5px 15px; border-radius: 5px; }
+        /* Dashboard */
+        #scoreboard { background: #000; width: 100%; padding: 15px; display: flex; justify-content: center; align-items: center; gap: 30px; border-bottom: 3px solid #fbbf24; position: sticky; top: 0; z-index: 100; }
+        .score-val { font-size: 40px; font-weight: 900; background: #222; padding: 5px 20px; border-radius: 5px; color: #fbbf24; min-width: 110px; text-align: center; border: 1px solid #444; }
+        #timer { font-size: 28px; font-family: 'Courier New', monospace; color: #ff4d4d; border: 2px solid #ff4d4d; padding: 4px 12px; border-radius: 4px; }
 
-        /* Stadium & Field */
-        #stadium { position: relative; width: 950px; height: 600px; background: #1b5e20; border: 10px solid #444; margin-top: 20px; overflow: hidden; border-radius: 5px; }
-        #field { position: absolute; top: 50px; left: 50px; right: 50px; bottom: 50px; border: 2px solid var(--line-white); }
-        .center-circle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; border: 2px solid var(--line-white); border-radius: 50%; }
-        .center-line { position: absolute; left: 50%; height: 100%; width: 2px; background: var(--line-white); }
-        .penalty-area { position: absolute; width: 120px; height: 240px; border: 2px solid var(--line-white); top: 50%; transform: translateY(-50%); }
-        .left-pen { left: 0; } .right-pen { right: 0; }
+        /* Arena */
+        #stadium { position: relative; width: 900px; height: 550px; background: #1b5e20; border: 12px solid #333; margin-top: 20px; overflow: hidden; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+        #field { position: absolute; top: 30px; left: 30px; right: 30px; bottom: 30px; border: 2px solid var(--lines); }
+        .center-line { position: absolute; left: 50%; height: 100%; width: 2px; background: var(--lines); }
+        .center-circle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100px; height: 100px; border: 2px solid var(--lines); border-radius: 50%; }
+        .goal-area { position: absolute; width: 80px; height: 180px; border: 2px solid var(--lines); top: 50%; transform: translateY(-50%); }
+        .left-ga { left: 0; } .right-ga { right: 0; }
         
         /* Players & Ball */
-        .player { position: absolute; width: 12px; height: 12px; border-radius: 50%; transition: all 1.5s linear; z-index: 10; }
-        .tigers { background: #fbbf24; border: 2px solid #000; }
-        .baku { background: #3b82f6; border: 2px solid #fff; }
-        #ball { position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%; transition: all 0.8s ease-out; z-index: 20; box-shadow: 0 0 10px #fff; }
+        .player { position: absolute; width: 14px; height: 14px; border-radius: 50%; transition: all 1s linear; z-index: 10; font-size: 9px; text-align: center; line-height: 14px; font-weight: bold; }
+        .tigers { background: #fbbf24; color: black; border: 1px solid #000; box-shadow: 0 0 5px #fbbf24; }
+        .baku { background: #1e90ff; color: white; border: 1px solid #fff; box-shadow: 0 0 5px #1e90ff; }
+        #ball { position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%; transition: all 0.5s ease-out; z-index: 20; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #000; }
         
-        /* Commentary */
-        #commentary { width: 950px; height: 100px; background: #222; margin-top: 10px; padding: 15px; border-radius: 8px; overflow-y: auto; border: 1px solid #444; }
-        .goal-flash { animation: flash 0.5s infinite; color: #fbbf24; font-weight: bold; }
-        @keyframes flash { 50% { opacity: 0; } }
+        #logs { width: 900px; height: 80px; background: #1a1a1a; margin-top: 10px; padding: 10px; border-radius: 5px; border: 1px solid #333; overflow-y: auto; font-size: 14px; }
+        .goal-msg { color: #fbbf24; animation: blink 0.8s infinite; }
+        @keyframes blink { 50% { opacity: 0.4; } }
     </style>
 </head>
 <body>
 
 <div id="scoreboard">
-    <div class="team-box"><h2>TIGERS FC</h2></div>
-    <div class="score-val" id="main-score">0 - 0</div>
-    <div class="team-box"><h2>BAKU CITY</h2></div>
-    <div id="timer">00:00</div>
+    <div style="text-align: right;">TIGERS FC<br><small style="color: #999;">Ev Sahibi</small></div>
+    <div class="score-val" id="score">0 - 0</div>
+    <div style="text-align: left;">BAKU CITY<br><small style="color: #999;">Qonaq</small></div>
+    <div id="timer">GÖZLƏNİLİR</div>
 </div>
 
 <div id="stadium">
-    <div style="position:absolute; top:0; width:100%; height:40px; background:#333; opacity:0.8; text-align:center;">TRIBUNA A</div>
     <div id="field">
         <div class="center-line"></div>
         <div class="center-circle"></div>
-        <div class="penalty-area left-pen"></div>
-        <div class="penalty-area right-pen"></div>
+        <div class="goal-area left-ga"></div>
+        <div class="goal-area right-ga"></div>
         <div id="ball"></div>
-        <div id="p-nicat" class="player tigers" title="Nicat"></div>
-        <div id="p-ibrahim" class="player tigers" title="İbrahim"></div>
-        <div id="p-nurlan" class="player tigers" title="Nurlan"></div>
-        <div id="p-mezahir" class="player tigers" title="Məzahid"></div>
-        <div id="p-elsen" class="player baku" title="Elşən"></div>
-        <div id="p-kenan" class="player baku" title="Kənan"></div>
-        <div id="p-resad" class="player baku" title="Rəşad"></div>
+        
+        <div id="t1" class="player tigers" style="top:50%; left:20%;">N</div>
+        <div id="t2" class="player tigers" style="top:30%; left:35%;">İ</div>
+        <div id="t3" class="player tigers" style="top:70%; left:35%;">Nur</div>
+        <div id="t4" class="player tigers" style="top:50%; left:40%;">M</div>
+        
+        <div id="b1" class="player baku" style="top:50%; right:10%;">A</div>
+        <div id="b2" class="player baku" style="top:20%; right:25%;">T</div>
+        <div id="b3" class="player baku" style="top:80%; right:25%;">H</div>
+        <div id="b4" class="player baku" style="top:50%; right:30%;">E</div>
     </div>
 </div>
 
-<div id="commentary" id="logs">Oyunun başlaması gözlənilir (29 Aprel, 18:00)...</div>
+<div id="logs">Məlumat: Oyun 29 aprel, saat 18:00-da avtomatik başlayacaq.</div>
 
 <script>
-    const startTime = new Date("2026-04-29T18:00:00").getTime();
+    // MATÇ PARAMETRLƏRİ
+    const MATCH_START = new Date("2026-04-29T18:00:00").getTime();
     const goals = [
-        {m: 8, team: 'tigers', scorer: 'Nicat', score: '1 - 0'},
-        {m: 16, team: 'baku', scorer: 'Elşən', score: '1 - 1'},
-        {m: 21, team: 'baku', scorer: 'Kənan', score: '1 - 2'},
-        {m: 23, team: 'tigers', scorer: 'İbrahim', score: '2 - 2'},
-        {m: 25, team: 'tigers', scorer: 'Nurlan', score: '3 - 2'},
-        {m: 43, team: 'baku', scorer: 'Rəşad', score: '3 - 3'},
-        {m: 51, team: 'baku', scorer: 'Rəşad', score: '3 - 4'},
-        {m: 68, team: 'tigers', scorer: 'Məzahir', score: '4 - 4'},
-        {m: 89, team: 'tigers', scorer: 'İbrahim', score: '5 - 4'}
+        {time: 8, team: 'tigers', scorer: 'Nicat', res: '1 - 0'},
+        {time: 16, team: 'baku', scorer: 'Elşən', res: '1 - 1'},
+        {time: 21, team: 'baku', scorer: 'Kənan', res: '1 - 2'},
+        {time: 23, team: 'tigers', scorer: 'İbrahim', res: '2 - 2'},
+        {time: 25, team: 'tigers', scorer: 'Nurlan', res: '3 - 2'},
+        {time: 43, team: 'baku', scorer: 'Rəşad', res: '3 - 3'},
+        {time: 66, team: 'baku', scorer: 'Rəşad', res: '3 - 4'}, // 51-ci dəqiqə fasiləli vaxtda 66-a düşür
+        {time: 83, team: 'tigers', scorer: 'Məzahir', res: '4 - 4'},
+        {time: 104, team: 'tigers', scorer: 'İbrahim', res: '5 - 4'}
     ];
 
-    function updateGame() {
+    function updateLogic() {
         const now = Date.now();
-        const diffSeconds = Math.floor((now - startTime) / 1000);
+        const diff = Math.floor((now - MATCH_START) / 1000);
         
-        if (diffSeconds < 0) return; // Hələ başlamayıb
-
-        let gameMinutes = Math.floor(diffSeconds / 2); // Simulyasiya sürəti: 2 saniyə = 1 oyun dəqiqəsi
-        let displayMin = gameMinutes;
-        let isBreak = false;
-
-        // Fasilə məntiqi (45-50 arası dayanır)
-        if (gameMinutes >= 45 && gameMinutes < 50) {
-            displayMin = 45;
-            isBreak = true;
-        } else if (gameMinutes >= 50) {
-            displayMin = gameMinutes - 5;
-        }
-
-        if (displayMin > 90) {
-            document.getElementById('timer').innerText = "90:00 (FİNAL)";
+        if (diff < 0) {
+            document.getElementById('timer').innerText = "GÖZLƏNİLİR";
             return;
         }
 
-        document.getElementById('timer').innerText = (displayMin < 10 ? "0" + displayMin : displayMin) + ":00";
-        
-        // Hesab və Qol Yeniləmə
+        let totalMinutes = Math.floor(diff / 60);
+        let seconds = diff % 60;
+        let displayMin = totalMinutes;
+        let activePlay = true;
+
+        // FASİLƏ MƏNTİQİ (45-60 dəqiqə arası real 15 dəqiqə fasilə)
+        if (totalMinutes >= 45 && totalMinutes < 60) {
+            displayMin = 45;
+            activePlay = false;
+            document.getElementById('timer').innerText = "FASİLƏ";
+        } else if (totalMinutes >= 60) {
+            displayMin = totalMinutes - 15;
+        }
+
+        if (displayMin >= 90) {
+            document.getElementById('timer').innerText = "FİNAL";
+            document.getElementById('score').innerText = "5 - 4";
+            return;
+        }
+
+        // Timer Yazısı
+        if (activePlay) {
+            let m = displayMin < 10 ? "0" + displayMin : displayMin;
+            let s = seconds < 10 ? "0" + seconds : seconds;
+            document.getElementById('timer').innerText = m + ":" + s;
+        }
+
+        // Skor və Qol Hadisələri
         let currentScore = "0 - 0";
         goals.forEach(g => {
-            if (displayMin >= g.m) {
-                currentScore = g.score;
-                if (displayMin === g.m) {
-                    document.getElementById('commentary').innerHTML = `<p class="goal-flash">⚽ QOL! ${g.scorer} (${g.team.toUpperCase()}) - ${g.m}'</p>` + document.getElementById('commentary').innerHTML;
-                    moveBallToGoal(g.team);
+            if (totalMinutes >= g.time) {
+                currentScore = g.res;
+                if (totalMinutes === g.time && seconds === 0) {
+                    document.getElementById('logs').innerHTML = `<div class="goal-msg">⚽ ${g.time}' QOL! ${g.scorer} vurdu!</div>` + document.getElementById('logs').innerHTML;
                 }
             }
         });
-        document.getElementById('main-score').innerText = currentScore;
+        document.getElementById('score').innerText = currentScore;
 
-        if (!isBreak) movePlayersRandomly();
+        if (activePlay) {
+            animateGame();
+        }
     }
 
-    function moveBallToGoal(team) {
-        const ball = document.getElementById('ball');
-        ball.style.left = team === 'tigers' ? '850px' : '0px';
-        ball.style.top = '300px';
-        setTimeout(() => { ball.style.left = '425px'; ball.style.top = '250px'; }, 3000);
-    }
-
-    function movePlayersRandomly() {
-        const players = document.querySelectorAll('.player');
-        players.forEach(p => {
-            p.style.left = Math.random() * 800 + "px";
-            p.style.top = Math.random() * 500 + "px";
+    function animateGame() {
+        // Oyunçuları hərəkət etdir
+        document.querySelectorAll('.player').forEach(p => {
+            p.style.top = (20 + Math.random() * 60) + "%";
+            p.style.left = (10 + Math.random() * 80) + "%";
         });
-        // Top oyunçulardan birinin yanında gəzsin
+        // Topu təsadüfi bir oyunçunun yanına qoy
         const ball = document.getElementById('ball');
-        ball.style.left = (parseFloat(players[0].style.left) + 15) + "px";
-        ball.style.top = (parseFloat(players[0].style.top) + 5) + "px";
+        const players = document.querySelectorAll('.player');
+        const randomPlayer = players[Math.floor(Math.random() * players.length)];
+        ball.style.top = randomPlayer.style.top;
+        ball.style.left = randomPlayer.style.left;
     }
 
-    setInterval(updateGame, 1000);
+    setInterval(updateLogic, 1000);
+    // İlk başda oyunçular görünsün deyə bir dəfə çağırırıq
+    animateGame();
 </script>
+
 </body>
-</html>
+</html>                                                     
