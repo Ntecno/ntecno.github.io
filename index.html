@@ -874,3 +874,145 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <title>LIVE: Tigers FC vs Baku City</title>
+    <style>
+        :root { --field-green: #2e7d32; --line-white: rgba(255,255,255,0.8); }
+        body { background: #1a1a1a; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
+        
+        /* Scoreboard */
+        #scoreboard { background: #000; width: 100%; padding: 20px; display: flex; justify-content: center; align-items: center; gap: 40px; border-bottom: 4px solid #fbbf24; position: sticky; top: 0; z-index: 100; }
+        .team-box { text-align: center; }
+        .score-val { font-size: 48px; font-weight: 900; background: #333; padding: 10px 20px; border-radius: 8px; color: #fbbf24; min-width: 100px; }
+        #timer { font-size: 32px; font-family: monospace; color: #ff4d4d; border: 2px solid #ff4d4d; padding: 5px 15px; border-radius: 5px; }
+
+        /* Stadium & Field */
+        #stadium { position: relative; width: 950px; height: 600px; background: #1b5e20; border: 10px solid #444; margin-top: 20px; overflow: hidden; border-radius: 5px; }
+        #field { position: absolute; top: 50px; left: 50px; right: 50px; bottom: 50px; border: 2px solid var(--line-white); }
+        .center-circle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; border: 2px solid var(--line-white); border-radius: 50%; }
+        .center-line { position: absolute; left: 50%; height: 100%; width: 2px; background: var(--line-white); }
+        .penalty-area { position: absolute; width: 120px; height: 240px; border: 2px solid var(--line-white); top: 50%; transform: translateY(-50%); }
+        .left-pen { left: 0; } .right-pen { right: 0; }
+        
+        /* Players & Ball */
+        .player { position: absolute; width: 12px; height: 12px; border-radius: 50%; transition: all 1.5s linear; z-index: 10; }
+        .tigers { background: #fbbf24; border: 2px solid #000; }
+        .baku { background: #3b82f6; border: 2px solid #fff; }
+        #ball { position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%; transition: all 0.8s ease-out; z-index: 20; box-shadow: 0 0 10px #fff; }
+        
+        /* Commentary */
+        #commentary { width: 950px; height: 100px; background: #222; margin-top: 10px; padding: 15px; border-radius: 8px; overflow-y: auto; border: 1px solid #444; }
+        .goal-flash { animation: flash 0.5s infinite; color: #fbbf24; font-weight: bold; }
+        @keyframes flash { 50% { opacity: 0; } }
+    </style>
+</head>
+<body>
+
+<div id="scoreboard">
+    <div class="team-box"><h2>TIGERS FC</h2></div>
+    <div class="score-val" id="main-score">0 - 0</div>
+    <div class="team-box"><h2>BAKU CITY</h2></div>
+    <div id="timer">00:00</div>
+</div>
+
+<div id="stadium">
+    <div style="position:absolute; top:0; width:100%; height:40px; background:#333; opacity:0.8; text-align:center;">TRIBUNA A</div>
+    <div id="field">
+        <div class="center-line"></div>
+        <div class="center-circle"></div>
+        <div class="penalty-area left-pen"></div>
+        <div class="penalty-area right-pen"></div>
+        <div id="ball"></div>
+        <div id="p-nicat" class="player tigers" title="Nicat"></div>
+        <div id="p-ibrahim" class="player tigers" title="İbrahim"></div>
+        <div id="p-nurlan" class="player tigers" title="Nurlan"></div>
+        <div id="p-mezahir" class="player tigers" title="Məzahid"></div>
+        <div id="p-elsen" class="player baku" title="Elşən"></div>
+        <div id="p-kenan" class="player baku" title="Kənan"></div>
+        <div id="p-resad" class="player baku" title="Rəşad"></div>
+    </div>
+</div>
+
+<div id="commentary" id="logs">Oyunun başlaması gözlənilir (29 Aprel, 18:00)...</div>
+
+<script>
+    const startTime = new Date("2026-04-29T18:00:00").getTime();
+    const goals = [
+        {m: 8, team: 'tigers', scorer: 'Nicat', score: '1 - 0'},
+        {m: 16, team: 'baku', scorer: 'Elşən', score: '1 - 1'},
+        {m: 21, team: 'baku', scorer: 'Kənan', score: '1 - 2'},
+        {m: 23, team: 'tigers', scorer: 'İbrahim', score: '2 - 2'},
+        {m: 25, team: 'tigers', scorer: 'Nurlan', score: '3 - 2'},
+        {m: 43, team: 'baku', scorer: 'Rəşad', score: '3 - 3'},
+        {m: 51, team: 'baku', scorer: 'Rəşad', score: '3 - 4'},
+        {m: 68, team: 'tigers', scorer: 'Məzahir', score: '4 - 4'},
+        {m: 89, team: 'tigers', scorer: 'İbrahim', score: '5 - 4'}
+    ];
+
+    function updateGame() {
+        const now = Date.now();
+        const diffSeconds = Math.floor((now - startTime) / 1000);
+        
+        if (diffSeconds < 0) return; // Hələ başlamayıb
+
+        let gameMinutes = Math.floor(diffSeconds / 2); // Simulyasiya sürəti: 2 saniyə = 1 oyun dəqiqəsi
+        let displayMin = gameMinutes;
+        let isBreak = false;
+
+        // Fasilə məntiqi (45-50 arası dayanır)
+        if (gameMinutes >= 45 && gameMinutes < 50) {
+            displayMin = 45;
+            isBreak = true;
+        } else if (gameMinutes >= 50) {
+            displayMin = gameMinutes - 5;
+        }
+
+        if (displayMin > 90) {
+            document.getElementById('timer').innerText = "90:00 (FİNAL)";
+            return;
+        }
+
+        document.getElementById('timer').innerText = (displayMin < 10 ? "0" + displayMin : displayMin) + ":00";
+        
+        // Hesab və Qol Yeniləmə
+        let currentScore = "0 - 0";
+        goals.forEach(g => {
+            if (displayMin >= g.m) {
+                currentScore = g.score;
+                if (displayMin === g.m) {
+                    document.getElementById('commentary').innerHTML = `<p class="goal-flash">⚽ QOL! ${g.scorer} (${g.team.toUpperCase()}) - ${g.m}'</p>` + document.getElementById('commentary').innerHTML;
+                    moveBallToGoal(g.team);
+                }
+            }
+        });
+        document.getElementById('main-score').innerText = currentScore;
+
+        if (!isBreak) movePlayersRandomly();
+    }
+
+    function moveBallToGoal(team) {
+        const ball = document.getElementById('ball');
+        ball.style.left = team === 'tigers' ? '850px' : '0px';
+        ball.style.top = '300px';
+        setTimeout(() => { ball.style.left = '425px'; ball.style.top = '250px'; }, 3000);
+    }
+
+    function movePlayersRandomly() {
+        const players = document.querySelectorAll('.player');
+        players.forEach(p => {
+            p.style.left = Math.random() * 800 + "px";
+            p.style.top = Math.random() * 500 + "px";
+        });
+        // Top oyunçulardan birinin yanında gəzsin
+        const ball = document.getElementById('ball');
+        ball.style.left = (parseFloat(players[0].style.left) + 15) + "px";
+        ball.style.top = (parseFloat(players[0].style.top) + 5) + "px";
+    }
+
+    setInterval(updateGame, 1000);
+</script>
+</body>
+</html>
