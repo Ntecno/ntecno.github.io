@@ -919,7 +919,7 @@
         {m: 56, s: 0, res: "3 - 2", name: "EMRE (Bedro)"},
         {m: 72, s: 0, res: "3 - 3", name: "YUNUS (Bedro)"},
         {m: 78, s: 0, res: "4 - 3", name: "AYXAN"},
-        {m: 88, s: 0, res: "5 - 3", name: "NAİL (HATTRICK!)"}
+        {m: 88, s: 0, res: "5 - 4", name: "NAİL (HATTRICK!)"}
     ];
 
     function playGoal(name) {
@@ -1004,39 +1004,27 @@
 </script>
 </body>
 </html>
-<button id="audio-control" onclick="enableAudio()" 
-    style="position: fixed; top: 20px; right: 20px; z-index: 9999; 
-    background: #ffaa00; color: #000; border: 4px solid #fff; 
-    padding: 15px 30px; border-radius: 10px; font-weight: bold; 
-    font-size: 20px; cursor: pointer; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
-    🔊 SƏSİ AÇMAQ ÜÇÜN BURAYA BAS!
-</button>
+function enableAudio() {
+    const audio = document.getElementById('goal-sound');
+    const btn = document.getElementById('audio-control');
+    
+    // Səsi aktivləşdirmək üçün ən sadə və işlək yol
+    audio.play(); // Bir saniyəlik səsi işə salırıq
+    audio.pause(); // Dərhal dayandırırıq ki, qol vaxtını gözləsin
+    audio.currentTime = 0;
+    audio.muted = false;
 
-<script>
-    function enableAudio() {
-        const audio = document.getElementById('goal-sound');
-        const btn = document.getElementById('audio-control');
-        
-        // Səsi "oyandırmaq" üçün bir dəfə oynadıb dərhal dayandırırıq
-        audio.muted = false;
-        audio.play().then(() => {
-            audio.pause();
-            audio.currentTime = 0;
-            
-            // Düymənin görüntüsünü dəyişirik
-            btn.style.background = "#00ff88";
-            btn.innerText = "✅ SƏS AKTİVDİR!";
-            
-            // 2 saniyə sonra yavaşca itsin
-            setTimeout(() => {
-                btn.style.opacity = "0";
-                setTimeout(() => { btn.style.display = 'none'; }, 500);
-            }, 1500);
-            
-            console.log("Səs uğurla aktiv edildi!");
-        }).catch(e => {
-            alert("Xəta: Səhifəyə toxunaraq səsi aktiv edin!");
-            console.error(e);
-        });
-    }
-</script>
+    // Düyməni dərhal yaşıla çeviririk
+    btn.style.backgroundColor = "#00ff88";
+    btn.innerText = "✅ SƏS AKTİVDİR!";
+    
+    // Düyməni ekrandan itiririk
+    setTimeout(() => {
+        btn.style.opacity = "0";
+        setTimeout(() => { 
+            btn.style.display = 'none'; 
+        }, 500);
+    }, 1000);
+    
+    console.log("Səs artıq hazırdır!");
+}
