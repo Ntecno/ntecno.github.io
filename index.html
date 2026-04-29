@@ -1050,3 +1050,82 @@
 </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <style>
+        /* Əsas dizayn tənzimləmələri */
+        body {
+            transition: background 0.5s ease, color 0.5s ease;
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #121212; /* Başlanğıcda qara fon */
+            color: white;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        /* Düymələrin öz rəngləri */
+        .btn-white { background: #ffffff; color: #000; }
+        .btn-yellow { background: #ffeb3b; color: #000; }
+        .btn-orange { background: #ff9800; color: #fff; }
+        .btn-green { background: #4caf50; color: #fff; }
+        .btn-rainbow { background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet); color: #fff; }
+        .btn-modern { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; }
+
+        /* Fon sinifləri */
+        .bg-white { background-color: #ffffff !important; color: #000 !important; }
+        .bg-yellow { background-color: #ffeb3b !important; color: #000 !important; }
+        .bg-orange { background-color: #ff9800 !important; color: #fff !important; }
+        .bg-green { background-color: #4caf50 !important; color: #fff !important; }
+        .bg-rainbow { background: linear-gradient(90deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%) !important; color: #000 !important; }
+        .bg-modern { background: linear-gradient(to right, #243b55, #141e30) !important; color: #fff !important; }
+    </style>
+</head>
+<body>
+
+    <h2>Saytın Görünüşünü Dəyiş</h2>
+
+    <div class="button-container">
+        <button class="btn-white" onclick="changeTheme('bg-white')">Ağ</button>
+        <button class="btn-yellow" onclick="changeTheme('bg-yellow')">Sarı</button>
+        <button class="btn-orange" onclick="changeTheme('bg-orange')">Narıncı</button>
+        <button class="btn-green" onclick="changeTheme('bg-green')">Yaşıl</button>
+        <button class="btn-rainbow" onclick="changeTheme('bg-rainbow')">Rəngarəng</button>
+        <button class="btn-modern" onclick="changeTheme('bg-modern')">Modern Fon ✨</button>
+    </div>
+
+    <p>Bu mətni rənglərin necə göründüyünü yoxlamaq üçün oxuya bilərsən.</p>
+
+    <script>
+        function changeTheme(themeClass) {
+            // Əvvəlki bütün fon siniflərini silirik
+            document.body.className = '';
+            // Yeni seçilən sinfi əlavə edirik
+            document.body.classList.add(themeClass);
+        }
+    </script>
+
+</body>
+</html>
