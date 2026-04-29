@@ -1004,3 +1004,39 @@
 </script>
 </body>
 </html>
+<style>
+    #audio-control {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 2000;
+        background: var(--mango);
+        color: black;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+    }
+    #audio-control:hover { transform: scale(1.05); }
+</style>
+
+<button id="audio-control" onclick="enableAudio()">🔊 SƏSİ AKTİV ET</button>
+
+<script>
+    function enableAudio() {
+        const audio = document.getElementById('goal-sound');
+        audio.play().then(() => {
+            audio.pause();
+            audio.currentTime = 0;
+            document.getElementById('audio-control').innerText = "✅ SƏS AKTİVDİR";
+            document.getElementById('audio-control').style.background = "#00ff88";
+            setTimeout(() => {
+                document.getElementById('audio-control').style.display = 'none';
+            }, 2000);
+        }).catch(error => {
+            console.log("Səs aktiv edilə bilmədi:", error);
+        });
+    }
+</script>
