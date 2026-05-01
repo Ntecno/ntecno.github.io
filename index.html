@@ -837,118 +837,103 @@
 <div class="match-row">
     <span>TecBlade</span> <span class="score">19:00</span> <span>Bedraplang</span>
 </div>
-<div id="live-match-stadium" style="background: #1e5e2f; width: 100%; height: 400px; position: relative; border: 4px solid white; border-radius: 10px; overflow: hidden; margin: 20px 0;">
-    <div style="position: absolute; top: 50%; width: 100%; height: 2px; background: white; opacity: 0.5;"></div>
-    <div style="position: absolute; top: 50%; left: 50%; width: 80px; height: 80px; border: 2px solid white; border-radius: 50%; transform: translate(-50%, -50%); opacity: 0.5;"></div>
-    
-    <div id="match-ball" style="width: 12px; height: 12px; background: white; border-radius: 50%; position: absolute; z-index: 10; transition: all 0.1s linear; box-shadow: 0 0 5px black;"></div>
-    
-    <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); padding: 10px 20px; border-radius: 5px; color: white; text-align: center; z-index: 20; min-width: 200px;">
-        <div id="match-timer" style="font-weight: bold; font-size: 20px;">00:00</div>
-        <div id="match-score" style="font-size: 18px; color: var(--primary);">Tigers FC 0 - 0 Okean City</div>
-        <div id="match-status" style="font-size: 12px; color: #00ff88;">Gözlənilir (21:00)</div>
+<div id="ntecno-stadium" style="background: #27ae60; width: 100%; height: 450px; position: relative; border: 5px solid white; border-radius: 15px; overflow: hidden; margin: 20px 0; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
+    <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); padding: 15px; border-radius: 10px; border: 2px solid var(--primary); color: white; text-align: center; z-index: 100; min-width: 280px; font-family: 'Orbitron';">
+        <div id="live-clock" style="font-size: 24px; color: #00ff88;">00:00</div>
+        <div id="live-score" style="font-size: 20px; margin: 5px 0;">Tigers FC 0 - 0 Okean City</div>
+        <div id="live-desc" style="font-size: 11px; color: #aaa;">Matçın başlaması gözlənilir...</div>
     </div>
 
-    <div id="goal-flash" style="display:none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 60px; font-weight: bold; color: yellow; text-shadow: 2px 2px 10px red; z-index: 100; font-family: 'Orbitron';">GOOOOLLLL!!!</div>
-
+    <div id="goal-alert" style="display:none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; text-align: center;">
+        <h1 style="font-size: 70px; color: yellow; text-shadow: 4px 4px red; margin: 0;">GOOOOLLLL!!!</h1>
+        <h2 id="scorer-name" style="color: white; font-size: 30px; background: rgba(0,0,0,0.5); padding: 10px;"></h2>
     </div>
 
-<audio id="goal-sound" src="https://www.myinstants.com/media/sounds/goal-sound.mp3"></audio>
-<audio id="crowd-sound" loop src="https://www.myinstants.com/media/sounds/stadium-crowd-noise.mp3"></audio>
+    <div id="soccer-ball" style="width: 15px; height: 15px; background: white; border-radius: 50%; position: absolute; top: 50%; left: 50%; transition: all 2.5s ease-in-out; z-index: 50; box-shadow: 0 0 10px black;"></div>
+
+    <div style="position: absolute; left: 0; top: 40%; width: 10px; height: 20%; background: white;"></div>
+    <div style="position: absolute; right: 0; top: 40%; width: 10px; height: 20%; background: white;"></div>
+</div>
 
 <script>
-const playersTigers = ["Fateh", "Sinan", "Ayxan", "Mehdi", "Ramal", "Məzahir", "Nurlan", "Rushan", "Hüseyn", "Nicat", "İbrahim"];
-const playersOkean = ["Yambra", "Adrian", "Brunov", "O1", "O2", "O3", "O4", "O5", "O6", "O7", "O8"];
+const matchData = {
+    start: 21, // 21:00
+    goals: [
+        {min: 8, name: "Hüseyn", team: "Tigers"},
+        {min: 16, name: "Hüseyn", team: "Tigers"},
+        {min: 24, name: "İbrahim", team: "Tigers"},
+        {min: 32, name: "Yambra", team: "Okean"},
+        {min: 43, name: "Yambra", team: "Okean"},
+        {min: 51, name: "Adrian", team: "Okean"},
+        {min: 67, name: "Nicat", team: "Tigers"},
+        {min: 74, name: "Brunov", team: "Okean"},
+        {min: 84, name: "Yambra", team: "Okean"},
+        {min: 88, name: "Yambra", team: "Okean"},
+        {min: 90, name: "Yambra", team: "Okean"}
+    ]
+};
 
-const goals = [
-    {min: 8, scorer: "Hüseyn", team: "Tigers"},
-    {min: 16, scorer: "Hüseyn", team: "Tigers"},
-    {min: 24, scorer: "İbrahim", team: "Tigers"},
-    {min: 32, scorer: "Yambra", team: "Okean"},
-    {min: 43, scorer: "Yambra", team: "Okean"},
-    {min: 51, scorer: "Adrian", team: "Okean"},
-    {min: 67, scorer: "Nicat", team: "Tigers"},
-    {min: 74, scorer: "Brunov", team: "Okean"},
-    {min: 84, scorer: "Yambra", team: "Okean"},
-    {min: 88, scorer: "Yambra", team: "Okean"},
-    {min: 90, scorer: "Okean City", team: "Okean"}
-];
-
-function updateMatch() {
+function runEngine() {
     const now = new Date();
-    const matchStart = new Date();
-    matchStart.setHours(21, 0, 0, 0); // 21:00-da başlayır
+    const startTime = new Date();
+    startTime.setHours(matchData.start, 0, 0, 0);
 
-    let diffSeconds = Math.floor((now - matchStart) / 1000);
-    
-    if (diffSeconds < 0) {
-        document.getElementById('match-status').innerText = "Matça az qaldı...";
-        return;
+    let diffSec = Math.floor((now - startTime) / 1000);
+    if (diffSec < 0) return; // Hələ başlamayıb
+
+    let gameMin = Math.floor(diffSec / 60); // 1 real dəqiqə = 1 oyun dəqiqəsi
+    let displayMin = gameMin;
+    let isHalfTime = false;
+
+    if (gameMin >= 45 && gameMin < 60) {
+        displayMin = 45;
+        isHalfTime = true;
+    } else if (gameMin >= 60) {
+        displayMin = gameMin - 15;
     }
 
-    // Oyun dəqiqəsini hesabla (1 saniyə = 1 oyun dəqiqəsi kimi sürətləndirmirik, real vaxtla gedir)
-    // Sənin istədiyin ssenari üçün: 1 dəqiqə = 60 saniyə real vaxt.
-    let gameMinute = Math.floor(diffSeconds / 60);
-    
-    // Fasilə hesabı (45-60 dəqiqə arası fasilə)
-    if (gameMinute >= 45 && gameMinute < 60) {
-        document.getElementById('match-timer').innerText = "FASİLƏ";
-        document.getElementById('match-status').innerText = "15 dəqiqəlik istirahət";
-        return;
-    }
-    
-    let displayMinute = gameMinute > 60 ? gameMinute - 15 : gameMinute;
-    if (displayMinute > 90) displayMinute = 90;
+    if (displayMin > 90) displayMin = 90;
 
-    document.getElementById('match-timer').innerText = displayMinute + ":00";
-
-    // Skoru hesabla
-    let tigersScore = 0;
-    let okeanScore = 0;
-    goals.forEach(g => {
-        if (displayMinute >= g.min) {
-            if (g.team === "Tigers") tigersScore++; else okeanScore++;
-        }
+    // UI Yenilə
+    document.getElementById('live-clock').innerText = (isHalfTime ? "FASİLƏ" : displayMin + ":00");
+    
+    let tScore = 0, oScore = 0;
+    matchData.goals.forEach(g => {
+        if (displayMin >= g.min) { g.team === "Tigers" ? tScore++ : oScore++; }
     });
+    document.getElementById('live-score').innerText = `Tigers FC ${tScore} - ${oScore} Okean City`;
 
-    document.getElementById('match-score').innerText = `Tigers FC ${tigersScore} - ${okeanScore} Okean City`;
+    // Topun hərəkəti (Hər 3 saniyədən bir pas)
+    const ball = document.getElementById('soccer-ball');
+    const isGoalMoment = matchData.goals.find(g => g.min === displayMin && (now.getSeconds() < 10));
 
-    // Qol anı (Həmin dəqiqənin ilk 5 saniyəsində qışqırsın)
-    const currentGoal = goals.find(g => g.min === displayMinute && (diffSeconds % 60) < 10);
-    if (currentGoal) {
-        showGoalEffect(currentGoal.scorer);
+    if (isGoalMoment && !isHalfTime) {
+        // Uzaqdan şut və Qol!
+        ball.style.transition = "all 0.8s power2.in";
+        ball.style.left = isGoalMoment.team === "Tigers" ? "98%" : "2%";
+        ball.style.top = "50%";
+        
+        if (now.getSeconds() === 1) { // Qol anında bir dəfə göstər
+            showGoal(isGoalMoment.name);
+        }
+    } else if (!isHalfTime) {
+        // Normal yavaş paslaşma
+        if (diffSec % 3 === 0) {
+            ball.style.transition = "all 2.8s ease-in-out";
+            ball.style.left = (Math.random() * 60 + 20) + "%";
+            ball.style.top = (Math.random() * 70 + 15) + "%";
+            document.getElementById('live-desc').innerText = "Top Tigers FC oyunçularındadır...";
+        }
     }
-
-    // Topun hərəkəti (0.1 saniyəlik paslaşma)
-    moveBall();
 }
 
-function showGoalEffect(name) {
-    const flash = document.getElementById('goal-flash');
-    flash.style.display = 'block';
-    flash.innerText = "GOOOOLLLL! \n" + name;
-    document.getElementById('goal-sound').play();
-    
-    setTimeout(() => { flash.style.display = 'none'; }, 5000);
+function showGoal(name) {
+    const alert = document.getElementById('goal-alert');
+    document.getElementById('scorer-name').innerText = name;
+    alert.style.display = "block";
+    // Səsləri burda çağıra bilərsən: new Audio('url').play();
+    setTimeout(() => { alert.style.display = "none"; }, 5000);
 }
 
-function moveBall() {
-    const ball = document.getElementById('match-ball');
-    // Təsadüfi hərəkət (paslaşma effekti)
-    const x = Math.random() * 90 + 5;
-    const y = Math.random() * 80 + 10;
-    ball.style.left = x + "%";
-    ball.style.top = y + "%";
-}
-
-// Tribun səsləri üçün hər 30 saniyədən bir təzahürat (Haydi Tigers!)
-setInterval(() => {
-    const matchStart = new Date(); matchStart.setHours(21,0,0,0);
-    if (new Date() > matchStart) {
-        console.log("Haydi Tigers! Tam zamanı!");
-        // Bura səsləri əlavə edə bilərsən
-    }
-}, 30000);
-
-setInterval(updateMatch, 100); // Hər 0.1 saniyədə hərəkət və yoxlama
+setInterval(runEngine, 1000);
 </script>
