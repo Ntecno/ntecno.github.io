@@ -836,104 +836,99 @@
 </div>
 <div class="match-row">
     <span>TecBlade</span> <span class="score">19:00</span> <span>Bedraplang</span>
-</div>
-<div id="ntecno-stadium" style="background: #27ae60; width: 100%; height: 450px; position: relative; border: 5px solid white; border-radius: 15px; overflow: hidden; margin: 20px 0; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
-    <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); padding: 15px; border-radius: 10px; border: 2px solid var(--primary); color: white; text-align: center; z-index: 100; min-width: 280px; font-family: 'Orbitron';">
-        <div id="live-clock" style="font-size: 24px; color: #00ff88;">00:00</div>
-        <div id="live-score" style="font-size: 20px; margin: 5px 0;">Tigers FC 0 - 0 Okean City</div>
-        <div id="live-desc" style="font-size: 11px; color: #aaa;">Matçın başlaması gözlənilir...</div>
+</div><div id="stadium-frame" style="background: #27ae60; width: 100%; height: 500px; position: relative; border: 5px solid white; border-radius: 15px; overflow: hidden; margin: 20px 0; font-family: 'Poppins';">
+    
+    <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); padding: 10px 25px; border-radius: 10px; border: 2px solid #f1c40f; color: white; text-align: center; z-index: 100;">
+        <div id="match-timer" style="font-size: 28px; font-family: 'Orbitron'; color: #00ff88;">00:00</div>
+        <div id="match-score" style="font-size: 20px;">Tigers FC 0 - 0 Okean City</div>
     </div>
 
-    <div id="goal-alert" style="display:none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; text-align: center;">
-        <h1 style="font-size: 70px; color: yellow; text-shadow: 4px 4px red; margin: 0;">GOOOOLLLL!!!</h1>
-        <h2 id="scorer-name" style="color: white; font-size: 30px; background: rgba(0,0,0,0.5); padding: 10px;"></h2>
+    <div id="goal-overlay" style="display:none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; text-align: center; width: 100%;">
+        <h1 style="font-size: 80px; color: yellow; text-shadow: 5px 5px #ff0000; margin: 0; font-family: 'Orbitron';">GOOOOLLLL!!!</h1>
+        <h2 id="goal-scorer" style="color: white; font-size: 40px; text-transform: uppercase;"></h2>
     </div>
 
-    <div id="soccer-ball" style="width: 15px; height: 15px; background: white; border-radius: 50%; position: absolute; top: 50%; left: 50%; transition: all 2.5s ease-in-out; z-index: 50; box-shadow: 0 0 10px black;"></div>
+    <div id="ball" style="width: 14px; height: 14px; background: white; border-radius: 50%; position: absolute; top: 50%; left: 50%; transition: all 2.8s ease-in-out; z-index: 60; box-shadow: 0 0 10px #000;"></div>
 
-    <div style="position: absolute; left: 0; top: 40%; width: 10px; height: 20%; background: white;"></div>
-    <div style="position: absolute; right: 0; top: 40%; width: 10px; height: 20%; background: white;"></div>
+    <div id="team-layer"></div>
 </div>
+
+<audio id="anthem" src="https://www.myinstants.com/media/sounds/uefa-champions-league-anthem.mp3"></audio>
 
 <script>
-const matchData = {
-    start: 21, // 21:00
-    goals: [
-        {min: 8, name: "Hüseyn", team: "Tigers"},
-        {min: 16, name: "Hüseyn", team: "Tigers"},
-        {min: 24, name: "İbrahim", team: "Tigers"},
-        {min: 32, name: "Yambra", team: "Okean"},
-        {min: 43, name: "Yambra", team: "Okean"},
-        {min: 51, name: "Adrian", team: "Okean"},
-        {min: 67, name: "Nicat", team: "Tigers"},
-        {min: 74, name: "Brunov", team: "Okean"},
-        {min: 84, name: "Yambra", team: "Okean"},
-        {min: 88, name: "Yambra", team: "Okean"},
-        {min: 90, name: "Yambra", team: "Okean"}
-    ]
-};
+const players = [
+    {name: "Fateh", pos: [5, 50]}, {name: "Sinan", pos: [20, 15]}, {name: "Ayxan", pos: [20, 40]},
+    {name: "Mehdi", pos: [20, 60]}, {name: "Ramal", pos: [20, 85]}, {name: "Məzahir", pos: [40, 50]},
+    {name: "Nurlan", pos: [55, 30]}, {name: "Rushan", pos: [55, 70]}, {name: "Hüseyn", pos: [75, 20]},
+    {name: "İbrahim", pos: [75, 80]}, {name: "Nicat", pos: [85, 50]}
+];
 
-function runEngine() {
+const goals = [
+    {m: 8, s: 0, n: "Hüseyn", t: "T"}, {m: 16, s: 0, n: "Hüseyn", t: "T"}, {m: 24, s: 0, n: "İbrahim", t: "T"},
+    {m: 32, s: 0, n: "Yambra", t: "O"}, {m: 43, s: 0, n: "Yambra", t: "O"}, {m: 51, s: 0, n: "Adrian", t: "O"},
+    {m: 67, s: 0, n: "Nicat", t: "T"}, {m: 74, s: 0, n: "Brunov", t: "O"}, {m: 84, s: 0, n: "Yambra", t: "O"},
+    {m: 88, s: 0, n: "Yambra", t: "O"}, {m: 90, s: 0, n: "Yambra", t: "O"}
+];
+
+// Oyunçuları Meydana Düz
+const layer = document.getElementById('team-layer');
+players.forEach(p => {
+    let div = document.createElement('div');
+    div.className = 'player-dot';
+    div.innerHTML = `<div style="width:25px; height:25px; background:yellow; border-radius:50%; border:2px solid black; position:absolute; left:${p.pos[1]}%; top:${p.pos[0]}%;"></div>
+                     <span style="position:absolute; left:${p.pos[1]}%; top:${p.pos[0]+4}%; font-size:10px; color:white; font-weight:bold;">${p.name}</span>`;
+    layer.appendChild(div);
+});
+
+function updateLive() {
     const now = new Date();
-    const startTime = new Date();
-    startTime.setHours(matchData.start, 0, 0, 0);
-
-    let diffSec = Math.floor((now - startTime) / 1000);
-    if (diffSec < 0) return; // Hələ başlamayıb
-
-    let gameMin = Math.floor(diffSec / 60); // 1 real dəqiqə = 1 oyun dəqiqəsi
-    let displayMin = gameMin;
-    let isHalfTime = false;
-
-    if (gameMin >= 45 && gameMin < 60) {
-        displayMin = 45;
-        isHalfTime = true;
-    } else if (gameMin >= 60) {
-        displayMin = gameMin - 15;
-    }
-
-    if (displayMin > 90) displayMin = 90;
-
-    // UI Yenilə
-    document.getElementById('live-clock').innerText = (isHalfTime ? "FASİLƏ" : displayMin + ":00");
+    const start = new Date(); start.setHours(21, 0, 0, 0);
     
-    let tScore = 0, oScore = 0;
-    matchData.goals.forEach(g => {
-        if (displayMin >= g.min) { g.team === "Tigers" ? tScore++ : oScore++; }
-    });
-    document.getElementById('live-score').innerText = `Tigers FC ${tScore} - ${oScore} Okean City`;
+    let diff = Math.floor((now - start) / 1000);
+    if (diff < 0) return;
 
-    // Topun hərəkəti (Hər 3 saniyədən bir pas)
-    const ball = document.getElementById('soccer-ball');
-    const isGoalMoment = matchData.goals.find(g => g.min === displayMin && (now.getSeconds() < 10));
+    let m, s;
+    if (diff < 2700) { // İlk hissə (45 dəq = 2700 san)
+        m = Math.floor(diff / 60); s = diff % 60;
+    } else if (diff < 3600) { // Fasilə (15 dəq)
+        document.getElementById('match-timer').innerText = "FASİLƏ";
+        return;
+    } else { // İkinci hissə
+        let d2 = diff - 900; // 15 dəq çıxılır
+        m = Math.floor(d2 / 60); s = d2 % 60;
+    }
 
-    if (isGoalMoment && !isHalfTime) {
-        // Uzaqdan şut və Qol!
-        ball.style.transition = "all 0.8s power2.in";
-        ball.style.left = isGoalMoment.team === "Tigers" ? "98%" : "2%";
-        ball.style.top = "50%";
-        
-        if (now.getSeconds() === 1) { // Qol anında bir dəfə göstər
-            showGoal(isGoalMoment.name);
+    if (m >= 90) { m = 90; s = 0; }
+    
+    // Timer formatla
+    document.getElementById('match-timer').innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
+    // Hesabı yenilə
+    let t = 0, o = 0;
+    goals.forEach(g => { if (m > g.m || (m === g.m && s >= g.s)) g.t === "T" ? t++ : o++ });
+    document.getElementById('match-score').innerText = `Tigers FC ${t} - ${o} Okean City`;
+
+    // Pas və Qol Məntiqi
+    const ball = document.getElementById('ball');
+    const isGoal = goals.find(g => g.m === m && s < 5);
+
+    if (isGoal) {
+        ball.style.transition = "all 0.6s ease-in";
+        ball.style.left = isGoal.t === "T" ? "98%" : "2%";
+        if (s === 1) { 
+            document.getElementById('goal-overlay').style.display = "block";
+            document.getElementById('goal-scorer').innerText = isGoal.n;
+            setTimeout(() => document.getElementById('goal-overlay').style.display = "none", 4000);
         }
-    } else if (!isHalfTime) {
-        // Normal yavaş paslaşma
-        if (diffSec % 3 === 0) {
-            ball.style.transition = "all 2.8s ease-in-out";
-            ball.style.left = (Math.random() * 60 + 20) + "%";
-            ball.style.top = (Math.random() * 70 + 15) + "%";
-            document.getElementById('live-desc').innerText = "Top Tigers FC oyunçularındadır...";
-        }
+    } else if (diff % 3 === 0) {
+        let p = players[Math.floor(Math.random() * players.length)];
+        ball.style.left = p.pos[1] + "%";
+        ball.style.top = p.pos[0] + "%";
     }
 }
 
-function showGoal(name) {
-    const alert = document.getElementById('goal-alert');
-    document.getElementById('scorer-name').innerText = name;
-    alert.style.display = "block";
-    // Səsləri burda çağıra bilərsən: new Audio('url').play();
-    setTimeout(() => { alert.style.display = "none"; }, 5000);
-}
+// Marşı başlatmaq üçün istifadəçi sayta toxunmalıdır
+document.body.addEventListener('click', () => { document.getElementById('anthem').play(); }, {once: true});
 
-setInterval(runEngine, 1000);
+setInterval(updateLive, 1000);
 </script>
