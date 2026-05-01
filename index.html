@@ -378,21 +378,21 @@
             <h3>💰 Bazar Dəyərlərini Öyrən</h3>
             <div id="market-values" class="hidden-info">
                 <ul class="market-list">
-                    <li><span>Nurlan Şükürov</span> <span class="value">80,5 Mln €</span></li>
-                    <li><span>İbrahim Adilov</span> <span class="value">80,5 Mln €</span></li>
+                    <li><span>Nurlan Şükürov</span> <span class="value">81 Mln €</span></li>
+                    <li><span>İbrahim Adilov</span> <span class="value">81 Mln €</span></li>
                     <li><span>Fateh Tanrıverdiyev</span> <span class="value">67 Mln €</span></li>
+                    <li><span>Ramal Bayramov</span> <span class="value">65 Mln €</span></li>
+                    <li><span>Nicat Rəhimli</span> <span class="value">60 Mln €</span></li>
                     <li><span>Ruşan Quliyev</span> <span class="value">60 Mln €</span></li>
-                    <li><span>Ramal Bayramov</span> <span class="value">60 Mln €</span></li>
-                    <li><span>Fərhad Quliyev</span> <span class="value">56.3 Mln €</span></li>
-                    <li><span>Nicat Rəhimli</span> <span class="value">55,6 Mln €</span></li>
+                    <li><span>Fərhad Quliyev</span> <span class="value">60 Mln €</span></li>
                     <li><span>Hüseyn Zahidov</span> <span class="value">50 Mln €</span></li>
-                    <li><span>Tofiq Atakişi</span> <span class="value">45 Mln €</span></li>
+                    <li><span>Tofiq Atakişi</span> <span class="value">50 Mln €</span></li>
                     <li><span>Məzahir Səlimov</span> <span class="value">40,5 Mln €</span></li>
                     <li><span>Mehdi Nəbiyev</span> <span class="value">40 Mln €</span></li>
                     <li><span>Ümid Ağamalıyev</span> <span class="value">40 Mln €</span></li>
-                    <li><span>Ayxan Quliyev</span> <span class="value">32,3 Mln €</span></li>
-                    <li><span>Sinan Yusifli</span> <span class="value">30,5 Mln €</span></li>
-                    <li><span>Fərid Rzalı</span> <span class="value">13,2 Mln €</span></li>
+                    <li><span>Sinan Yusifli</span> <span class="value">35 Mln €</span></li>
+                    <li><span>Ayxan Quliyev</span> <span class="value">10 Mln €</span></li>
+                    <li><span>Fərid Rzalı</span> <span class="value">10 Mln €</span></li>
                     <li><span>Murad Məmmədli</span> <span class="value">3.5 Mln €</span></li>
                     <li><span>Zülfü Əliyev</span> <span class="value">500 B €</span></li>
                     <li><span>Cavid Qarasov</span> <span class="value">500 B €</span></li>
@@ -836,99 +836,108 @@
 </div>
 <div class="match-row">
     <span>TecBlade</span> <span class="score">19:00</span> <span>Bedraplang</span>
-</div><div id="stadium-frame" style="background: #27ae60; width: 100%; height: 500px; position: relative; border: 5px solid white; border-radius: 15px; overflow: hidden; margin: 20px 0; font-family: 'Poppins';">
+</div>
+<div id="stadium-container" style="background: #228B22; width: 100%; height: 500px; position: relative; border: 5px solid white; border-radius: 15px; overflow: hidden; margin: 20px 0; box-shadow: inset 0 0 100px rgba(0,0,0,0.5);">
     
-    <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); padding: 10px 25px; border-radius: 10px; border: 2px solid #f1c40f; color: white; text-align: center; z-index: 100;">
-        <div id="match-timer" style="font-size: 28px; font-family: 'Orbitron'; color: #00ff88;">00:00</div>
-        <div id="match-score" style="font-size: 20px;">Tigers FC 0 - 0 Okean City</div>
+    <div style="position: absolute; top: 50%; width: 100%; height: 2px; background: white; opacity: 0.3;"></div>
+    <div style="position: absolute; top: 50%; left: 50%; width: 100px; height: 100px; border: 2px solid white; border-radius: 50%; transform: translate(-50%, -50%); opacity: 0.3;"></div>
+
+    <div style="position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.85); padding: 8px 15px; border-radius: 8px; border: 1px solid #f1c40f; color: white; z-index: 1000; font-family: 'Orbitron', sans-serif; min-width: 150px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #444; padding-bottom: 3px; margin-bottom: 3px;">
+            <span id="m-timer" style="font-size: 18px; color: #00ff88; font-weight: bold;">00:00</span>
+            <span style="font-size: 10px; color: #f1c40f;">LIVE</span>
+        </div>
+        <div id="m-score" style="font-size: 14px; white-space: nowrap; font-weight: bold;">TIG 0 - 0 OKC</div>
     </div>
 
-    <div id="goal-overlay" style="display:none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; text-align: center; width: 100%;">
-        <h1 style="font-size: 80px; color: yellow; text-shadow: 5px 5px #ff0000; margin: 0; font-family: 'Orbitron';">GOOOOLLLL!!!</h1>
-        <h2 id="goal-scorer" style="color: white; font-size: 40px; text-transform: uppercase;"></h2>
+    <div id="g-flash" style="display:none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2000; text-align: center; width: 100%;">
+        <h1 style="font-size: 80px; color: yellow; text-shadow: 5px 5px #ff0000; font-family: 'Orbitron';">GOOOOLLLL!!!</h1>
+        <h2 id="g-player" style="color: white; font-size: 40px; background: rgba(0,0,0,0.6); display: inline-block; padding: 5px 20px; border-radius: 10px;"></h2>
     </div>
 
-    <div id="ball" style="width: 14px; height: 14px; background: white; border-radius: 50%; position: absolute; top: 50%; left: 50%; transition: all 2.8s ease-in-out; z-index: 60; box-shadow: 0 0 10px #000;"></div>
+    <div id="soccer-ball" style="width: 14px; height: 14px; background: white; border-radius: 50%; position: absolute; top: 50%; left: 50%; transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 500; box-shadow: 0 0 10px #000;"></div>
 
-    <div id="team-layer"></div>
+    <div id="pitch-players"></div>
 </div>
 
-<audio id="anthem" src="https://www.myinstants.com/media/sounds/uefa-champions-league-anthem.mp3"></audio>
+<audio id="match-anthem" src="https://www.myinstants.com/media/sounds/uefa-champions-league-anthem.mp3"></audio>
+<audio id="crowd-noise" loop src="https://www.myinstants.com/media/sounds/stadium-crowd-noise.mp3"></audio>
+<audio id="goal-cheer" src="https://www.myinstants.com/media/sounds/goal-sound.mp3"></audio>
 
 <script>
-const players = [
-    {name: "Fateh", pos: [5, 50]}, {name: "Sinan", pos: [20, 15]}, {name: "Ayxan", pos: [20, 40]},
-    {name: "Mehdi", pos: [20, 60]}, {name: "Ramal", pos: [20, 85]}, {name: "Məzahir", pos: [40, 50]},
-    {name: "Nurlan", pos: [55, 30]}, {name: "Rushan", pos: [55, 70]}, {name: "Hüseyn", pos: [75, 20]},
-    {name: "İbrahim", pos: [75, 80]}, {name: "Nicat", pos: [85, 50]}
+const tigers = [
+    {n: "Fateh", p: [5, 50]}, {n: "Sinan", p: [20, 15]}, {n: "Ayxan", p: [20, 40]},
+    {n: "Mehdi", p: [20, 60]}, {n: "Ramal", p: [20, 85]}, {n: "Məzahir", p: [40, 50]},
+    {n: "Nurlan", p: [55, 30]}, {n: "Rushan", p: [55, 70]}, {n: "Hüseyn", p: [75, 20]},
+    {n: "İbrahim", p: [75, 80]}, {n: "Nicat", p: [85, 50]}
 ];
 
-const goals = [
-    {m: 8, s: 0, n: "Hüseyn", t: "T"}, {m: 16, s: 0, n: "Hüseyn", t: "T"}, {m: 24, s: 0, n: "İbrahim", t: "T"},
-    {m: 32, s: 0, n: "Yambra", t: "O"}, {m: 43, s: 0, n: "Yambra", t: "O"}, {m: 51, s: 0, n: "Adrian", t: "O"},
-    {m: 67, s: 0, n: "Nicat", t: "T"}, {m: 74, s: 0, n: "Brunov", t: "O"}, {m: 84, s: 0, n: "Yambra", t: "O"},
-    {m: 88, s: 0, n: "Yambra", t: "O"}, {m: 90, s: 0, n: "Yambra", t: "O"}
+const matchGoals = [
+    {m: 8, s: 0, p: "Hüseyn", t: "T"}, {m: 16, s: 0, p: "Hüseyn", t: "T"}, {m: 24, s: 0, p: "İbrahim", t: "T"},
+    {m: 32, s: 0, p: "Yambra", t: "O"}, {m: 43, s: 0, p: "Yambra", t: "O"}, {m: 51, s: 0, p: "Adrian", t: "O"},
+    {m: 67, s: 0, p: "Nicat", t: "T"}, {m: 74, s: 0, p: "Brunov", t: "O"}, {m: 84, s: 0, p: "Yambra", t: "O"},
+    {m: 88, s: 0, p: "Yambra", t: "O"}, {m: 90, s: 0, p: "Yambra", t: "O"}
 ];
 
-// Oyunçuları Meydana Düz
-const layer = document.getElementById('team-layer');
-players.forEach(p => {
-    let div = document.createElement('div');
-    div.className = 'player-dot';
-    div.innerHTML = `<div style="width:25px; height:25px; background:yellow; border-radius:50%; border:2px solid black; position:absolute; left:${p.pos[1]}%; top:${p.pos[0]}%;"></div>
-                     <span style="position:absolute; left:${p.pos[1]}%; top:${p.pos[0]+4}%; font-size:10px; color:white; font-weight:bold;">${p.name}</span>`;
-    layer.appendChild(div);
+const pitch = document.getElementById('pitch-players');
+tigers.forEach(o => {
+    let d = document.createElement('div');
+    d.style.cssText = `position:absolute; left:${o.p[1]}%; top:${o.p[0]}%; transform:translate(-50%,-50%); text-align:center; z-index:400;`;
+    d.innerHTML = `<div style="width:20px; height:20px; background:yellow; border:2px solid black; border-radius:50%; margin:0 auto;"></div>
+                   <span style="color:white; font-size:10px; font-weight:bold; background:rgba(0,0,0,0.4); padding:1px 3px; border-radius:3px;">${o.n}</span>`;
+    pitch.appendChild(d);
 });
 
-function updateLive() {
+function engine() {
     const now = new Date();
-    const start = new Date(); start.setHours(21, 0, 0, 0);
+    const start = new Date(); start.setHours(21, 0, 0, 0); // 21:00-da başlayır
     
     let diff = Math.floor((now - start) / 1000);
     if (diff < 0) return;
 
     let m, s;
-    if (diff < 2700) { // İlk hissə (45 dəq = 2700 san)
+    if (diff < 2700) { // İlk yarı
         m = Math.floor(diff / 60); s = diff % 60;
-    } else if (diff < 3600) { // Fasilə (15 dəq)
-        document.getElementById('match-timer').innerText = "FASİLƏ";
+    } else if (diff < 3600) { // Devre arası
+        document.getElementById('m-timer').innerText = "HALF";
         return;
-    } else { // İkinci hissə
-        let d2 = diff - 900; // 15 dəq çıxılır
+    } else { // İkinci yarı
+        let d2 = diff - 900;
         m = Math.floor(d2 / 60); s = d2 % 60;
     }
 
     if (m >= 90) { m = 90; s = 0; }
-    
-    // Timer formatla
-    document.getElementById('match-timer').innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    document.getElementById('m-timer').innerText = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
 
-    // Hesabı yenilə
     let t = 0, o = 0;
-    goals.forEach(g => { if (m > g.m || (m === g.m && s >= g.s)) g.t === "T" ? t++ : o++ });
-    document.getElementById('match-score').innerText = `Tigers FC ${t} - ${o} Okean City`;
+    matchGoals.forEach(g => { if (m > g.m || (m === g.m && s >= g.s)) g.t === "T" ? t++ : o++ });
+    document.getElementById('m-score').innerText = `TIG ${t} - ${o} OKC`;
 
-    // Pas və Qol Məntiqi
-    const ball = document.getElementById('ball');
-    const isGoal = goals.find(g => g.m === m && s < 5);
+    const ball = document.getElementById('soccer-ball');
+    const goalNow = matchGoals.find(g => g.m === m && s < 6);
 
-    if (isGoal) {
-        ball.style.transition = "all 0.6s ease-in";
-        ball.style.left = isGoal.t === "T" ? "98%" : "2%";
-        if (s === 1) { 
-            document.getElementById('goal-overlay').style.display = "block";
-            document.getElementById('goal-scorer').innerText = isGoal.n;
-            setTimeout(() => document.getElementById('goal-overlay').style.display = "none", 4000);
+    if (goalNow) {
+        ball.style.transition = "all 0.8s ease-in";
+        ball.style.left = goalNow.t === "T" ? "98%" : "2%";
+        ball.style.top = "50%";
+        if (s === 1) {
+            document.getElementById('g-flash').style.display = "block";
+            document.getElementById('g-player').innerText = goalNow.p;
+            document.getElementById('goal-cheer').play();
+            setTimeout(() => { document.getElementById('g-flash').style.display = "none"; }, 5000);
         }
     } else if (diff % 3 === 0) {
-        let p = players[Math.floor(Math.random() * players.length)];
-        ball.style.left = p.pos[1] + "%";
-        ball.style.top = p.pos[0] + "%";
+        let target = tigers[Math.floor(Math.random() * tigers.length)];
+        ball.style.transition = "all 2.5s ease-in-out";
+        ball.style.left = target.p[1] + "%";
+        ball.style.top = target.p[0] + "%";
     }
 }
 
-// Marşı başlatmaq üçün istifadəçi sayta toxunmalıdır
-document.body.addEventListener('click', () => { document.getElementById('anthem').play(); }, {once: true});
+document.addEventListener('click', () => {
+    document.getElementById('match-anthem').play();
+    document.getElementById('crowd-noise').play();
+}, {once: true});
 
-setInterval(updateLive, 1000);
+setInterval(engine, 1000);
 </script>
