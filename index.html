@@ -840,6 +840,53 @@
 </head>
 <body>
 
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .league-container {
+            width: 100%;
+            max-width: 700px;
+            margin: 20px auto;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #121212;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .league-table {
+            width: 100%;
+            border-collapse: collapse;
+            color: #e0e0e0;
+            text-align: center;
+        }
+
+        .league-table th {
+            background-color: #1f1f1f;
+            color: #888;
+            padding: 12px;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        .league-table td {
+            padding: 10px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        /* Rəng Zonaları */
+        .ucl { background-color: rgba(46, 204, 113, 0.15) !important; border-left: 5px solid #2ecc71; } /* Şampiyonlar Ligi */
+        .uel { background-color: rgba(52, 152, 219, 0.15) !important; border-left: 5px solid #3498db; } /* Avropa Ligi */
+        .uecl { background-color: rgba(230, 126, 34, 0.15) !important; border-left: 5px solid #e67e22; } /* Konfrans Ligi */
+
+        .points { font-weight: bold; color: #fff; }
+        .team-name { text-align: left; padding-left: 15px !important; font-weight: 600; }
+        
+        tr:hover { background-color: #252525; transition: 0.2s; }
+    </style>
+</head>
+<body>
+
 <div class="league-container">
     <table class="league-table">
         <thead>
@@ -852,25 +899,25 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="ucl"><td>1</td><td class="team-name">Okean City</td><td>4</td><td>+20</td><td class="points">12</td></tr>
-            <tr class="ucl"><td>2</td><td class="team-name">GamBrdand FK</td><td>4</td><td>+7</td><td class="points">10</td></tr>
+            <tr class="ucl"><td>1</td><td class="team-name">Okean City</td><td>5</td><td>+15</td><td class="points">12</td></tr>
+            <tr class="ucl"><td>2</td><td class="team-name">GamBrdand FK</td><td>5</td><td>+4</td><td class="points">10</td></tr>
             
-            <tr class="uel"><td>3</td><td class="team-name">Prime FK</td><td>4</td><td>+5</td><td class="points">7</td></tr>
-            <tr class="uel"><td>4</td><td class="team-name">Wolf FC</td><td>4</td><td>+4</td><td class="points">7</td></tr>
+            <tr class="uel"><td>3</td><td class="team-name">Bedraplang</td><td>5</td><td>+12</td><td class="points">9</td></tr>
+            <tr class="uel"><td>4</td><td class="team-name">Wolf FC</td><td>5</td><td>+4</td><td class="points">8</td></tr>
             
-            <tr class="uecl"><td>5</td><td class="team-name">Tigers FC</td><td>4</td><td>+2</td><td class="points">7</td></tr>
-            <tr class="uecl"><td>6</td><td class="team-name">Bedraplang</td><td>4</td><td>+7</td><td class="points">6</td></tr>
+            <tr class="uecl"><td>5</td><td class="team-name">Fredom City</td><td>5</td><td>+3</td><td class="points">7</td></tr>
+            <tr class="uecl"><td>6</td><td class="team-name">Prime FK</td><td>4</td><td>+5</td><td class="points">7</td></tr>
             
-            <tr><td>7</td><td class="team-name">KingoMango FC</td><td>4</td><td>-2</td><td class="points">6</td></tr>
-            <tr><td>8</td><td class="team-name">Farmland</td><td>4</td><td>-3</td><td class="points">5</td></tr>
-            <tr><td>9</td><td class="team-name">Fredom City</td><td>4</td><td>+2</td><td class="points">4</td></tr>
-            <tr><td>10</td><td class="team-name">Baku City</td><td>4</td><td>+1</td><td class="points">4</td></tr>
-            <tr><td>11</td><td class="team-name">Baku Arena</td><td>4</td><td>-5</td><td class="points">4</td></tr>
-            <tr><td>12</td><td class="team-name">TecBlade</td><td>4</td><td>-8</td><td class="points">4</td></tr>
-            <tr><td>13</td><td class="team-name">Tayburlebur</td><td>4</td><td>-9</td><td class="points">4</td></tr>
-            <tr><td>14</td><td class="team-name">Eagles Land</td><td>4</td><td>-2</td><td class="points">3</td></tr>
-            <tr><td>15</td><td class="team-name">Hostland</td><td>4</td><td>-1</td><td class="points">3</td></tr>
-            <tr><td>16</td><td class="team-name">Storm Rangers</td><td>4</td><td>-6</td><td class="points">3</td></tr>
+            <tr><td>7</td><td class="team-name">Tigers FC</td><td>4</td><td>+2</td><td class="points">7</td></tr>
+            <tr><td>8</td><td class="team-name">Storm Rangers</td><td>5</td><td>-3</td><td class="points">6</td></tr>
+            <tr><td>9</td><td class="team-name">KingoMango FC</td><td>4</td><td>-2</td><td class="points">6</td></tr>
+            <tr><td>10</td><td class="team-name">Farmland</td><td>4</td><td>-3</td><td class="points">5</td></tr>
+            <tr><td>11</td><td class="team-name">Baku Arena</td><td>5</td><td>-5</td><td class="points">5</td></tr>
+            <tr><td>12</td><td class="team-name">Baku City</td><td>5</td><td>0</td><td class="points">4</td></tr>
+            <tr><td>13</td><td class="team-name">TecBlade</td><td>4</td><td>-8</td><td class="points">4</td></tr>
+            <tr><td>14</td><td class="team-name">Tayburlebur</td><td>4</td><td>-9</td><td class="points">4</td></tr>
+            <tr><td>15</td><td class="team-name">Eagles Land</td><td>4</td><td>-2</td><td class="points">3</td></tr>
+            <tr><td>16</td><td class="team-name">Hostland</td><td>4</td><td>-1</td><td class="points">3</td></tr>
             <tr><td>17</td><td class="team-name">Stars FK</td><td>4</td><td>-4</td><td class="points">3</td></tr>
             <tr><td>18</td><td class="team-name">Handking</td><td>4</td><td>-9</td><td class="points">1</td></tr>
         </tbody>
