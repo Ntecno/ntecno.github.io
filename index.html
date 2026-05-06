@@ -926,3 +926,116 @@
 
 </body>
 </html>
+<div id="ntecno-stadium" style="background: #1e5e2f; width: 100%; height: 500px; position: relative; border: 5px solid white; border-radius: 15px; overflow: hidden; margin: 20px 0; box-shadow: inset 0 0 100px rgba(0,0,0,0.5);">
+    
+    <div style="position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.9); padding: 10px 20px; border-radius: 8px; border: 1px solid #f1c40f; color: white; z-index: 1000; font-family: 'Orbitron', sans-serif; min-width: 160px;">
+        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #444; padding-bottom: 5px; margin-bottom: 5px;">
+            <span id="match-clock" style="font-size: 22px; color: #00ff88;">00:00:00</span>
+            <span id="extra-time" style="color: yellow; font-size: 16px; font-weight: bold; display:none;">+5</span>
+        </div>
+        <div id="match-score" style="font-size: 16px; font-weight: bold; text-align: center;">TIG 0 - 0 STR</div>
+    </div>
+
+    <div id="goal-alert" style="display:none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2000; text-align: center; width: 100%;">
+        <h1 style="font-size: 80px; color: yellow; text-shadow: 5px 5px #ff0000; font-family: 'Orbitron'; margin: 0;">GOOOOLLLL!!!</h1>
+        <h2 id="scorer-display" style="color: white; font-size: 40px; background: rgba(0,0,0,0.6); display: inline-block; padding: 5px 25px; border-radius: 10px;"></h2>
+    </div>
+
+    <div id="soccer-ball" style="width: 14px; height: 14px; background: white; border-radius: 50%; position: absolute; top: 50%; left: 50%; transition: all 2.5s ease-in-out; z-index: 500; box-shadow: 0 0 10px #000;"></div>
+
+    <div id="players-layer"></div>
+</div>
+
+<audio id="anthem" src="https://www.myinstants.com/media/sounds/uefa-champions-league-anthem.mp3"></audio>
+<audio id="goal-sound" src="https://www.myinstants.com/media/sounds/goal-sound.mp3"></audio>
+<audio id="crowd" loop src="https://www.myinstants.com/media/sounds/stadium-crowd-noise.mp3"></audio>
+
+<script>
+const teamTigers = [
+    {n: "Fateh", p: [5, 50]}, {n: "Sinan", p: [25, 30]}, {n: "Ayxan", p: [25, 50]},
+    {n: "Mehdi", p: [25, 70]}, {n: "Ramal", p: [45, 85]}, {n: "Məzahir", p: [45, 50]},
+    {n: "Nurlan", p: [60, 35]}, {n: "Rushan", p: [60, 65]}, {n: "Hüseyn", p: [75, 15]},
+    {n: "İbrahim", p: [75, 85]}, {n: "Nicat", p: [88, 50]}
+];
+
+const teamStars = [
+    {n: "Walker", p: [95, 50]}, {n: "Jorge", p: [70, 20]}, {n: "Jesus", p: [70, 80]},
+    {n: "Tehna", p: [60, 50]}, {n: "Yambra", p: [55, 40]}, {n: "Tekna", p: [55, 60]},
+    {n: "Young", p: [85, 50]}
+];
+
+const ssenari = [
+    {m: 11, s: 0, p: "Sinan"}, {m: 13, s: 0, p: "Sinan"}, {m: 38, s: 0, p: "İbrahim"},
+    {m: 53, s: 0, p: "Məzahir"}, {m: 55, s: 0, p: "Nicat"}, {m: 78, s: 0, p: "Nurlan"},
+    {m: 93, s: 0, p: "Nicat"} // 90+3 qolu
+];
+
+// Oyunçuları yerləşdir
+const layer = document.getElementById('players-layer');
+[...teamTigers, ...teamStars].forEach(o => {
+    let d = document.createElement('div');
+    d.style.cssText = `position:absolute; left:${o.p[1]}%; top:${o.p[0]}%; transform:translate(-50%,-50%); text-align:center; z-index:400;`;
+    let color = teamTigers.includes(o) ? 'yellow' : 'white';
+    d.innerHTML = `<div style="width:20px; height:20px; background:${color}; border:2px solid black; border-radius:50%; margin:0 auto;"></div>
+                   <span style="color:white; font-size:10px; font-weight:bold; background:rgba(0,0,0,0.5); padding:1px 3px;">${o.n}</span>`;
+    layer.appendChild(d);
+});
+
+function startMatch() {
+    const now = new Date();
+    const startTime = new Date(); startTime.setHours(21, 0, 0, 0); 
+
+    let diff = Math.floor((now - startTime) / 1000);
+    if (diff < 0) return;
+
+    let m, s, displayM;
+    if (diff < 2700) { // 1. Yarı
+        m = Math.floor(diff / 60); s = diff % 60; displayM = m;
+    } else if (diff < 3600) { // Fasilə
+        document.getElementById('match-clock').innerText = "FASİLƏ";
+        return;
+    } else { // 2. Yarı
+        let d2 = diff - 900;
+        m = Math.floor(d2 / 60); s = d2 % 60; displayM = m;
+    }
+
+    // 90+5 sistemi
+    if (displayM >= 90) {
+        document.getElementById('extra-time').style.display = "inline";
+        if (displayM >= 95) { displayM = 95; s = 0; }
+    }
+
+    document.getElementById('match-clock').innerText = `${String(displayM).padStart(2,'0')}:${String(s).padStart(2,'0')}:00`;
+
+    // Hesab
+    let score = 0;
+    ssenari.forEach(g => { if (m > g.m || (m === g.m && s >= g.s)) score++; });
+    document.getElementById('match-score').innerText = `TIG ${score} - 0 STR`;
+
+    // Hərəkət
+    const ball = document.getElementById('soccer-ball');
+    const isGoal = ssenari.find(g => g.m === m && s < 6);
+
+    if (isGoal) {
+        ball.style.transition = "all 0.8s ease-in";
+        ball.style.left = "98%"; ball.style.top = "50%";
+        if (s === 1) {
+            document.getElementById('goal-alert').style.display = "block";
+            document.getElementById('scorer-display').innerText = isGoal.p;
+            document.getElementById('goal-sound').play();
+            setTimeout(() => { document.getElementById('goal-alert').style.display = "none"; }, 5000);
+        }
+    } else if (diff % 3 === 0) {
+        let t = teamTigers[Math.floor(Math.random() * teamTigers.length)];
+        ball.style.transition = "all 2.5s ease-in-out";
+        ball.style.left = t.p[1] + "%"; ball.style.top = t.p[0] + "%";
+    }
+}
+
+document.addEventListener('click', () => {
+    document.getElementById('anthem').play();
+    document.getElementById('crowd').play();
+}, {once: true});
+
+setInterval(startMatch, 1000);
+</script>
