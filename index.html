@@ -1051,14 +1051,15 @@
 
 </body>
 </html>
-    
 <style>
-    #stadium { background: #27ae60; width: 100%; height: 500px; position: relative; border: 5px solid white; border-radius: 15px; overflow: hidden; font-family: 'Orbitron', sans-serif; }
+    #stadium { background: linear-gradient(to bottom, #2d5a27 50%, #356a2e 50%); background-size: 100% 50px; width: 100%; height: 500px; position: relative; border: 5px solid white; border-radius: 15px; overflow: hidden; font-family: 'Orbitron', sans-serif; }
     .scoreboard { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.9); padding: 10px; border: 2px solid #f1c40f; border-radius: 8px; color: white; z-index: 1000; min-width: 160px; text-align: center; }
-    .player-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #000; position: absolute; transition: all 2.8s ease-in-out; z-index: 500; }
-    .p-label { color: white; font-size: 9px; position: absolute; margin-top: 22px; width: 60px; left: -20px; text-align: center; background: rgba(0,0,0,0.5); }
-    #goal-flash { display:none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2000; text-align: center; width: 100%; }
-    #fireworks { display:none; position: absolute; width: 100%; height: 100%; z-index: 1500; pointer-events: none; }
+    .player-unit { position: absolute; transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 500; text-align: center; transform: translate(-50%, -50%); }
+    .player-body { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #000; margin: 0 auto; box-shadow: 0 4px 5px rgba(0,0,0,0.3); }
+    .p-name { color: white; font-size: 10px; font-weight: bold; background: rgba(0,0,0,0.6); padding: 1px 4px; border-radius: 3px; display: block; margin-top: 2px; }
+    #ball { width: 14px; height: 14px; background: radial-gradient(circle at 4px 4px, #fff, #222); border-radius: 50%; position: absolute; z-index: 600; transition: all 2.5s cubic-bezier(0.25, 0.1, 0.25, 1); box-shadow: 0 2px 5px #000; }
+    #goal-msg { display:none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2000; text-align: center; width: 100%; animation: zoomIn 0.5s ease; }
+    @keyframes zoomIn { from {transform: translate(-50%, -50%) scale(0.5); opacity: 0;} to {transform: translate(-50%, -50%) scale(1); opacity: 1;} }
 </style>
 
 <div id="stadium">
@@ -1068,19 +1069,17 @@
         <div id="added-time" style="color: yellow; font-size: 14px; display: none;">+0</div>
     </div>
 
-    <div id="goal-flash">
-        <h1 style="font-size: 70px; color: yellow; text-shadow: 4px 4px red; margin:0;">GOOOOLLLL!!!</h1>
-        <h2 id="scorer-name" style="color: white; font-size: 30px; text-transform: uppercase;"></h2>
+    <div id="goal-msg">
+        <h1 style="font-size: 70px; color: yellow; text-shadow: 5px 5px red; margin:0;">GOOOOLLLL!!!</h1>
+        <h2 id="scorer-display" style="color: white; font-size: 35px; background: rgba(0,0,0,0.7); padding: 5px 20px; display: inline-block;"></h2>
     </div>
-    <canvas id="fireworks"></canvas>
 
-    <div id="ball" style="width: 12px; height: 12px; background: white; border-radius: 50%; position: absolute; top: 50%; left: 50%; transition: all 2.5s linear; z-index: 600; box-shadow: 0 0 8px #000;"></div>
-
-    <div id="pitch-players"></div>
+    <div id="ball" style="left: 50%; top: 50%;"></div>
+    <div id="pitch-layer"></div>
 </div>
 
-<audio id="goal-sound" src="https://www.myinstants.com/media/sounds/goal-sound.mp3"></audio>
-<audio id="crowd" loop src="https://www.myinstants.com/media/sounds/stadium-crowd-noise.mp3"></audio>
+<audio id="goal-sfx" src="https://www.myinstants.com/media/sounds/goal-sound.mp3"></audio>
+<audio id="crowd-sfx" loop src="https://www.myinstants.com/media/sounds/stadium-crowd-noise.mp3"></audio>
 
 <script>
 const tigers = [
@@ -1089,87 +1088,78 @@ const tigers = [
     {n: "Hüseyn", p: [75, 20]}, {n: "İbrahim", p: [75, 80]}, {n: "Nicat", p: [88, 50]}
 ];
 const kingo = [
-    {n: "Reşid", p: [95, 50]}, {n: "Nail", p: [15, 50]}, {n: "Vaqif", p: [30, 80]}, {n: "Jorg", p: [30, 20]},
-    {n: "Mehemmed", p: [50, 40]}, {n: "Suphan", p: [50, 60]}, {n: "Eli", p: [65, 50]}
+    {n: "Resid", p: [95, 50]}, {n: "Nail", p: [15, 50]}, {n: "Vaqif", p: [30, 80]}, {n: "Jorg", p: [30, 20]},
+    {n: "Mehemmed", p: [50, 40]}, {n: "Suphan", p: [50, 60]}, {n: "Eli", p: [65, 50]}, {n: "Ayxan K", p: [80, 50]}
 ];
 
-const events = [
+const ssenari = [
     {m: 36, s: 0, p: "Nicat", t: "T"}, {m: 41, s: 0, p: "Nurlan", t: "T"},
-    {m: 53, s: 0, p: "Nail", t: "K"}, {m: 74, s: 0, p: "Ayxan", t: "K"},
+    {m: 53, s: 0, p: "Nail", t: "K"}, {m: 74, s: 0, p: "Ayxan K", t: "K"},
     {m: 93, s: 0, p: "İbrahim", t: "T"}
 ];
 
-function init() {
-    const pitch = document.getElementById('pitch-players');
+function initGame() {
+    const pitch = document.getElementById('pitch-layer');
     [...tigers, ...kingo].forEach(pl => {
-        let dot = document.createElement('div');
-        dot.className = 'player-dot';
-        dot.style.cssText = `left:${pl.p[1]}%; top:${pl.p[0]}%; background:${tigers.includes(pl)?'yellow':'blue'};`;
-        dot.innerHTML = `<span class="p-label">${pl.n}</span>`;
-        pitch.appendChild(dot);
+        let div = document.createElement('div');
+        div.className = 'player-unit';
+        div.id = 'player-' + pl.n.replace(' ','');
+        div.style.left = pl.p[1] + "%";
+        div.style.top = pl.p[0] + "%";
+        let color = tigers.includes(pl) ? '#f1c40f' : '#3498db';
+        div.innerHTML = `<div class="player-body" style="background:${color}"></div><span class="p-name">${pl.n}</span>`;
+        pitch.appendChild(div);
     });
 }
 
-function update() {
+function matchLoop() {
     const now = new Date();
-    const start = new Date(); start.setHours(22, 0, 0, 0);
-    let diff = Math.floor((now - start) / 1000);
+    const startTime = new Date(); startTime.setHours(22, 0, 0, 0);
+    let diff = Math.floor((now - startTime) / 1000);
     if (diff < 0) return;
 
-    let m, s, displayM, add = 0;
-    if (diff < 2940) { // İlk yarı (45+4)
-        m = Math.floor(diff / 60); s = diff % 60;
-        if (m >= 45) { add = 4; displayM = 45; document.getElementById('added-time').style.display = "inline"; document.getElementById('added-time').innerText = "+4"; }
-        else displayM = m;
-    } else if (diff < 3840) { // Fasilə 15 dk
-        document.getElementById('clock').innerText = "FASİLƏ"; return;
-    } else { // 2-ci yarı (45-90+6)
-        let d2 = diff - 900; m = Math.floor(d2 / 60); s = d2 % 60;
-        if (m >= 90) { add = 6; displayM = 90; document.getElementById('added-time').style.display = "inline"; document.getElementById('added-time').innerText = "+6"; }
-        else displayM = m;
-    }
+    let m, s, displayM;
+    if (diff < 2940) { m = Math.floor(diff / 60); s = diff % 60; displayM = (m >= 45) ? 45 : m; if(m>=45){document.getElementById('added-time').style.display="inline"; document.getElementById('added-time').innerText="+4";} }
+    else if (diff < 3840) { document.getElementById('clock').innerText = "FASİLƏ"; return; }
+    else { let d2 = diff - 900; m = Math.floor(d2 / 60); s = d2 % 60; displayM = (m >= 90) ? 90 : m; if(m>=90){document.getElementById('added-time').style.display="inline"; document.getElementById('added-time').innerText="+6";} }
 
-    if (m >= 96) { 
-        displayM = 90; s = 6; 
-        document.getElementById('score').innerText = "TIG 3 - 2 KMG";
-        document.getElementById('score').style.color = "yellow";
-        document.getElementById('clock').innerText = "BİTDİ";
-        startFireworks(); 
-        return;
-    }
-
+    if (m >= 96) { document.getElementById('clock').innerText = "BİTDİ"; return; }
     document.getElementById('clock').innerText = `${String(displayM).padStart(2,'0')}:${String(s).padStart(2,'0')}:00`;
 
     let tS = 0, kS = 0;
-    events.forEach(e => { if (m > e.m || (m === e.m && s >= e.s)) e.t === "T" ? tS++ : kS++ });
+    ssenari.forEach(e => { if (m > e.m || (m === e.m && s >= e.s)) e.t === "T" ? tS++ : kS++ });
     document.getElementById('score').innerText = `TIG ${tS} - ${kS} KMG`;
 
     const ball = document.getElementById('ball');
-    const goal = events.find(e => e.m === m && s < 6);
-    if (goal) {
-        ball.style.left = goal.t === "T" ? "98%" : "2%"; ball.style.top = "50%";
-        if (s === 1) {
-            document.getElementById('goal-flash').style.display = "block";
-            document.getElementById('scorer-name').innerText = goal.p;
-            document.getElementById('goal-sound').play();
-            setTimeout(() => document.getElementById('goal-flash').style.display = "none", 5000);
+    const event = ssenari.find(e => e.m === m);
+
+    // QOL ANI: Top qol vuranın ayağına gedir, sonra qapıya
+    if (event) {
+        let playerEl = document.getElementById('player-' + event.p.replace(' ',''));
+        if (s < 3) { // İlk 3 saniyə pas oyunçuya
+            ball.style.transition = "all 1.5s ease-out";
+            ball.style.left = playerEl.style.left;
+            ball.style.top = playerEl.style.top;
+        } else if (s >= 3 && s < 5) { // 3-5 saniyə arası qapıya şut
+            ball.style.transition = "all 0.6s cubic-bezier(0.6, 0.04, 0.98, 0.33)";
+            ball.style.left = event.t === "T" ? "99%" : "1%";
+            ball.style.top = "50%";
+            if (s === 3) {
+                document.getElementById('goal-msg').style.display = "block";
+                document.getElementById('scorer-display').innerText = event.p;
+                document.getElementById('goal-sfx').play();
+                setTimeout(() => { document.getElementById('goal-msg').style.display = "none"; }, 5000);
+            }
         }
-    } else if (diff % 3 === 0) {
-        let r = tigers[Math.floor(Math.random()*tigers.length)];
-        ball.style.left = r.p[1]+"%"; ball.style.top = r.p[0]+"%";
+    } else if (diff % 4 === 0) {
+        // Normal paslaşma
+        let randTig = tigers[Math.floor(Math.random() * tigers.length)];
+        ball.style.transition = "all 2.8s ease-in-out";
+        ball.style.left = randTig.p[1] + "%";
+        ball.style.top = randTig.p[0] + "%";
     }
 }
 
-function startFireworks() {
-    const canvas = document.getElementById('fireworks');
-    canvas.style.display = 'block';
-    const ctx = canvas.getContext('2d');
-    canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
-    // Bura ulduz və atəşfəşanlıq vizualı gələcək
-    ctx.fillStyle = "yellow";
-    for(let i=0; i<50; i++) ctx.fillRect(Math.random()*canvas.width, Math.random()*canvas.height, 3, 3);
-}
-
-document.addEventListener('click', () => { document.getElementById('crowd').play(); }, {once:true});
-init(); setInterval(update, 1000);
+document.addEventListener('click', () => { document.getElementById('crowd-sfx').play(); }, {once: true});
+initGame(); setInterval(matchLoop, 1000);
 </script>
