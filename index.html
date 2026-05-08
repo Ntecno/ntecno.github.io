@@ -1048,107 +1048,79 @@
         </tbody>
     </table>
 </div>
-
-</body>
-</html>
-<style>
-    #stadium { background: radial-gradient(#356a2e 20%, #2d5a27); width: 100%; height: 500px; position: relative; border: 5px solid white; border-radius: 15px; overflow: hidden; font-family: 'Orbitron', sans-serif; }
-    /* KİÇİK SCOREBOARD */
-    .scoreboard { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.9); padding: 8px; border: 1px solid #f1c40f; border-radius: 5px; color: white; z-index: 1000; min-width: 130px; text-align: center; }
-    .player-unit { position: absolute; transition: all 1.5s ease-out; z-index: 500; text-align: center; transform: translate(-50%, -50%); }
-    .player-body { width: 18px; height: 18px; border-radius: 50%; border: 1px solid #000; margin: 0 auto; }
-    .p-name { color: white; font-size: 8px; font-weight: bold; background: rgba(0,0,0,0.5); padding: 1px 3px; border-radius: 2px; display: block; margin-top: 1px; }
-    #ball { width: 12px; height: 12px; background: #fff; border-radius: 50%; position: absolute; z-index: 600; transition: all 0.8s ease-in-out; box-shadow: 0 2px 4px #000; left: 50%; top: 50%; }
-    #goal-msg { display:none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2000; text-align: center; width: 100%; }
+    <style>
+    #stadium { background: radial-gradient(#356a2e 20%, #2d5a27); width: 100%; height: 500px; position: relative; border: 5px solid white; border-radius: 15px; overflow: hidden; font-family: sans-serif; }
+    .scoreboard { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.9); padding: 8px; border: 1px solid #f1c40f; border-radius: 5px; color: white; z-index: 1000; min-width: 120px; text-align: center; }
+    .player { position: absolute; transition: all 1.2s linear; z-index: 500; text-align: center; transform: translate(-50%, -50%); }
+    .dot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid #000; margin: 0 auto; }
+    .p-name { color: white; font-size: 9px; background: rgba(0,0,0,0.5); padding: 1px 3px; border-radius: 2px; display: block; }
+    #ball { width: 12px; height: 12px; background: #fff; border-radius: 50%; position: absolute; z-index: 600; transition: all 0.6s linear; box-shadow: 0 2px 4px #000; left: 50%; top: 50%; }
 </style>
 
 <div id="stadium">
     <div class="scoreboard">
-        <div id="clock" style="font-size: 16px; color: #00ff88;">00:00:00</div>
-        <div id="score" style="font-size: 12px; font-weight: bold;">TIG 0 - 0 KMG</div>
+        <div id="clock" style="font-size: 16px; color: #00ff88;">00:00</div>
+        <div id="score" style="font-size: 14px;">TIG 0 - 0 KMG</div>
     </div>
-
-    <div id="goal-msg">
-        <h1 style="font-size: 50px; color: yellow; text-shadow: 3px 3px red; margin:0;">GOAL!!!</h1>
-        <h2 id="scorer-display" style="color: white; font-size: 20px;"></h2>
-    </div>
-
     <div id="ball"></div>
-    <div id="pitch-layer"></div>
+    <div id="pitch"></div>
 </div>
-
-<audio id="goal-sfx" src="https://www.myinstants.com/media/sounds/goal-sound.mp3"></audio>
 
 <script>
 const tigers = [
-    {n: "Fateh", p: [5, 50]}, {n: "Sinan", p: [25, 20]}, {n: "Ayxan", p: [25, 40]}, {n: "Mehdi", p: [25, 60]}, 
-    {n: "Ramal", p: [25, 80]}, {n: "Məzahir", p: [45, 50]}, {n: "Nurlan", p: [60, 35]}, {n: "Rushan", p: [60, 65]}, 
-    {n: "Hüseyn", p: [75, 20]}, {n: "İbrahim", p: [75, 80]}, {n: "Nicat", p: [88, 50]}
-];
-const kingo = [
-    {n: "Resid", p: [95, 50]}, {n: "Nail", p: [15, 50]}, {n: "Vaqif", p: [30, 80]}, {n: "Jorg", p: [30, 20]},
-    {n: "Mehemmed", p: [50, 40]}, {n: "Suphan", p: [50, 60]}, {n: "Eli", p: [65, 50]}, {n: "Ayxan K", p: [80, 50]}
-];
-const ssenari = [
-    {m: 36, p: "Nicat", t: "T"}, {m: 41, p: "Nurlan", t: "T"},
-    {m: 53, p: "Nail", t: "K"}, {m: 74, p: "Ayxan K", t: "K"}, {m: 93, p: "İbrahim", t: "T"}
+    {n: "Fateh", x: 50, y: 5}, {n: "Sinan", x: 20, y: 25}, {n: "Ayxan", x: 40, y: 25}, {n: "Mehdi", x: 60, y: 25}, 
+    {n: "Ramal", x: 80, y: 25}, {n: "Məzahir", x: 50, y: 45}, {n: "Nurlan", x: 35, y: 60}, {n: "Rushan", x: 65, y: 60}, 
+    {n: "Hüseyn", x: 20, y: 75}, {n: "İbrahim", x: 80, y: 75}, {n: "Nicat", x: 50, y: 88}
 ];
 
+const ssenari = [{m: 36, p: "Nicat"}, {m: 41, p: "Nurlan"}, {m: 53, p: "Nail"}, {m: 74, p: "Ayxan K"}, {m: 93, p: "İbrahim"}];
+
 function init() {
-    const pitch = document.getElementById('pitch-layer');
-    [...tigers, ...kingo].forEach(pl => {
-        let div = document.createElement('div');
-        div.className = 'player-unit';
-        div.id = 'p-' + pl.n.replace(/\s+/g, '');
-        div.style.left = pl.p[1] + "%";
-        div.style.top = pl.p[0] + "%";
-        div.innerHTML = `<div class="player-body" style="background:${tigers.includes(pl)?'yellow':'blue'}"></div><span class="p-name">${pl.n}</span>`;
-        pitch.appendChild(div);
+    const pitch = document.getElementById('pitch');
+    tigers.forEach((p, i) => {
+        let d = document.createElement('div');
+        d.className = 'player';
+        d.id = 'player-' + i;
+        d.style.left = p.x + "%"; d.style.top = p.y + "%";
+        d.innerHTML = `<div class="dot" style="background:yellow"></div><span class="p-name">${p.n}</span>`;
+        pitch.appendChild(d);
     });
 }
 
 function engine() {
     const now = new Date();
-    const start = new Date(); start.setHours(22, 0, 0, 0); 
+    const start = new Date(); start.setHours(22, 0, 0, 0);
     let diff = Math.floor((now - start) / 1000);
     const ball = document.getElementById('ball');
 
     if (diff < 0) {
-        // OYUN BAŞLAMAYIB - AMMA TOP PASLAŞIR (MƏŞQ)
-        document.getElementById('clock').innerText = "SAAT 22:00-DA";
-        if (now.getSeconds() % 3 === 0) {
-            let r = tigers[Math.floor(Math.random()*tigers.length)];
-            ball.style.left = r.p[1]+"%"; ball.style.top = r.p[0]+"%";
-        }
+        document.getElementById('clock').innerText = "22:00 GÖZLƏNİLİR";
+        // Məşq hərəkəti (Hər saniyə)
+        let r = tigers[now.getSeconds() % tigers.length];
+        ball.style.left = r.x + "%"; ball.style.top = r.y + "%";
         return;
     }
 
-    // OYUN BAŞLADI
-    let m = Math.floor(diff / 60); let s = diff % 60;
-    document.getElementById('clock').innerText = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    let m = Math.floor(diff / 60);
+    let s = diff % 60;
+    document.getElementById('clock').innerText = m + ":" + s;
 
-    let goal = ssenari.find(e => e.m === m);
-    if (goal && s > 10 && s < 16) {
-        let p = document.getElementById('p-' + goal.p.replace(/\s+/g, ''));
-        if (s < 13) { ball.style.left = p.style.left; ball.style.top = p.style.top; }
-        else {
-            ball.style.left = goal.t === "T" ? "99%" : "1%"; ball.style.top = "50%";
-            if (s === 13) {
-                document.getElementById('goal-msg').style.display="block";
-                document.getElementById('scorer-display').innerText = goal.p;
-                document.getElementById('goal-sfx').play();
-                setTimeout(()=>document.getElementById('goal-msg').style.display="none", 3000);
-            }
-        }
-    } else if (s % 3 === 0) {
-        let r = tigers[Math.floor(Math.random()*tigers.length)];
-        ball.style.left = r.p[1]+"%"; ball.style.top = r.p[0]+"%";
+    // Paslaşma mexanikası
+    if (s % 2 === 0) {
+        let target = tigers[Math.floor(Math.random() * tigers.length)];
+        ball.style.left = target.x + "%";
+        ball.style.top = target.y + "%";
     }
 
-    let tS=0, kS=0; ssenari.forEach(e=>{ if(m > e.m) e.t==="T"?tS++:kS++ });
-    document.getElementById('score').innerText = `TIG ${tS} - ${kS} KMG`;
+    // Hesab yeniləmə
+    let score = 0;
+    ssenari.forEach(e => { if (m > e.m) score++; });
+    document.getElementById('score').innerText = "TIG " + score + " - 0 KMG";
 }
 
 init();
 setInterval(engine, 1000);
 </script>
+
+</body>
+</html>
